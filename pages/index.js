@@ -42,10 +42,10 @@ type InitialProps = {
 
 class Index extends PureComponent<Props, State> {
   // #region props initialization
-  static getInitialProps = async ({
+  static async getInitialProps({
     isServer,
     store
-  }: InitialProps) => {
+  }: InitialProps) {
     const SIDE = isServer ? 'SERVER SIDE' : 'FRONT SIDE';
 
     try {
@@ -62,31 +62,10 @@ class Index extends PureComponent<Props, State> {
       console.error(`getInitialProps - ${SIDE} - fake fetch failed: `, error);
       /* eslint-enable no-console */
     }
-  };
+  }
   // #endregion
 
   // #region component lifecycle methods
-  async componentDidMount() {
-    const {
-      fakeFetchIfNeeded
-    } = this.props;
-
-    try {
-      const response = await fakeFetchIfNeeded();
-      const {
-        payload: {
-          data
-        }
-      } = response;
-      // NOTE: you will see this log in your browser console:
-      /* eslint-disable no-console */
-      console.log('componentDidMount - FRONT SIDE - fake fetch result: ', data);
-    } catch (error) {
-      console.error('componentDidMount - FRONT SIDE - fake fetch failed: ', error);
-      /* eslint-enable no-console */
-    }
-  }
-
   render() {
     return (
       <Layout>

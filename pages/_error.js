@@ -26,12 +26,12 @@ type NextInitialProps = {
 
 class Error extends PureComponent<Props, State> {
   // #region props initialization
-  static getInitialProps = (
+  static getInitialProps(
     {res, xhr}: NextInitialProps
-  ) => {
+  ) {
     const errorCode = res ? res.statusCode : xhr.status;
     return { errorCode };
-  };
+  }
   // #endregion
 
   // #region component default props
