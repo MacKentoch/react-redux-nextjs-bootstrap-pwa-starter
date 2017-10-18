@@ -13,7 +13,13 @@
 ![preview](./preview.png)
 </a>
 
+## Lighthouse test
 
+- v0.0.1 (*first version: with no optimizations!*)
+  ![lighthouse-test](./lighthouse-test.png)
+  *pretty nice for a out of the box starting PWA starter!*
+
+ 
 ## Detailed Content
 
 **Front:**
