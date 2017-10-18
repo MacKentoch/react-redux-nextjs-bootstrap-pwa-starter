@@ -1,0 +1,11 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.system=haste
+strip_root=true

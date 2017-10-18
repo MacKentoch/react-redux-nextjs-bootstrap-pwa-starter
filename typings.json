@@ -1,0 +1,9 @@
+{
+  "globalDevDependencies": {},
+  "globalDependencies": {
+    "axios": "registry:dt/axios#0.9.1+20161016142654",
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
+    "redux": "registry:dt/redux#3.5.2+20160703092728",
+    "redux-thunk": "registry:dt/redux-thunk#2.1.0+20160703120921"
+  }
+}
