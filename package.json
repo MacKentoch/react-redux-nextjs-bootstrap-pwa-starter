@@ -1,7 +1,7 @@
 {
   "name": "react-redux-nextjs-bootstrap-pwa-starter",
   "version": "0.0.1",
-  "description": "react + redux + next js + bootstrap PWA starter",
+  "description": "a progressive web app starter with next js redux + redux-persist + bootstrap",
   "author": "Erwan DATIN (http://www.erwan-datin.com)",
   "license": "MIT",
   "repository": {
@@ -16,6 +16,7 @@
     "next",
     "pwa",
     "progressive",
+    "progressive web app",
     "web",
     "app",
     "zeit",

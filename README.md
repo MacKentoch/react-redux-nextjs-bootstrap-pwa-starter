@@ -10,8 +10,6 @@
 </a>
 
 
-[See it in action deployed with `now`](https://react-redux-nextjs-bootstrap-starter-xfdpqhzseq.now.sh/)
-
 ## Detailed Content
 
 **Front:**
@@ -19,6 +17,7 @@
 - React JS (16.x+ - [github :link:](https://github.com/facebook/react))
 - redux (*as your application grows managing state will be a serious concern, save pain with Redux*)
 - redux-persist (*simplifies your NextJS state share between pages* [github :link:](https://github.com/rt2zz/redux-persist))
+- localForage
 - react-redux (*Redux is not specific to ReactJS, you could easily use it with Angular2 for instance*)
 - redux-thunk (*simple and does the job*)
 - next-redux-wrapper
@@ -41,6 +40,9 @@ IMPORTANT: `Next JS` when `redux` connected
 - **you are forced to connect each page** (*even if you don't need redux in that page*) with `withRedux` from `next-redux-wrapper` (*[see page1 as an example](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-starter/blob/master/pages/page1.js)*).
 - **each sub component you may want to connect** should be connected by usual `connect` from `redux` (*[see Header component as an example](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-starter/blob/master/components/header/Header.js)*)
 
+IMPORTANT: user Layout component on each Page
+- Layout is the **Layout** (*better to my mind than using `_document`) of each page
+- Layout component will **register the service worker** (*registering a register service worker is no effect but ensure it will register at any page user would enter the application*)
 
 ### Install
 
