@@ -44,7 +44,7 @@
 - **you are forced to connect each page** (*even if you don't need redux in that page*) with `withRedux` from `next-redux-wrapper` (*[see page1 as an example](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-starter/blob/master/pages/page1.js)*).
 - **each sub component you may want to connect** should be connected by usual `connect` from `redux` (*[see Header component as an example](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-starter/blob/master/components/header/Header.js)*)
 
-**IMPORTANT: user Layout component on each Page**
+**IMPORTANT: use Layout component on each Page**
 - Layout is the **Layout** (*better to my mind than using `_document`*) of each page
 - Layout component will **register the service worker** (*registering an already registered service worker is no effect but ensures it will register at any page user would enter the application*)
 
