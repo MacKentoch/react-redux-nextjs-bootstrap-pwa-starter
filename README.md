@@ -17,7 +17,7 @@
 
 - v0.0.1 (*first version: with no optimizations!*)
   ![lighthouse-test](./lighthouse-test.png)
-  *pretty nice for a out of the box starting PWA starter!*
+  *pretty nice for an out of the box starting PWA starter!*
 
  
 ## Detailed Content
