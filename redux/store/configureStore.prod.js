@@ -10,6 +10,7 @@ import {
   persistStore,
   autoRehydrate
 }                               from 'redux-persist';
+import localForage              from 'localforage';
 import reducer                  from '../modules/reducers';
 import fetchMiddleware          from '../middleware/fetchMiddleware';
 
@@ -28,7 +29,7 @@ export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, enhancer);
 
   // begin periodically persisting the store
-  persistStore(store);
+  persistStore(store, {storage: localForage});
 
   // OPTIONAL: you can blacklist reducers to avoid them to persist, so call
   // persistStore(

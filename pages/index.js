@@ -71,8 +71,6 @@ class Index extends PureComponent<Props, State> {
       fakeFetchIfNeeded
     } = this.props;
 
-    this.registerServiceWorker();
-
     try {
       const response = await fakeFetchIfNeeded();
       const {
@@ -110,24 +108,6 @@ class Index extends PureComponent<Props, State> {
         </div>
       </Layout>
     );
-  }
-  // #endregion
-
-  // #region service worker registration
-  registerServiceWorker = async () => {
-    if ('serviceWorker' in navigator) {
-      try {
-        await navigator.serviceWorker.register('/sw.js');
-      } catch (error) {
-        /* eslint-disable no-console */
-        console.error('Service worker registration failed, error: ', error);
-        /* eslint-enable no-console */
-      }
-    } else {
-      /* eslint-disable no-console */
-      console.log('Service worker not supported');
-      /* eslint-enable no-console */
-    }
   }
   // #endregion
 

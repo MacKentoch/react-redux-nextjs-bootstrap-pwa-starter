@@ -10,9 +10,11 @@ import {
   persistStore,
   autoRehydrate
 }                               from 'redux-persist';
+import localForage              from 'localforage';
 import { composeWithDevTools }  from 'redux-devtools-extension';
 import reducer                  from '../modules/reducers';
 import fetchMiddleware          from '../middleware/fetchMiddleware';
+
 
 // #region configure logger middleware
 const loggerMiddleware = createLogger({
@@ -37,7 +39,7 @@ export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, enhancer);
 
   // begin periodically persisting the store
-  persistStore(store);
+  persistStore(store, {storage: localForage});
 
   // OPTIONAL: you can blacklist reducers to avoid them to persist, so call
   // persistStore(
