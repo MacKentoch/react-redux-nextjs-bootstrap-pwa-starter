@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable quotes */
 
 // #region imports
 import { PureComponent }      from 'react';
@@ -11,6 +12,7 @@ import Layout                 from '../components/layout/Layout';
 import Button                 from 'react-bootstrap/lib/Button';
 import Row                    from 'react-bootstrap/lib/Row';
 import Col                    from 'react-bootstrap/lib/Col';
+import Alert                  from 'react-bootstrap/lib/Alert';
 import auth                   from '../services/auth';
 // #endregion
 
@@ -51,7 +53,8 @@ class Login extends PureComponent<Props, State> {
   // #region state initialization
   state = {
     email:    '',
-    password: ''
+    password: '',
+    browserStorageSupported: false
   };
   // #endregion
 
@@ -60,14 +63,20 @@ class Login extends PureComponent<Props, State> {
     const {
       disconnectUser
     } = this.props;
+    const browserStorageSupported = auth.supportsLocalStorage() && auth.supportsSessionStorage();
 
-    disconnectUser(); // diconnect user: remove token and user info
+    this.setBrowserStorageSupportedState(browserStorageSupported);
+
+    if (browserStorageSupported) {
+      disconnectUser(); // diconnect user: remove token and user info
+    }
   }
 
   render() {
     const {
       email,
-      password
+      password,
+      browserStorageSupported
     } = this.state;
 
     const {
@@ -96,103 +105,154 @@ class Login extends PureComponent<Props, State> {
               xs={10}
               xsOffset={1}
             >
-              <form
-                className="form-horizontal"
-                noValidate
-              >
-                <fieldset>
-                  <legend>
-                    Login
-                  </legend>
+              {
+                browserStorageSupported
+                  ?
+                  <form
+                    className="form-horizontal"
+                    noValidate
+                  >
+                    <fieldset>
+                      <legend>
+                      Login
+                      </legend>
 
-                  <div className="form-group">
-                    <label
-                      htmlFor="inputEmail"
-                      className="col-lg-2 control-label"
-                    >
-                      Email
-                    </label>
-                    <div className="col-lg-10">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="inputEmail"
-                        placeholder="Email"
-                        value={email}
-                        onChange={this.handlesOnEmailChange}
-                      />
-                    </div>
-                  </div>
+                      <div className="form-group">
+                        <label
+                          htmlFor="inputEmail"
+                          className="col-lg-2 control-label"
+                        >
+                        Email
+                        </label>
+                        <div className="col-lg-10">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="inputEmail"
+                            placeholder="Email"
+                            value={email}
+                            onChange={this.handlesOnEmailChange}
+                          />
+                        </div>
+                      </div>
 
-                  <div className="form-group">
-                    <label
-                      htmlFor="inputPassword"
-                      className="col-lg-2 control-label"
-                    >
-                      Password
-                    </label>
-                    <div className="col-lg-10">
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="inputPassword"
-                        placeholder="Password"
-                        value={password}
-                        onChange={this.handlesOnPasswordChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <Col
-                      lg={10}
-                      lgOffset={2}
-                    >
+                      <div className="form-group">
+                        <label
+                          htmlFor="inputPassword"
+                          className="col-lg-2 control-label"
+                        >
+                        Password
+                        </label>
+                        <div className="col-lg-10">
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="inputPassword"
+                            placeholder="Password"
+                            value={password}
+                            onChange={this.handlesOnPasswordChange}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <Col
+                          lg={10}
+                          lgOffset={2}
+                        >
+                          <Button
+                            className="login-button btn-block"
+                            bsStyle="primary"
+                            disabled={isLogging}
+                            onClick={this.handlesOnLogin}
+                          >
+                            {
+                              isLogging
+                                ?
+                                <span>
+                                login in...
+                                &nbsp;
+                                  <i
+                                    className="fa fa-spinner fa-pulse fa-fw"
+                                  />
+                                </span>
+                                :
+                                <span>
+                                Login
+                                </span>
+                            }
+                          </Button>
+                        </Col>
+                      </div>
+                    </fieldset>
+                  </form>
+                  :
+                  <Alert
+                    bsStyle="danger"
+                    onDismiss={this.handleAlertDismiss}
+                  >
+                    <h4>
+                      <i className="fa fa-exclamation-triangle" aria-hidden="true" /> &nbsp;
+                      Cookies are disabled on your browser!
+                    </h4>
+                    <br />
+                    <p>
+                      Cookies are necessary to ensure application delivers the best experience and security.
+                    </p>
+                    <p>
+                      {`You can't signin or signout this application until you enable cookie in your navigator.`}
+                    </p>
+                    <br />
+                    <p>
                       <Button
-                        className="login-button btn-block"
                         bsStyle="primary"
-                        disabled={isLogging}
-                        onClick={this.handlesOnLogin}
+                        onClick={this.handleAlertDismiss}
                       >
-                        {
-                          isLogging
-                            ?
-                            <span>
-                              login in...
-                              &nbsp;
-                              <i
-                                className="fa fa-spinner fa-pulse fa-fw"
-                              />
-                            </span>
-                            :
-                            <span>
-                              Login
-                            </span>
-                        }
+                        Back to Home
                       </Button>
-                    </Col>
-                  </div>
-                </fieldset>
-              </form>
+                    </p>
+                  </Alert>
+              }
             </Col>
           </Row>
-          <Row>
-            <Col
-              md={4}
-              mdOffset={4}
-              xs={10}
-              xsOffset={1}
-            >
-              <Button
-                bsStyle="primary"
-                onClick={this.goHome}
+          {
+            browserStorageSupported &&
+            <Row>
+              <Col
+                md={4}
+                mdOffset={4}
+                xs={10}
+                xsOffset={1}
               >
-                back to home
-              </Button>
-            </Col>
-          </Row>
+                <div
+                  className="pull-right"
+                >
+                  <Button
+                    bsStyle="warning"
+                    onClick={this.goHome}
+                  >
+                    back to home
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          }
         </div>
       </Layout>
     );
+  }
+  // #endregion
+
+  // #region storage not supported methods
+  setBrowserStorageSupportedState = (browserStorageSupported) => this.setState({ browserStorageSupported });
+
+  handleAlertDismiss = (
+    event: SyntheticEvent<>
+  ) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    Router.replace('/');
   }
   // #endregion
 

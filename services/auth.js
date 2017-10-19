@@ -113,7 +113,7 @@ export const auth = {
    *
    * @param {'localStorage' | 'sessionStorage'} [fromStorage='localStorage'] specify storage
    * @param {any} [tokenKey=TOKEN_KEY] token key
-   * @returns {bool} is authenticed response
+   * @returns {boolean} is authenticed response
    */
   isAuthenticated(
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
@@ -144,7 +144,7 @@ export const auth = {
    *
    * @param {any} [storage=APP_PERSIST_STORES_TYPES[0]] token key
    * @param {any} [tokenKey='token'] token key
-   * @returns {bool} success/failure flag
+   * @returns {boolean} success/failure flag
    */
   clearToken(
     storage: Storage  = APP_PERSIST_STORES_TYPES[0],
@@ -189,7 +189,7 @@ export const auth = {
    * tell is token is expired (compared to now)
    *
    * @param {string} encodedToken - base 64 token received from server and stored in local storage
-   * @returns {bool} returns true if expired else false
+   * @returns {boolean} returns true if expired else false
    */
   isExpiredToken(
     encodedToken: any
@@ -261,7 +261,7 @@ export const auth = {
    * delete userInfo
    *
    * @param {string} [userInfoKey='userInfo'] token key
-   * @returns {bool} success/failure flag
+   * @returns {boolean} success/failure flag
    */
   clearUserInfo(
     userInfoKey: UserInfoKey = USER_INFO
@@ -280,10 +280,43 @@ export const auth = {
   // /////////////////////////////////////////////////////////////
   // COMMON
   // /////////////////////////////////////////////////////////////
+  /**
+   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
+   * @return {boolean} browser supports localStorage flag
+   */
+  supportsLocalStorage(): boolean {
+    if (!window) {
+      throw new Error('supportsLocalStorage should be launched on browser (not on server)');
+    }
+
+    try {
+      const localStorageSupported = ('localStorage' in window) && (window.localStorage !== null);
+      return localStorageSupported;
+    } catch (error) {
+      return false;
+    }
+  },
+
+  /**
+   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
+   * @return {boolean} browser supports localStorage flag
+   */
+  supportsSessionStorage(): boolean {
+    if (!window) {
+      throw new Error('supportsSessionStorage should be launched on browser side (not on server side)');
+    }
+
+    try {
+      const sessionStorageSupported = ('sessionStorage' in window) && (window.sessionStorage !== null);
+      return sessionStorageSupported;
+    } catch (error) {
+      return false;
+    }
+  },
 
   /**
    * forget me method: clear all
-   * @returns {bool} success/failure flag
+   * @returns {boolean} success/failure flag
    */
   clearAllAppStorage(): any {
     if (localStorage) {

@@ -75,7 +75,7 @@ class Index extends PureComponent<Props, State> {
         >
           <Jumbotron>
             <h1>
-              Next JS + React + Redux + Bootstrap STARTER
+              PWA: Next JS + Redux + Bootstrap STARTER
             </h1>
             <Button
               bsStyle="primary"
