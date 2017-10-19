@@ -28,16 +28,21 @@ class Layout extends PureComponent<Props, State> {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta charSet="utf-8" />
+
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" />
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-          <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png" />
+
+          <meta name="application-name" content="react-redux-nextjs-bootstrap-pwa-starter" />
+          <link rel="manifest" href="static/manifest.json" />
+
           <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png" />
-          <link rel="manifest" href="static/manifest.json" />
+          <meta name="theme-color" content="#1967be" />
+
           <link rel="mask-icon" href="static/safari-pinned-tab.svg" color="#5bbad5" />
+          <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png" />
           <meta name="apple-mobile-web-app-title" content="react-redux-nextjs-bootstrap-pwa-starter" />
-          <meta name="application-name" content="react-redux-nextjs-bootstrap-pwa-starter" />
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         </Head>
         <style
           jsx
