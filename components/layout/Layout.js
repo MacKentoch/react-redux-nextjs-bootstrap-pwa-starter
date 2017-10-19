@@ -41,10 +41,14 @@ class Layout extends PureComponent<Props, State> {
           <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png" />
           <meta name="theme-color" content="#1967be" />
 
-          <link rel="mask-icon" href="static/safari-pinned-tab.svg" color="#5bbad5" />
+          <link rel="mask-icon" href="static/safari-pinned-tab.svg" color="#1967be" />
+          <meta name="apple-mobile-web-app-title" content="Next PWA Starter" />
           <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png" />
+          <link rel="apple-touch-startup-image" href="static/apple-touch-icon.png" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="react-redux-nextjs-bootstrap-pwa-starter" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          {/* <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> */}
+          <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         </Head>
         <style
           jsx

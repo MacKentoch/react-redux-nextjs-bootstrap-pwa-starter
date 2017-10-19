@@ -1,4 +1,7 @@
-## 0.1.1 (COMING SOON)
+## 0.1.2 (COMING SOON)
+- improve iOS (status bar - launcn screen)
+
+## 0.1.1 (RELEASED)
 - feature browser cookie disabled 
 - feature nojavascript
 
