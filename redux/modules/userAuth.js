@@ -146,7 +146,10 @@ export default function (
  * @returns {action} action
  */
 export function disconnectUser() {
-  auth.clearAllAppStorage();
+  // auth.clearAllAppStorage(); // iOS Safari will throw error as unsafe (since it does localStorage.clear();)
+
+  auth.clearUserInfo();
+  auth.clearToken();
   return { type: DISCONNECT_USER };
 }
 

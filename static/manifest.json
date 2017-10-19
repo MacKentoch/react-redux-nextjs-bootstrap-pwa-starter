@@ -1,6 +1,6 @@
 {
   "name": "react-redux-nextjs-bootstrap-pwa-starter",
-  "short_name": "next-pwa-starter",
+  "short_name": "Next-PWA",
   "icons": [
     {
       "src": "android-chrome-192x192.png",
