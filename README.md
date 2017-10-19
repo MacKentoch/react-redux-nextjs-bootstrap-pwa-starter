@@ -8,12 +8,17 @@
   <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter.svg' />
 </a>
 
-<a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-rjghylnfsi.now.sh/'>
+<a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-nbargrwnyr.now.sh'>
 
 ![preview](./preview.png)
 </a>
 
-## Lighthouse test
+
+## Lighthouse tests
+
+- v0.1.1
+  ![lighthouse-0.1.1](./lighthouse-0.1.1.png)
+  *a bit better for not that much efforts. Performance score would be far better without using bootstrap (actully fetched from https://maxcdn.bootstrapcdn.com)*
 
 - v0.0.1 (*first version: with no optimizations!*)
   ![lighthouse-test](./lighthouse-test.png)

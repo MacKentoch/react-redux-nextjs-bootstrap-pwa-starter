@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable quotes */
 
 // #region imports
 import { PureComponent }  from 'react';
@@ -58,6 +59,20 @@ class Layout extends PureComponent<Props, State> {
             }
           `}
         </style>
+        <noscript>
+          <div className="alert  alert-warning">
+            <h4>Warning!</h4>
+            <h5>
+              Javascript is disabled for this website.
+            </h5>
+            <p>
+              Javascript is required to use this website.
+            </p>
+            <p>
+              {`You won't be able to navigate in this website until you activate javascript.`}
+            </p>
+          </div>
+        </noscript>
         {children}
       </div>
     );
