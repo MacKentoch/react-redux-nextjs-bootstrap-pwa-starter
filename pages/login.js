@@ -55,7 +55,7 @@ class Login extends PureComponent<Props, State> {
   };
   // #endregion
 
-  // #region component lifeculcle methods
+  // #region component lifecycle methods
   componentDidMount() {
     const {
       disconnectUser
