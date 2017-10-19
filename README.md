@@ -1,6 +1,6 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter)
 
-# PWA: Next JS + React + Redux + Redux persist + redux-devtools-extension + Bootstrap starter
+# PWA: Next JS + Redux + Redux persist + redux-devtools-extension + Bootstrap starter
 
 > A progressive web app starter with NextJS, redux and bootstrap
 
@@ -8,7 +8,7 @@
   <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter.svg' />
 </a>
 
-<a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-cuaigozqpn.now.sh'>
+<a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-rjghylnfsi.now.sh/'>
 
 ![preview](./preview.png)
 </a>
