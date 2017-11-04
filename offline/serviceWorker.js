@@ -16,7 +16,15 @@ self.addEventListener(
 self.addEventListener(
   'fetch',
   event => {
-    const response = caches.match(event.request).then(match => match || fetch(event.request));
+    const cacheNonMatchedThenReturnFetchReponse = eventRequest => fetch(eventRequest).then(fetchResponse => caches.open(CACHE_NAME).then(
+      cache => {
+        cache.put(eventRequest, fetchResponse.clone());
+        return fetchResponse;
+      }
+    ));
+
+    const response = caches.match(event.request).then(match => match || cacheNonMatchedThenReturnFetchReponse(event.request));
     event.respondWith(response);
   }
 );
+
