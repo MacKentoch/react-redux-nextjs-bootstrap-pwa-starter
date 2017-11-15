@@ -148,8 +148,8 @@ const fetchMiddleware = store => next => (action: Action) => {
       .then(data => store.dispatch({type: success, payload: data}))
       .catch(
         err => {
-          store.dispatch({type: fail, error: err});
-          return Promise.reject(err);
+          store.dispatch({type: fail, error: err.response});
+          return Promise.reject(err.response);
         }
       );
   }
