@@ -30,7 +30,7 @@ async function prepareNextApplication() {
   // server.get('/b', (req, res) => app.render(req, res, '/a', req.query));
 
   // handles service worker file request:
-  server.get('/sw.js', (req, res) => res.sendfile('./offline/serviceWorker.js'));
+  server.get('/sw.js', (req, res) => res.sendFile('./offline/serviceWorker.js', { root: '.' }));
 
   // default request handler by next handler:
   server.get('*', (req, res) => handle(req, res));
