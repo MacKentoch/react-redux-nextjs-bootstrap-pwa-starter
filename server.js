@@ -5,7 +5,6 @@
 const express               = require('express');
 const chalk                 = require('chalk');
 const next                  = require('next');
-const { createReadStream }  = require('fs');
 // #endregion
 
 // #region variables/constants initialization
@@ -31,10 +30,7 @@ async function prepareNextApplication() {
   // server.get('/b', (req, res) => app.render(req, res, '/a', req.query));
 
   // handles service worker file request:
-  server.get('/sw.js', (req, res) => {
-    res.setHeader('content-type', 'text/javascript');
-    createReadStream('./offline/serviceWorker.js').pipe(res);
-  });
+  server.get('/sw.js', (req, res) => res.sendfile('./offline/serviceWorker.js'));
 
   // default request handler by next handler:
   server.get('*', (req, res) => handle(req, res));
