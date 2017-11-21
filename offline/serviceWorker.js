@@ -19,12 +19,17 @@ self.addEventListener(
   'fetch',
   event => {
     const cacheNonMatchedThenReturnFetchReponse = eventRequest => fetch(eventRequest).then(
-      fetchResponse => caches.open(CACHE_NAME).then(
-        cache => {
-          cache.put(eventRequest, fetchResponse.clone());
+      fetchResponse => {
+        if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== 'basic') {
           return fetchResponse;
         }
-      )
+        caches.open(CACHE_NAME).then(
+          cache => {
+            cache.put(eventRequest, fetchResponse.clone());
+            return fetchResponse;
+          }
+        )
+      }
     );
 
     const response = caches.match(event.request).then(
