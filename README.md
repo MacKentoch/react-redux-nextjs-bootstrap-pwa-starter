@@ -4,9 +4,6 @@
 
 > A progressive web app starter with NextJS, redux and bootstrap
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter.svg' />
-</a>
 
 <a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-nfxmkkccof.now.sh'>
 
@@ -103,7 +100,7 @@ npm install
 
 The MIT License (MIT)
 
-Copyright (c) 2017 Erwan DATIN
+Copyright (c) 2019 Erwan DATIN
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
