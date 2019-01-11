@@ -1,55 +1,55 @@
 // @flow
 
 // #region imports
-import moment                 from 'moment';
-import  fakeData              from '../../mock/fakeAPI.json';
-import AppConfig              from '../../config/appConfig';
-import { getLocationOrigin }  from '../../services/fetchTools';
+import moment from 'moment';
+import fakeData from '../../mock/fakeAPI.json';
+import AppConfig from '../../config/appConfig';
+import { getLocationOrigin } from '../../services/fetchTools';
 // #endregion
 
 // #region CONSTANTS
-const REQUEST_FAKE_FETCH  = 'REQUEST_FAKE_FETCH';
+const REQUEST_FAKE_FETCH = 'REQUEST_FAKE_FETCH';
 const RECEIVED_FAKE_FETCH = 'RECEIVED_FAKE_FETCH';
-const ERROR_FAKE_FETCH    = 'ERROR_FAKE_FETCH';
+const ERROR_FAKE_FETCH = 'ERROR_FAKE_FETCH';
 // #endregion
 
 // #region REDUCER
 const initialState = {
   isFetching: false,
   actionTime: '',
-  data:       [],
-  error:      {}
+  data: [],
+  error: {},
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const currentTime = moment().format();
 
   switch (action.type) {
-  case REQUEST_FAKE_FETCH:
-    return {
-      ...state,
-      actionTime: currentTime,
-      isFetching: true
-    };
+    case REQUEST_FAKE_FETCH:
+      return {
+        ...state,
+        actionTime: currentTime,
+        isFetching: true,
+      };
 
-  case RECEIVED_FAKE_FETCH:
-    return {
-      ...state,
-      actionTime: currentTime,
-      isFetching: false,
-      data:       [...action.payload]
-    };
+    case RECEIVED_FAKE_FETCH:
+      return {
+        ...state,
+        actionTime: currentTime,
+        isFetching: false,
+        data: [...action.payload],
+      };
 
-  case ERROR_FAKE_FETCH:
-    return {
-      ...state,
-      actionTime: currentTime,
-      isFetching: false,
-      error:      action.error ? { ...action.error } : {}
-    };
+    case ERROR_FAKE_FETCH:
+      return {
+        ...state,
+        actionTime: currentTime,
+        isFetching: false,
+        error: action.error ? { ...action.error } : {},
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 // #endregion
@@ -58,11 +58,11 @@ export default function (state = initialState, action) {
 function fakeFetch() {
   return dispatch => {
     const shouldFetchMock = AppConfig.DEV_MODE;
-    const fetchType       = shouldFetchMock ? 'FETCH_MOCK': 'FETCH';
-    const mockResult      = fakeData;
+    const fetchType = shouldFetchMock ? 'FETCH_MOCK' : 'FETCH';
+    const mockResult = fakeData;
 
-    const url     = `${getLocationOrigin()}/${AppConfig.api.fakeEndPoint}`;
-    const method  = 'get';
+    const url = `${getLocationOrigin()}/${AppConfig.api.fakeEndPoint}`;
+    const method = 'get';
     const options = {};
 
     // fetch middleware
@@ -76,18 +76,18 @@ function fakeFetch() {
         fetch: {
           type: fetchType,
           actionTypes: {
-            request:  REQUEST_FAKE_FETCH,
-            success:  RECEIVED_FAKE_FETCH,
-            fail:     ERROR_FAKE_FETCH
+            request: REQUEST_FAKE_FETCH,
+            success: RECEIVED_FAKE_FETCH,
+            fail: ERROR_FAKE_FETCH,
           },
           // props only used when type = FETCH_MOCK:
           mockResult,
           // props only used when type = FETCH:
           url,
           method,
-          options
-        }
-      })
+          options,
+        },
+      }),
     );
   };
 }

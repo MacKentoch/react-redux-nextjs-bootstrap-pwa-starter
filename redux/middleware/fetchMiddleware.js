@@ -1,12 +1,12 @@
 // @flow
 
 // #region imports
-import axios  from 'axios';
+import axios from 'axios';
 // #endregion
 
 // #region constants
 export const FETCH_MOCK = 'FETCH_MOCK';
-export const FETCH      = 'FETCH';
+export const FETCH = 'FETCH';
 // #endregion
 
 // #region flow type
@@ -16,7 +16,7 @@ type Fetch = {
   actionTypes: {
     request: string, // action for request fetch
     success: string, // action for successul fetch
-    fail: string // action for failed fetch
+    fail: string, // action for failed fetch
   },
 
   // real fetch properties:
@@ -25,16 +25,16 @@ type Fetch = {
   headers?: any, // OPTIONAL CONTENT like: data: { someprop: 'value ...}
   options?: {
     credentials?: string, // ex: 'same-origin
-    data?: any // payload
+    data?: any, // payload
   }, // OPTIONAL CONTENT like: Authorization: 'Bearer _A_TOKEN_'
 
   // mock fetch propperties:
-  mockResult?: any,  // payload returned when type === 'FETCH_MOCK'
+  mockResult?: any, // payload returned when type === 'FETCH_MOCK'
 };
 
 type Action = {
-  fetch?: Fetch,  // fetch middleware payload
-  ...any
+  fetch?: Fetch, // fetch middleware payload
+  ...any,
 };
 // #endregion
 
@@ -80,9 +80,11 @@ const fetchMiddleware = store => next => (action: Action) => {
     return next(action);
   }
 
-  if (!action.fetch.type ||
-      !action.fetch.type === FETCH_MOCK ||
-      !action.fetch.type === FETCH) {
+  if (
+    !action.fetch.type ||
+    !action.fetch.type === FETCH_MOCK ||
+    !action.fetch.type === FETCH
+  ) {
     return next(action);
   }
 
@@ -96,12 +98,14 @@ const fetchMiddleware = store => next => (action: Action) => {
    */
   if (action.fetch.type === FETCH_MOCK) {
     if (!action.fetch.mockResult) {
-      throw new Error('Fetch middleware require a mockResult payload when type is "FETCH_MOCK"');
+      throw new Error(
+        'Fetch middleware require a mockResult payload when type is "FETCH_MOCK"',
+      );
     }
 
     const {
-      actionTypes: {request, success},
-      mockResult
+      actionTypes: { request, success },
+      mockResult,
     } = action.fetch;
 
     // request
@@ -110,22 +114,22 @@ const fetchMiddleware = store => next => (action: Action) => {
     // received successful for mock
     return Promise.resolve(
       store.dispatch({
-        type:     success,
-        payload:  {
+        type: success,
+        payload: {
           status: 200,
-          data: mockResult
-        }
-      })
+          data: mockResult,
+        },
+      }),
     );
   }
 
   if (action.fetch.type === FETCH) {
     const {
-      actionTypes: {request, success, fail},
+      actionTypes: { request, success, fail },
       url,
       method,
       headers,
-      options
+      options,
     } = action.fetch;
 
     // request
@@ -133,25 +137,24 @@ const fetchMiddleware = store => next => (action: Action) => {
 
     // fetch server (success or fail)
     // returns a Promise
-    return axios.request({
-      method,
-      url,
-      withCredentials: true,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Acces-Control-Allow-Origin': '*',
-        ...headers
-      },
-      ...options
-    })
-      .then(data => store.dispatch({type: success, payload: data}))
-      .catch(
-        err => {
-          store.dispatch({type: fail, error: err.response});
-          return Promise.reject(err.response);
-        }
-      );
+    return axios
+      .request({
+        method,
+        url,
+        withCredentials: true,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Acces-Control-Allow-Origin': '*',
+          ...headers,
+        },
+        ...options,
+      })
+      .then(data => store.dispatch({ type: success, payload: data }))
+      .catch(err => {
+        store.dispatch({ type: fail, error: err.response });
+        return Promise.reject(err.response);
+      });
   }
   return next(action);
 };

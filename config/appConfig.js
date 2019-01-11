@@ -6,8 +6,8 @@ const AppConfig = {
 
   // API
   api: {
-    fakeEndPoint: 'api/somewhere'
-  }
+    fakeEndPoint: 'api/somewhere',
+  },
 };
 
 export default AppConfig;

@@ -7,5 +7,6 @@
 [lints]
 
 [options]
+module.name_mapper='.*\(.css\)' -> 'CSSModule'
 module.system=haste
-strip_root=true
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore

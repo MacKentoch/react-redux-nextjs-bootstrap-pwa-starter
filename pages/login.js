@@ -2,18 +2,18 @@
 /* eslint-disable quotes */
 
 // #region imports
-import { PureComponent }      from 'react';
+import { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
-import withRedux              from 'next-redux-wrapper';
-import configureStore         from '../redux/store/configureStore';
-import * as userAuthActions   from '../redux/modules/userAuth';
-import Router                 from 'next/router';
-import Layout                 from '../components/layout/Layout';
-import Button                 from 'react-bootstrap/lib/Button';
-import Row                    from 'react-bootstrap/lib/Row';
-import Col                    from 'react-bootstrap/lib/Col';
-import Alert                  from 'react-bootstrap/lib/Alert';
-import auth                   from '../services/auth';
+import withRedux from 'next-redux-wrapper';
+import configureStore from '../redux/store/configureStore';
+import * as userAuthActions from '../redux/modules/userAuth';
+import Router from 'next/router';
+import Layout from '../components/layout/Layout';
+import Button from 'react-bootstrap/lib/Button';
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
+import Alert from 'react-bootstrap/lib/Alert';
+import auth from '../services/auth';
 // #endregion
 
 // #region flow types
@@ -22,8 +22,8 @@ type Props = {
   url: {
     // query.from sent by Private component when user auth failed
     query?: {
-      from?: string
-    }
+      from?: string,
+    },
   },
 
   // userAuth:
@@ -33,37 +33,36 @@ type Props = {
   disconnectUser: () => string,
   logUserIfNeeded: (user: string) => any,
 
-  ...any
+  ...any,
 };
 
 type State = {
   email: string,
-  password: string
-}
+  password: string,
+};
 // #endregion
 
 class Login extends PureComponent<Props, State> {
   // #region default PropTypes
   static defaultProps = {
-    isFetching:      false,
-    isLogging:       false
-  }
+    isFetching: false,
+    isLogging: false,
+  };
   // #endregion
 
   // #region state initialization
   state = {
-    email:    '',
+    email: '',
     password: '',
-    browserStorageSupported: false
+    browserStorageSupported: false,
   };
   // #endregion
 
   // #region component lifecycle methods
   componentDidMount() {
-    const {
-      disconnectUser
-    } = this.props;
-    const browserStorageSupported = auth.supportsLocalStorage() && auth.supportsSessionStorage();
+    const { disconnectUser } = this.props;
+    const browserStorageSupported =
+      auth.supportsLocalStorage() && auth.supportsSessionStorage();
 
     this.setBrowserStorageSupportedState(browserStorageSupported);
 
@@ -73,170 +72,125 @@ class Login extends PureComponent<Props, State> {
   }
 
   render() {
-    const {
-      email,
-      password,
-      browserStorageSupported
-    } = this.state;
+    const { email, password, browserStorageSupported } = this.state;
 
-    const {
-      isLogging
-    } = this.props;
+    const { isLogging } = this.props;
 
     return (
       <Layout>
-        <style
-          jsx
-        >
-          {
-            `
-              .content {
-                margin-top: 70px;
-                padding-top: 40px;
-              }
-            `
-          }
+        <style jsx>
+          {`
+            .content {
+              margin-top: 70px;
+              padding-top: 40px;
+            }
+          `}
         </style>
         <div className="content">
           <Row>
-            <Col
-              md={4}
-              mdOffset={4}
-              xs={10}
-              xsOffset={1}
-            >
-              {
-                browserStorageSupported
-                  ?
-                  <form
-                    className="form-horizontal"
-                    noValidate
-                  >
-                    <fieldset>
-                      <legend>
-                      Login
-                      </legend>
+            <Col md={4} mdOffset={4} xs={10} xsOffset={1}>
+              {browserStorageSupported ? (
+                <form className="form-horizontal" noValidate>
+                  <fieldset>
+                    <legend>Login</legend>
 
-                      <div className="form-group">
-                        <label
-                          htmlFor="inputEmail"
-                          className="col-lg-2 control-label"
-                        >
-                        Email
-                        </label>
-                        <div className="col-lg-10">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="inputEmail"
-                            placeholder="Email"
-                            value={email}
-                            // onChange={this.handlesOnEmailChange}
-                            onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <label
-                          htmlFor="inputPassword"
-                          className="col-lg-2 control-label"
-                        >
-                        Password
-                        </label>
-                        <div className="col-lg-10">
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="inputPassword"
-                            placeholder="Password"
-                            // onChange={this.handlesOnPasswordChange}
-                            onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group">
-                        <Col
-                          lg={10}
-                          lgOffset={2}
-                        >
-                          <Button
-                            className="login-button btn-block"
-                            bsStyle="primary"
-                            disabled={isLogging}
-                            onClick={this.handlesOnLogin}
-                          >
-                            {
-                              isLogging
-                                ?
-                                <span>
-                                login in...
-                                &nbsp;
-                                  <i
-                                    className="fa fa-spinner fa-pulse fa-fw"
-                                  />
-                                </span>
-                                :
-                                <span>
-                                Login
-                                </span>
-                            }
-                          </Button>
-                        </Col>
-                      </div>
-                    </fieldset>
-                  </form>
-                  :
-                  <Alert
-                    bsStyle="danger"
-                    onDismiss={this.handleAlertDismiss}
-                  >
-                    <h4>
-                      <i className="fa fa-exclamation-triangle" aria-hidden="true" /> &nbsp;
-                      Cookies are disabled on your browser!
-                    </h4>
-                    <br />
-                    <p>
-                      Cookies are necessary to ensure application delivers the best experience and security.
-                    </p>
-                    <p>
-                      {`You can't signin or signout this application until you enable cookie in your navigator.`}
-                    </p>
-                    <br />
-                    <p>
-                      <Button
-                        bsStyle="primary"
-                        onClick={this.handleAlertDismiss}
+                    <div className="form-group">
+                      <label
+                        htmlFor="inputEmail"
+                        className="col-lg-2 control-label"
                       >
-                        Back to Home
-                      </Button>
-                    </p>
-                  </Alert>
-              }
+                        Email
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputEmail"
+                          placeholder="Email"
+                          value={email}
+                          // onChange={this.handlesOnEmailChange}
+                          onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label
+                        htmlFor="inputPassword"
+                        className="col-lg-2 control-label"
+                      >
+                        Password
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="inputPassword"
+                          placeholder="Password"
+                          // onChange={this.handlesOnPasswordChange}
+                          onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <Col lg={10} lgOffset={2}>
+                        <Button
+                          className="login-button btn-block"
+                          bsStyle="primary"
+                          disabled={isLogging}
+                          onClick={this.handlesOnLogin}
+                        >
+                          {isLogging ? (
+                            <span>
+                              login in... &nbsp;
+                              <i className="fa fa-spinner fa-pulse fa-fw" />
+                            </span>
+                          ) : (
+                            <span>Login</span>
+                          )}
+                        </Button>
+                      </Col>
+                    </div>
+                  </fieldset>
+                </form>
+              ) : (
+                <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
+                  <h4>
+                    <i
+                      className="fa fa-exclamation-triangle"
+                      aria-hidden="true"
+                    />{' '}
+                    &nbsp; Cookies are disabled on your browser!
+                  </h4>
+                  <br />
+                  <p>
+                    Cookies are necessary to ensure application delivers the
+                    best experience and security.
+                  </p>
+                  <p>
+                    {`You can't signin or signout this application until you enable cookie in your navigator.`}
+                  </p>
+                  <br />
+                  <p>
+                    <Button bsStyle="primary" onClick={this.handleAlertDismiss}>
+                      Back to Home
+                    </Button>
+                  </p>
+                </Alert>
+              )}
             </Col>
           </Row>
-          {
-            browserStorageSupported &&
+          {browserStorageSupported && (
             <Row>
-              <Col
-                md={4}
-                mdOffset={4}
-                xs={10}
-                xsOffset={1}
-              >
-                <div
-                  className="pull-right"
-                >
-                  <Button
-                    bsStyle="warning"
-                    onClick={this.goHome}
-                  >
+              <Col md={4} mdOffset={4} xs={10} xsOffset={1}>
+                <div className="pull-right">
+                  <Button bsStyle="warning" onClick={this.goHome}>
                     back to home
                   </Button>
                 </div>
               </Col>
             </Row>
-          }
+          )}
         </div>
       </Layout>
     );
@@ -244,17 +198,16 @@ class Login extends PureComponent<Props, State> {
   // #endregion
 
   // #region storage not supported methods
-  setBrowserStorageSupportedState = (browserStorageSupported) => this.setState({ browserStorageSupported });
+  setBrowserStorageSupportedState = browserStorageSupported =>
+    this.setState({ browserStorageSupported });
 
-  handleAlertDismiss = (
-    event: SyntheticEvent<>
-  ) => {
+  handleAlertDismiss = (event: SyntheticEvent<>) => {
     if (event) {
       event.preventDefault();
     }
 
     Router.replace('/');
-  }
+  };
   // #endregion
 
   // #region input change methods
@@ -264,7 +217,7 @@ class Login extends PureComponent<Props, State> {
       // should add some validator before setState in real use cases
       this.setState({ email: event.target.value.trim() });
     }
-  }
+  };
 
   handlesOnPasswordChange = (event: SyntheticEvent<>) => {
     if (event) {
@@ -272,7 +225,7 @@ class Login extends PureComponent<Props, State> {
       // should add some validator before setState in real use cases
       this.setState({ password: event.target.value.trim() });
     }
-  }
+  };
   // #endregion
 
   // #region on login click
@@ -283,28 +236,20 @@ class Login extends PureComponent<Props, State> {
 
     const {
       logUserIfNeeded,
-      url: {
-        query
-      }
+      url: { query },
     } = this.props;
 
-    const {
-      email,
-      password
-    } = this.state;
+    const { email, password } = this.state;
 
     const userLogin = {
-      login:    email,
-      password: password
+      login: email,
+      password: password,
     };
 
     try {
       const response = await logUserIfNeeded(userLogin);
       const {
-        data: {
-          token,
-          user
-        }
+        data: { token, user },
       } = response.payload;
 
       auth.setToken(token);
@@ -322,7 +267,7 @@ class Login extends PureComponent<Props, State> {
       console.error('login went wrong..., error: ', error);
       /* eslint-enable no-console */
     }
-  }
+  };
   // #endregion
 
   // #region on go back home click
@@ -332,38 +277,31 @@ class Login extends PureComponent<Props, State> {
     }
 
     Router.push({ pathname: '/' });
-  }
+  };
   // #endregion
 }
 
-
 // #region redux state and dispatch map to props
-const mapStateToProps = (
-  state: any
-) => ({
+const mapStateToProps = (state: any) => ({
   // userAuth:
   isAuthenticated: state.userAuth.isAuthenticated,
-  isFetching:      state.userAuth.isFetching,
-  isLogging:       state.userAuth.isLogging
+  isFetching: state.userAuth.isFetching,
+  isLogging: state.userAuth.isLogging,
 });
 
-const mapDispatchToProps = (
-  dispatch: (...any) => any
-) => {
+const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
         // userAuth:
-        ...userAuthActions
+        ...userAuthActions,
       },
-      dispatch)
+      dispatch,
+    ),
   };
 };
 // #endregion
 
-export default withRedux(
-  configureStore,
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
-
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
+  Login,
+);

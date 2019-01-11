@@ -16,22 +16,22 @@ const initialState = {};
  * @param {any} action action
  * @returns {any} state
  */
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
-  case REHYDRATE: {
-    const incoming = action.payload.myReducer;
-    if (incoming) {
-      return {
-        ...state,
-        ...incoming
-        //  specialKey: processSpecial(incoming.specialKey)
-      };
+    case REHYDRATE: {
+      const incoming = action.payload.myReducer;
+      if (incoming) {
+        return {
+          ...state,
+          ...incoming,
+          //  specialKey: processSpecial(incoming.specialKey)
+        };
+      }
+      return state;
     }
-    return state;
-  }
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 // #endregion

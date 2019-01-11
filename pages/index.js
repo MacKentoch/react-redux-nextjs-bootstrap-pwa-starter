@@ -1,29 +1,29 @@
 // @flow
 
 // #region imports
-import { PureComponent }      from 'react';
+import { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
-import withRedux              from 'next-redux-wrapper';
-import configureStore         from '../redux/store/configureStore';
-import * as fakeFetchActions  from '../redux/modules/fakeModuleWithFetch';
-import * as userAuthActions   from '../redux/modules/userAuth';
-import Layout                 from '../components/layout/Layout';
-import Header                 from '../components/header/Header';
-import Jumbotron              from 'react-bootstrap/lib/Jumbotron';
-import Button                 from 'react-bootstrap/lib/Button';
-import Router                 from 'next/router';
+import withRedux from 'next-redux-wrapper';
+import configureStore from '../redux/store/configureStore';
+import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
+import * as userAuthActions from '../redux/modules/userAuth';
+import Layout from '../components/layout/Layout';
+import Header from '../components/header/Header';
+import Jumbotron from 'react-bootstrap/lib/Jumbotron';
+import Button from 'react-bootstrap/lib/Button';
+import Router from 'next/router';
 // #endregion
 
 // #region flow types
 type Props = {
   // fakeModuleWithFetch:
-  isFetching: boolean;
+  isFetching: boolean,
   fakeData: any,
   fakeFetchIfNeeded: () => Promise<any>,
   // userAuth:
   isAuthenticated: boolean,
   disconnectUser: () => any,
-  ...any
+  ...any,
 };
 
 type State = any;
@@ -36,24 +36,21 @@ type InitialProps = {
   asPath: string,
   isServer: boolean,
   store?: any,
-  ...any
-}
+  ...any,
+};
 // #endregion
 
 class Index extends PureComponent<Props, State> {
   // #region props initialization
-  static async getInitialProps({
-    isServer,
-    store
-  }: InitialProps) {
+  static async getInitialProps({ isServer, store }: InitialProps) {
     const SIDE = isServer ? 'SERVER SIDE' : 'FRONT SIDE';
 
     try {
-      const response = await store.dispatch(fakeFetchActions.fakeFetchIfNeeded());
+      const response = await store.dispatch(
+        fakeFetchActions.fakeFetchIfNeeded(),
+      );
       const {
-        payload: {
-          data
-        }
+        payload: { data },
       } = response;
       // NOTE: you will see this log in your server console (where you `npm run dev`):
       /* eslint-disable no-console */
@@ -70,18 +67,11 @@ class Index extends PureComponent<Props, State> {
     return (
       <Layout>
         <Header />
-        <div
-          className="container-fluid"
-        >
+        <div className="container-fluid">
           <Jumbotron>
-            <h1>
-              PWA: Next JS + Redux + Bootstrap STARTER
-            </h1>
-            <Button
-              bsStyle="primary"
-              onClick={this.goLogin}
-            >
-             login
+            <h1>PWA: Next JS + Redux + Bootstrap STARTER</h1>
+            <Button bsStyle="primary" onClick={this.goLogin}>
+              login
             </Button>
           </Jumbotron>
         </div>
@@ -91,46 +81,39 @@ class Index extends PureComponent<Props, State> {
   // #endregion
 
   // # region go login click
-  goLogin = (
-    event: SyntheticEvent<>
-  ) => {
+  goLogin = (event: SyntheticEvent<>) => {
     if (event) {
       event.preventDefault();
       Router.push('/login');
     }
-  }
+  };
   // #endregion
 }
 
 // #region redux state and dispatch map to props
-const mapStateToProps = (
-  state: any
-) => ({
+const mapStateToProps = (state: any) => ({
   // fakeModuleWithFetch:
   isFetching: state.fakeModuleWithFetch.isFetching,
-  fakeData:   state.fakeModuleWithFetch.data,
+  fakeData: state.fakeModuleWithFetch.data,
   // userAuth:
-  isAuthenticated: state.userAuth.isAuthenticated
+  isAuthenticated: state.userAuth.isAuthenticated,
 });
 
-const mapDispatchToProps = (
-  dispatch: (...any) => any
-) => {
+const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
         // fakeModuleWithFetch:
         ...fakeFetchActions,
         // userAuth:
-        ...userAuthActions
+        ...userAuthActions,
       },
-      dispatch)
+      dispatch,
+    ),
   };
 };
 // #endregion
 
-export default withRedux(
-  configureStore,
-  mapStateToProps,
-  mapDispatchToProps
-)(Index);
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
+  Index,
+);

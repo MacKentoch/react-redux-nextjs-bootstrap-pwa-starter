@@ -1,18 +1,16 @@
 // @flow
 
 // #region imports
-import decode     from 'jwt-decode';
-import moment     from 'moment';
+import decode from 'jwt-decode';
+import moment from 'moment';
 // #endregion
 
 // #region flow types
-type STORES_TYPES =
-| 'localStorage'
-| 'sessionStorage';
+type STORES_TYPES = 'localStorage' | 'sessionStorage';
 
-type Storage       = STORES_TYPES
-type TokenKey      = string;
-type UserInfoKey   = string;
+type Storage = STORES_TYPES;
+type TokenKey = string;
+type UserInfoKey = string;
 // #endregion
 
 // #region constants
@@ -21,10 +19,10 @@ const USER_INFO = 'userInfo';
 
 const APP_PERSIST_STORES_TYPES: Array<STORES_TYPES> = [
   'localStorage',
-  'sessionStorage'
+  'sessionStorage',
 ];
 
-const parse     = JSON.parse;
+const parse = JSON.parse;
 const stringify = JSON.stringify;
 // #endregion
 
@@ -48,8 +46,8 @@ export const auth = {
    * @returns {string} token value
    */
   getToken(
-    fromStorage: Storage  = APP_PERSIST_STORES_TYPES[0],
-    tokenKey: TokenKey = TOKEN_KEY
+    fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
+    tokenKey: TokenKey = TOKEN_KEY,
   ): ?string {
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
@@ -64,17 +62,17 @@ export const auth = {
   },
 
   /**
-  * set the token value into localstorage (managed by localforage)
-  *
-  * @param {string} [value=''] token value
-  * @param {'localStorage' | 'sessionStorage'} [toStorage='localStorage'] specify storage
-  * @param {any} [tokenKey='token'] token key
-  * @returns {boolean} success/failure flag
-  */
+   * set the token value into localstorage (managed by localforage)
+   *
+   * @param {string} [value=''] token value
+   * @param {'localStorage' | 'sessionStorage'} [toStorage='localStorage'] specify storage
+   * @param {any} [tokenKey='token'] token key
+   * @returns {boolean} success/failure flag
+   */
   setToken(
     value: string = '',
     toStorage: Storage = APP_PERSIST_STORES_TYPES[0],
-    tokenKey: TokenKey = TOKEN_KEY
+    tokenKey: TokenKey = TOKEN_KEY,
   ): ?string {
     if (!value || value.length <= 0) {
       return;
@@ -92,7 +90,6 @@ export const auth = {
       }
     }
   },
-
 
   /**
    * check
@@ -117,11 +114,11 @@ export const auth = {
    */
   isAuthenticated(
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
-    tokenKey: TokenKey = TOKEN_KEY
+    tokenKey: TokenKey = TOKEN_KEY,
   ): boolean {
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
-      if ((localStorage && localStorage.getItem(tokenKey))) {
+      if (localStorage && localStorage.getItem(tokenKey)) {
         return true;
       } else {
         return false;
@@ -129,7 +126,7 @@ export const auth = {
     }
     // sessionStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[1]) {
-      if ((sessionStorage && sessionStorage.getItem(tokenKey))) {
+      if (sessionStorage && sessionStorage.getItem(tokenKey)) {
         return true;
       } else {
         return false;
@@ -147,8 +144,8 @@ export const auth = {
    * @returns {boolean} success/failure flag
    */
   clearToken(
-    storage: Storage  = APP_PERSIST_STORES_TYPES[0],
-    tokenKey: TokenKey = TOKEN_KEY
+    storage: Storage = APP_PERSIST_STORES_TYPES[0],
+    tokenKey: TokenKey = TOKEN_KEY,
   ): boolean {
     // localStorage:
     if (storage === APP_PERSIST_STORES_TYPES[0]) {
@@ -169,9 +166,7 @@ export const auth = {
    * @param {string} encodedToken - base 64 token received from server and stored in local storage
    * @returns {date | null} returns expiration date or null id expired props not found in decoded token
    */
-  getTokenExpirationDate(
-    encodedToken: any
-  ): Date {
+  getTokenExpirationDate(encodedToken: any): Date {
     if (!encodedToken) {
       return new Date(0); // is expired
     }
@@ -181,7 +176,7 @@ export const auth = {
       return new Date(0); // is expired
     }
 
-    const expirationDate = new Date(token.exp*1000);
+    const expirationDate = new Date(token.exp * 1000);
     return expirationDate;
   },
 
@@ -191,11 +186,9 @@ export const auth = {
    * @param {string} encodedToken - base 64 token received from server and stored in local storage
    * @returns {boolean} returns true if expired else false
    */
-  isExpiredToken(
-    encodedToken: any
-  ): boolean {
+  isExpiredToken(encodedToken: any): boolean {
     const expirationDate = this.getTokenExpirationDate(encodedToken);
-    const rightNow       = moment();
+    const rightNow = moment();
     const isExpiredToken = moment(rightNow).isAfter(moment(expirationDate));
 
     return isExpiredToken;
@@ -213,7 +206,7 @@ export const auth = {
    */
   getUserInfo(
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
-    userInfoKey: UserInfoKey = USER_INFO
+    userInfoKey: UserInfoKey = USER_INFO,
   ): ?string {
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
@@ -221,7 +214,9 @@ export const auth = {
     }
     // sessionStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[1]) {
-      return (sessionStorage && parse(sessionStorage.getItem(userInfoKey))) || null;
+      return (
+        (sessionStorage && parse(sessionStorage.getItem(userInfoKey))) || null
+      );
     }
     // default:
     return null;
@@ -238,7 +233,7 @@ export const auth = {
   setUserInfo(
     value: string = '',
     toStorage: Storage = APP_PERSIST_STORES_TYPES[0],
-    userInfoKey: UserInfoKey = USER_INFO
+    userInfoKey: UserInfoKey = USER_INFO,
   ): any {
     if (!value || value.length <= 0) {
       return;
@@ -263,9 +258,7 @@ export const auth = {
    * @param {string} [userInfoKey='userInfo'] token key
    * @returns {boolean} success/failure flag
    */
-  clearUserInfo(
-    userInfoKey: UserInfoKey = USER_INFO
-  ): any {
+  clearUserInfo(userInfoKey: UserInfoKey = USER_INFO): any {
     // localStorage:
     if (localStorage && localStorage[userInfoKey]) {
       localStorage.removeItem(userInfoKey);
@@ -276,7 +269,6 @@ export const auth = {
     }
   },
 
-
   // /////////////////////////////////////////////////////////////
   // COMMON
   // /////////////////////////////////////////////////////////////
@@ -286,11 +278,14 @@ export const auth = {
    */
   supportsLocalStorage(): boolean {
     if (!window) {
-      throw new Error('supportsLocalStorage should be launched on browser (not on server)');
+      throw new Error(
+        'supportsLocalStorage should be launched on browser (not on server)',
+      );
     }
 
     try {
-      const localStorageSupported = ('localStorage' in window) && (window.localStorage !== null);
+      const localStorageSupported =
+        'localStorage' in window && window.localStorage !== null;
       return localStorageSupported;
     } catch (error) {
       return false;
@@ -303,11 +298,14 @@ export const auth = {
    */
   supportsSessionStorage(): boolean {
     if (!window) {
-      throw new Error('supportsSessionStorage should be launched on browser side (not on server side)');
+      throw new Error(
+        'supportsSessionStorage should be launched on browser side (not on server side)',
+      );
     }
 
     try {
-      const sessionStorageSupported = ('sessionStorage' in window) && (window.sessionStorage !== null);
+      const sessionStorageSupported =
+        'sessionStorage' in window && window.sessionStorage !== null;
       return sessionStorageSupported;
     } catch (error) {
       return false;
@@ -325,7 +323,7 @@ export const auth = {
     if (sessionStorage) {
       sessionStorage.clear();
     }
-  }
+  },
 };
 
 export default auth;

@@ -1,16 +1,16 @@
 // @flow
 
 // #region imports
-import { PureComponent }      from 'react';
+import { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
-import withRedux              from 'next-redux-wrapper';
-import configureStore         from '../redux/store/configureStore';
-import * as userAuthActions   from '../redux/modules/userAuth';
-import Layout                 from '../components/layout/Layout';
-import Header                 from '../components/header/Header';
-import Button                 from 'react-bootstrap/lib/Button';
-import Router                 from 'next/router';
-import Private                from '../components/privateRoute/PrivateRoute';
+import withRedux from 'next-redux-wrapper';
+import configureStore from '../redux/store/configureStore';
+import * as userAuthActions from '../redux/modules/userAuth';
+import Layout from '../components/layout/Layout';
+import Header from '../components/header/Header';
+import Button from 'react-bootstrap/lib/Button';
+import Router from 'next/router';
+import Private from '../components/privateRoute/PrivateRoute';
 // #endregion
 
 // #region flow types
@@ -19,13 +19,13 @@ type Props = {
   url: {
     asPath: string,
     pathname: string,
-    ...any
+    ...any,
   },
 
   // userAuth:
   isAuthenticated: boolean,
   disconnectUser: () => any,
-  ...any
+  ...any,
 };
 
 type State = any;
@@ -35,24 +35,15 @@ class Private1 extends PureComponent<Props, State> {
   // #region component lifecycle methods
   render() {
     const {
-      url: {
-        pathname
-      }
+      url: { pathname },
     } = this.props;
 
     return (
-      <Private
-        fromPath={pathname}
-      >
+      <Private fromPath={pathname}>
         <Layout>
           <Header />
-          <h2>
-            Private1 here
-          </h2>
-          <Button
-            bsStyle="primary"
-            onClick={this.goBackHome}
-          >
+          <h2>Private1 here</h2>
+          <Button bsStyle="primary" onClick={this.goBackHome}>
             go back home
           </Button>
         </Layout>
@@ -62,43 +53,35 @@ class Private1 extends PureComponent<Props, State> {
   // #endregion
 
   // #region html elements events
-  goBackHome = (
-    event: SyntheticEvent<>
-  ): void => {
+  goBackHome = (event: SyntheticEvent<>): void => {
     if (event) {
       event.preventDefault();
     }
 
     Router.push('/');
-  }
+  };
   // #endregion
 }
 
-
 // #region redux state and dispatch map to props
-const mapStateToProps = (
-  state: any
-) => ({
+const mapStateToProps = (state: any) => ({
   // userAuth:
-  isAuthenticated: state.userAuth.isAuthenticated
+  isAuthenticated: state.userAuth.isAuthenticated,
 });
 
-const mapDispatchToProps = (
-  dispatch: (...any) => any
-) => {
+const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
         // userAuth:
-        ...userAuthActions
+        ...userAuthActions,
       },
-      dispatch)
+      dispatch,
+    ),
   };
 };
 // #endregion
 
-export default withRedux(
-  configureStore,
-  mapStateToProps,
-  mapDispatchToProps
-)(Private1);
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
+  Private1,
+);
