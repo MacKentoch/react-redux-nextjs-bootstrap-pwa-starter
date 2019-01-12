@@ -1,10 +1,10 @@
 // @flow
 
 // #region imports
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import withRedux from 'next-redux-wrapper';
-import configureStore from '../redux/store/configureStore';
+import compose from 'recompose/compose';
 import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Layout from '../components/layout/Layout';
@@ -114,6 +114,9 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
 };
 // #endregion
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
-  Index,
-);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(Index);

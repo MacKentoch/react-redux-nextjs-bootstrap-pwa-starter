@@ -2,10 +2,10 @@
 /* eslint-disable quotes */
 
 // #region imports
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import withRedux from 'next-redux-wrapper';
-import configureStore from '../redux/store/configureStore';
+import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Router from 'next/router';
 import Layout from '../components/layout/Layout';
@@ -302,6 +302,9 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
 };
 // #endregion
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
-  Login,
-);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(Login);
