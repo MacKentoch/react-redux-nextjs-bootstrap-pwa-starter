@@ -1,16 +1,14 @@
 // @flow
 
 // #region imports
+import {
+  type Storage,
+  type TokenKey,
+  type UserInfoKey,
+  type STORES_TYPES,
+} from './types';
 import decode from 'jwt-decode';
-import moment from 'moment';
-// #endregion
-
-// #region flow types
-type STORES_TYPES = 'localStorage' | 'sessionStorage';
-
-type Storage = STORES_TYPES;
-type TokenKey = string;
-type UserInfoKey = string;
+import isAfter from 'date-fns/is_after';
 // #endregion
 
 // #region constants
@@ -24,14 +22,15 @@ const APP_PERSIST_STORES_TYPES: Array<STORES_TYPES> = [
 
 const parse = JSON.parse;
 const stringify = JSON.stringify;
+const localStorage = !window ? null : window.localStorage;
+const sessionStorage = !window ? null : window.sessionStorage;
 // #endregion
 
-/**
- * auth object
- *
- * -> store "TOKEN_KEY"
- * - default storage is "localStorage"
- * - default token key is 'token'
+/*
+  auth object
+  -> store "TOKEN_KEY"
+  - default storage is "localStorage"
+  - default token key is 'token'
  */
 export const auth = {
   // /////////////////////////////////////////////////////////////
@@ -49,6 +48,10 @@ export const auth = {
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
     tokenKey: TokenKey = TOKEN_KEY,
   ): ?string {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
       return (localStorage && localStorage.getItem(tokenKey)) || null;
@@ -77,6 +80,11 @@ export const auth = {
     if (!value || value.length <= 0) {
       return;
     }
+
+    if (typeof window === 'undefined') {
+      return '';
+    }
+
     // localStorage:
     if (toStorage === APP_PERSIST_STORES_TYPES[0]) {
       if (localStorage) {
@@ -110,12 +118,16 @@ export const auth = {
    *
    * @param {'localStorage' | 'sessionStorage'} [fromStorage='localStorage'] specify storage
    * @param {any} [tokenKey=TOKEN_KEY] token key
-   * @returns {boolean} is authenticed response
+   * @returns {bool} is authenticed response
    */
   isAuthenticated(
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
     tokenKey: TokenKey = TOKEN_KEY,
   ): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
       if (localStorage && localStorage.getItem(tokenKey)) {
@@ -139,24 +151,28 @@ export const auth = {
   /**
    * delete token
    *
-   * @param {any} [storage=APP_PERSIST_STORES_TYPES[0]] token key
    * @param {any} [tokenKey='token'] token key
-   * @returns {boolean} success/failure flag
+   * @returns {bool} success/failure flag
    */
   clearToken(
     storage: Storage = APP_PERSIST_STORES_TYPES[0],
     tokenKey: TokenKey = TOKEN_KEY,
   ): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     // localStorage:
-    if (storage === APP_PERSIST_STORES_TYPES[0]) {
+    if (localStorage && localStorage[tokenKey]) {
       localStorage.removeItem(tokenKey);
       return true;
     }
     // sessionStorage:
-    if (storage === APP_PERSIST_STORES_TYPES[1]) {
+    if (sessionStorage && sessionStorage[tokenKey]) {
       sessionStorage.removeItem(tokenKey);
       return true;
     }
+
     return false;
   },
 
@@ -167,6 +183,10 @@ export const auth = {
    * @returns {date | null} returns expiration date or null id expired props not found in decoded token
    */
   getTokenExpirationDate(encodedToken: any): Date {
+    if (typeof window === 'undefined') {
+      return new Date(0);
+    }
+
     if (!encodedToken) {
       return new Date(0); // is expired
     }
@@ -184,12 +204,16 @@ export const auth = {
    * tell is token is expired (compared to now)
    *
    * @param {string} encodedToken - base 64 token received from server and stored in local storage
-   * @returns {boolean} returns true if expired else false
+   * @returns {bool} returns true if expired else false
    */
   isExpiredToken(encodedToken: any): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     const expirationDate = this.getTokenExpirationDate(encodedToken);
-    const rightNow = moment();
-    const isExpiredToken = moment(rightNow).isAfter(moment(expirationDate));
+    const rightNow = new Date();
+    const isExpiredToken = isAfter(rightNow, expirationDate);
 
     return isExpiredToken;
   },
@@ -208,6 +232,10 @@ export const auth = {
     fromStorage: Storage = APP_PERSIST_STORES_TYPES[0],
     userInfoKey: UserInfoKey = USER_INFO,
   ): ?string {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     // localStorage:
     if (fromStorage === APP_PERSIST_STORES_TYPES[0]) {
       return (localStorage && parse(localStorage.getItem(userInfoKey))) || null;
@@ -235,6 +263,10 @@ export const auth = {
     toStorage: Storage = APP_PERSIST_STORES_TYPES[0],
     userInfoKey: UserInfoKey = USER_INFO,
   ): any {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     if (!value || value.length <= 0) {
       return;
     }
@@ -256,9 +288,13 @@ export const auth = {
    * delete userInfo
    *
    * @param {string} [userInfoKey='userInfo'] token key
-   * @returns {boolean} success/failure flag
+   * @returns {bool} success/failure flag
    */
   clearUserInfo(userInfoKey: UserInfoKey = USER_INFO): any {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     // localStorage:
     if (localStorage && localStorage[userInfoKey]) {
       localStorage.removeItem(userInfoKey);
@@ -272,51 +308,16 @@ export const auth = {
   // /////////////////////////////////////////////////////////////
   // COMMON
   // /////////////////////////////////////////////////////////////
-  /**
-   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
-   * @return {boolean} browser supports localStorage flag
-   */
-  supportsLocalStorage(): boolean {
-    if (!window) {
-      throw new Error(
-        'supportsLocalStorage should be launched on browser (not on server)',
-      );
-    }
-
-    try {
-      const localStorageSupported =
-        'localStorage' in window && window.localStorage !== null;
-      return localStorageSupported;
-    } catch (error) {
-      return false;
-    }
-  },
-
-  /**
-   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
-   * @return {boolean} browser supports localStorage flag
-   */
-  supportsSessionStorage(): boolean {
-    if (!window) {
-      throw new Error(
-        'supportsSessionStorage should be launched on browser side (not on server side)',
-      );
-    }
-
-    try {
-      const sessionStorageSupported =
-        'sessionStorage' in window && window.sessionStorage !== null;
-      return sessionStorageSupported;
-    } catch (error) {
-      return false;
-    }
-  },
 
   /**
    * forget me method: clear all
-   * @returns {boolean} success/failure flag
+   * @returns {bool} success/failure flag
    */
   clearAllAppStorage(): any {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     if (localStorage) {
       localStorage.clear();
     }

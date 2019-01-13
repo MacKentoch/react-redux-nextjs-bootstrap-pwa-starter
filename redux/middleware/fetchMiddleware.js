@@ -9,39 +9,8 @@ export const FETCH_MOCK = 'FETCH_MOCK';
 export const FETCH = 'FETCH';
 // #endregion
 
-// #region flow type
-type Fetch = {
-  // real and mock fetch properties:
-  type: 'FETCH_MOCK' | 'FETCH', // choose between real fetch or just mock fetch (will return mockResult in thta case)
-  actionTypes: {
-    request: string, // action for request fetch
-    success: string, // action for successul fetch
-    fail: string, // action for failed fetch
-  },
-
-  // real fetch properties:
-  url?: string, // real fetch url
-  method?: 'get' | 'post' | 'put' | 'delete', // verb
-  headers?: any, // OPTIONAL CONTENT like: data: { someprop: 'value ...}
-  options?: {
-    credentials?: string, // ex: 'same-origin
-    data?: any, // payload
-  }, // OPTIONAL CONTENT like: Authorization: 'Bearer _A_TOKEN_'
-
-  // mock fetch propperties:
-  mockResult?: any, // payload returned when type === 'FETCH_MOCK'
-};
-
-type Action = {
-  fetch?: Fetch, // fetch middleware payload
-  ...any,
-};
-// #endregion
-
-// //////////////////////////////
-// ###### HOW TO USE
-// //////////////////////////////
-// CASE: FETCH_MOCK mode
+//
+// FETCH_MOCK mode
 // in any action just add fetch object like:
 // {
 //  fetch: {
@@ -55,8 +24,8 @@ type Action = {
 //  }
 // }
 //
-// ---------------------------
-// CASE: FETCH mode
+
+// FETCH mode
 // in any action just add fetch object like:
 // {
 //  fetch: {
@@ -72,10 +41,10 @@ type Action = {
 //    options: {}     // OPTIONAL CONTENT like: Authorization: 'Bearer _A_TOKEN_'
 //  }
 // }
-//
 
-// #region middleware function
-const fetchMiddleware = store => next => (action: Action) => {
+const fetchMiddleware = (store: any) => (next: (action: any) => any) => (
+  action: any,
+) => {
   if (!action.fetch) {
     return next(action);
   }
@@ -158,6 +127,5 @@ const fetchMiddleware = store => next => (action: Action) => {
   }
   return next(action);
 };
-// #endregion
 
 export default fetchMiddleware;

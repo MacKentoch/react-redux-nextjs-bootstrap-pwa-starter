@@ -1,4 +1,9 @@
 // next.config.js
 module.exports = {
-  /* config options here */
+  /* static page export options: */
+  exportPathMap: function() {
+    return {
+      '/': { page: '/' },
+    };
+  },
 };

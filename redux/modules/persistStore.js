@@ -16,7 +16,7 @@ const initialState = {};
  * @param {any} action action
  * @returns {any} state
  */
-export default function(state = initialState, action) {
+export default function(state: any = initialState, action: any) {
   switch (action.type) {
     case REHYDRATE: {
       const incoming = action.payload.myReducer;

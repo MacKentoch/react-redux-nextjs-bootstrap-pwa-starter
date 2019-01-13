@@ -44,9 +44,12 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node server",
+    "clean:lib": "rimraf ./server/out/*",
+    "build-server": "npm run clean:lib && cross-env NODE_ENV=SERVER babel ./server -d ./server/out",
+    "dev": "npm run build-server && cross-env NODE_ENV=development node ./server/out",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server",
+    "export": "npm run build && next export",
+    "start": "npm run build-server && cross-env NODE_ENV=production node ./server/out",
     "deploy": "now --public"
   },
   "dependencies": {
@@ -72,6 +75,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",

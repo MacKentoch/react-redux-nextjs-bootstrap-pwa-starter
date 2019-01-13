@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import moment from 'moment';
+import { format } from 'date-fns';
 import AppConfig from '../../config/appConfig';
 import userInfosMockData from '../../mock/userInfosMock.json';
 import { getLocationOrigin } from '../../services/fetchTools';
@@ -41,7 +41,8 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
-  const currentTime = moment().format();
+  const now = new Date();
+  const currentTime = format(now);
 
   switch (action.type) {
     case CHECK_IF_USER_IS_AUTHENTICATED:
