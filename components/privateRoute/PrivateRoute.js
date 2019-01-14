@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import Router from 'next/router';
 import auth from '../../services/auth';
 // #endregion
@@ -9,7 +9,7 @@ import auth from '../../services/auth';
 // #region flow types
 type Props = {
   fromPath: string,
-  children: ReactNode,
+  children: any,
 };
 
 type State = any;
@@ -53,6 +53,7 @@ class Private extends PureComponent<Props, State> {
 
   // #region authentication check methods
   isAuthenticated(): boolean {
+    // $FlowIgnore
     const checkUserHasId = user => user && user.id;
     const user = auth.getUserInfo() ? auth.getUserInfo() : null;
     const isAuthenticated =

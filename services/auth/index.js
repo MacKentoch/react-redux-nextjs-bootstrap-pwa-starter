@@ -22,8 +22,9 @@ const APP_PERSIST_STORES_TYPES: Array<STORES_TYPES> = [
 
 const parse = JSON.parse;
 const stringify = JSON.stringify;
-const localStorage = !window ? null : window.localStorage;
-const sessionStorage = !window ? null : window.sessionStorage;
+const localStorage = typeof window === 'undefined' ? null : window.localStorage;
+const sessionStorage =
+  typeof window === 'undefined' ? null : window.sessionStorage;
 // #endregion
 
 /*

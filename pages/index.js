@@ -49,6 +49,16 @@ class Index extends PureComponent<Props, State> {
       const response = await store.dispatch(
         fakeFetchActions.fakeFetchIfNeeded(),
       );
+
+      console.log('############');
+      console.log('############');
+      console.log('############');
+
+      console.log('fakeFetchIfNeeded response: ', response);
+
+      console.log('############');
+      console.log('############');
+      console.log('############');
       const {
         payload: { data },
       } = response;

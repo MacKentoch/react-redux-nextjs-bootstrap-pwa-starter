@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import Link from 'next/link';
+import React from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,8 +9,6 @@ import * as userAuthActions from '../../redux/modules/userAuth';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
-// import NavDropdown           from 'react-bootstrap/lib/NavDropdown';
-// import MenuItem              from 'react-bootstrap/lib/MenuItem';
 import { PureComponent } from 'react';
 // #endregion
 
@@ -46,16 +44,17 @@ class Header extends PureComponent<Props, State> {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <Link prefetch href="/page1">
-              <NavItem eventKey={1} href="#">
-                Page1
-              </NavItem>
-            </Link>
-            <Link prefetch href="/private1">
-              <NavItem eventKey={2} href="#">
-                Private1
-              </NavItem>
-            </Link>
+            <NavItem eventKey={1} href="#" onClick={this.navigateTo('/page1')}>
+              Page1
+            </NavItem>
+
+            <NavItem
+              eventKey={2}
+              href="#"
+              onClick={this.navigateTo('/private1')}
+            >
+              Private1
+            </NavItem>
             {isAuthenticated ? (
               <NavItem
                 eventKey={3}
@@ -65,17 +64,25 @@ class Header extends PureComponent<Props, State> {
                 <i className="fa fa-sign-out" aria-hidden="true" />
               </NavItem>
             ) : (
-              <Link prefetch href="/login">
-                <NavItem eventKey={3} href="#">
-                  <i className="fa fa-sign-in" aria-hidden="true" />
-                </NavItem>
-              </Link>
+              <NavItem
+                eventKey={3}
+                href="#"
+                onClick={this.navigateTo('/login')}
+              >
+                <i className="fa fa-sign-in" aria-hidden="true" />
+              </NavItem>
             )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
   }
+  // #endregion
+
+  // #region navigate
+  navigateTo = (to: string = '/') => () => {
+    Router.push(to);
+  };
   // #endregion
 
   // #region on disconnect click

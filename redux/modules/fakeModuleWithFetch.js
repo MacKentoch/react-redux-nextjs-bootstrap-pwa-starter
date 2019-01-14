@@ -142,9 +142,9 @@ function shouldFakeFetch(state: {
 }): boolean {
   const { isFetching } = state.fakeModuleWithFetch;
 
-  if (isFetching) {
-    return false;
-  }
+  // if (isFetching) {
+  //   return false;
+  // }
   return true;
 }
 // #endregion

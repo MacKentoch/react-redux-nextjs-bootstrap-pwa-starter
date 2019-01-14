@@ -2,13 +2,13 @@
 /* eslint-disable quotes */
 
 // #region imports
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import Head from 'next/head';
 // #endregion
 
 // #region flow types
 type Props = {
-  children: ReactNode,
+  children: any,
 };
 
 type State = any;
@@ -123,6 +123,7 @@ class Layout extends PureComponent<Props, State> {
   registerServiceWorker = async () => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       try {
+        // $FlowIgnore
         await navigator.serviceWorker.register('/sw.js');
       } catch (error) {
         /* eslint-disable no-console */
