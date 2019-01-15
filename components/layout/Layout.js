@@ -4,6 +4,7 @@
 // #region imports
 import React, { PureComponent } from 'react';
 import Head from 'next/head';
+import theme from '../../config/theme';
 // #endregion
 
 // #region flow types
@@ -12,6 +13,16 @@ type Props = {
 };
 
 type State = any;
+// #endregion
+
+// #region constants
+const flexibilityJsForIE = `
+<!--[if !IE]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flexibility/2.0.1/flexibility.js"></script>
+<!--[endif]-->
+`;
+
+const { accent } = theme;
 // #endregion
 
 class Layout extends PureComponent<Props, State> {
@@ -32,7 +43,8 @@ class Layout extends PureComponent<Props, State> {
           />
           <link
             rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           />
 
           <meta
@@ -53,12 +65,12 @@ class Layout extends PureComponent<Props, State> {
             sizes="16x16"
             href="static/favicon-16x16.png"
           />
-          <meta name="theme-color" content="#1967be" />
+          <meta name="theme-color" content={accent} />
 
           <link
             rel="mask-icon"
             href="static/safari-pinned-tab.svg"
-            color="#1967be"
+            color={accent}
           />
           <meta name="apple-mobile-web-app-title" content="Next PWA Starter" />
           <link
@@ -78,16 +90,7 @@ class Layout extends PureComponent<Props, State> {
           {/* <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> */}
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         </Head>
-        <style jsx global>
-          {`
-            body {
-            }
-
-            .navbar {
-              border-radius: 0;
-            }
-          `}
-        </style>
+        <Styles />
         <noscript>
           <div className="alert  alert-warning">
             <h4>Warning!</h4>
@@ -99,6 +102,7 @@ class Layout extends PureComponent<Props, State> {
           </div>
         </noscript>
         {children}
+        <div dangerouslySetInnerHTML={{ __html: flexibilityJsForIE }} />
       </div>
     );
   }
@@ -135,5 +139,22 @@ class Layout extends PureComponent<Props, State> {
 
   // #endregion
 }
+
+// #region styles
+function Styles() {
+  return (
+    <style jsx global>
+      {`
+        body {
+        }
+
+        .navbar {
+          border-radius: 0;
+        }
+      `}
+    </style>
+  );
+}
+// #endregion
 
 export default Layout;

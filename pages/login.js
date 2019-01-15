@@ -184,14 +184,7 @@ class Login extends PureComponent<Props, State> {
             </Row>
           )}
         </div>
-        <style jsx>
-          {`
-            .content {
-              margin-top: 70px;
-              padding-top: 40px;
-            }
-          `}
-        </style>
+        <Styles />
       </div>
     );
   }
@@ -284,6 +277,21 @@ class Login extends PureComponent<Props, State> {
   };
   // #endregion
 }
+
+// #region styles
+function Styles() {
+  return (
+    <style jsx>
+      {`
+        .content {
+          margin-top: 70px;
+          padding-top: 40px;
+        }
+      `}
+    </style>
+  );
+}
+// #endregion
 
 // #region redux state and dispatch map to props
 const mapStateToProps = (state: any) => ({
