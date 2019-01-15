@@ -27,7 +27,7 @@ type Action = {
   isFetching?: boolean,
   actionTime?: string,
   data?: { ...any } | Array<any>,
-  payload?: Array<any>,
+  payload?: any,
   error: { ...any },
 };
 // #endregion
@@ -58,11 +58,14 @@ export default function(state: State = initialState, action: Action): State {
     }
 
     case RECEIVED_FAKE_FETCH: {
+      // $FlowIgnore
+      const { data } = action.payload;
+
       return {
         ...state,
         actionTime: currentTime,
         isFetching: false,
-        data: [...(action.payload || [])],
+        data: [...data],
       };
     }
 
@@ -142,9 +145,9 @@ function shouldFakeFetch(state: {
 }): boolean {
   const { isFetching } = state.fakeModuleWithFetch;
 
-  // if (isFetching) {
-  //   return false;
-  // }
+  if (isFetching) {
+    return false;
+  }
   return true;
 }
 // #endregion

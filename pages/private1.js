@@ -5,18 +5,17 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
+import Router, { withRouter } from 'next/router';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Layout from '../components/layout/Layout';
 import Header from '../components/header/Header';
 import Button from 'react-bootstrap/lib/Button';
-import Router from 'next/router';
 import Private from '../components/privateRoute/PrivateRoute';
 // #endregion
 
 // #region flow types
 type Props = {
-  // from next/Router:
-  url: {
+  // from withRouter HOC:
+  router: {
     asPath: string,
     pathname: string,
     ...any,
@@ -31,22 +30,22 @@ type Props = {
 type State = any;
 // #endregion
 
-class Private1 extends PureComponent<Props, State> {
+export class Private1 extends PureComponent<Props, State> {
   // #region component lifecycle methods
   render() {
     const {
-      url: { pathname },
+      router: { pathname },
     } = this.props;
 
     return (
       <Private fromPath={pathname}>
-        <Layout>
+        <div>
           <Header />
           <h2>Private1 here</h2>
           <Button bsStyle="primary" onClick={this.goBackHome}>
             go back home
           </Button>
-        </Layout>
+        </div>
       </Private>
     );
   }
@@ -87,4 +86,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
+  withRouter,
 )(Private1);

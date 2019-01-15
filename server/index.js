@@ -3,6 +3,7 @@
 
 // #region imports
 const express = require('express');
+const { join } = require('path');
 const chalk = require('chalk');
 const next = require('next');
 // #endregion
@@ -30,8 +31,8 @@ async function prepareNextApplication() {
     // server.get('/b', (req, res) => app.render(req, res, '/a', req.query));
 
     // handles service worker file request:
-    server.get('/sw.js', (req, res) =>
-      res.sendFile('./offline/serviceWorker.js', { root: '.' }),
+    server.get('/service-worker.js', (req, res) =>
+      res.sendFile(join('.next', '/service-worker.js'), { root: '.' }),
     );
 
     // default request handler by next handler:

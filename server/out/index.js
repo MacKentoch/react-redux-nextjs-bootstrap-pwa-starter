@@ -12,6 +12,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // #region imports
 var express = require('express');
 
+var _require = require('path'),
+    join = _require.join;
+
 var chalk = require('chalk');
 
 var next = require('next'); // #endregion
@@ -52,8 +55,8 @@ function _prepareNextApplication() {
             // server.get('/b', (req, res) => app.render(req, res, '/a', req.query));
             // handles service worker file request:
 
-            server.get('/sw.js', function (req, res) {
-              return res.sendFile('./offline/serviceWorker.js', {
+            server.get('/service-worker.js', function (req, res) {
+              return res.sendFile(join('.next', '/service-worker.js'), {
                 root: '.'
               });
             }); // default request handler by next handler:

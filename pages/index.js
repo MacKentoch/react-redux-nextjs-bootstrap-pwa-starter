@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Layout from '../components/layout/Layout';
 import Header from '../components/header/Header';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron';
 import Button from 'react-bootstrap/lib/Button';
@@ -49,16 +48,6 @@ class Index extends PureComponent<Props, State> {
       const response = await store.dispatch(
         fakeFetchActions.fakeFetchIfNeeded(),
       );
-
-      console.log('############');
-      console.log('############');
-      console.log('############');
-
-      console.log('fakeFetchIfNeeded response: ', response);
-
-      console.log('############');
-      console.log('############');
-      console.log('############');
       const {
         payload: { data },
       } = response;
@@ -75,7 +64,7 @@ class Index extends PureComponent<Props, State> {
   // #region component lifecycle methods
   render() {
     return (
-      <Layout>
+      <div>
         <Header />
         <div className="container-fluid">
           <Jumbotron>
@@ -85,7 +74,7 @@ class Index extends PureComponent<Props, State> {
             </Button>
           </Jumbotron>
         </div>
-      </Layout>
+      </div>
     );
   }
   // #endregion

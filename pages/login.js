@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Router from 'next/router';
-import Layout from '../components/layout/Layout';
+import Router, { withRouter } from 'next/router';
 import Button from 'react-bootstrap/lib/Button';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -18,8 +17,8 @@ import auth from '../services/auth';
 
 // #region flow types
 type Props = {
-  // next/route:
-  url: {
+  // withRouter HOC:
+  router: {
     // query.from sent by Private component when user auth failed
     query?: {
       from?: string,
@@ -39,6 +38,7 @@ type Props = {
 type State = {
   email: string,
   password: string,
+  browserStorageSupported?: boolean,
 };
 // #endregion
 
@@ -73,19 +73,10 @@ class Login extends PureComponent<Props, State> {
 
   render() {
     const { email, password, browserStorageSupported } = this.state;
-
     const { isLogging } = this.props;
 
     return (
-      <Layout>
-        <style jsx>
-          {`
-            .content {
-              margin-top: 70px;
-              padding-top: 40px;
-            }
-          `}
-        </style>
+      <div>
         <div className="content">
           <Row>
             <Col md={4} mdOffset={4} xs={10} xsOffset={1}>
@@ -108,8 +99,8 @@ class Login extends PureComponent<Props, State> {
                           id="inputEmail"
                           placeholder="Email"
                           value={email}
-                          // onChange={this.handlesOnEmailChange}
-                          onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
+                          onChange={this.handlesOnEmailChange}
+                          // onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
                         />
                       </div>
                     </div>
@@ -127,8 +118,9 @@ class Login extends PureComponent<Props, State> {
                           className="form-control"
                           id="inputPassword"
                           placeholder="Password"
-                          // onChange={this.handlesOnPasswordChange}
-                          onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
+                          value={password}
+                          onChange={this.handlesOnPasswordChange}
+                          // onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
                         />
                       </div>
                     </div>
@@ -192,7 +184,15 @@ class Login extends PureComponent<Props, State> {
             </Row>
           )}
         </div>
-      </Layout>
+        <style jsx>
+          {`
+            .content {
+              margin-top: 70px;
+              padding-top: 40px;
+            }
+          `}
+        </style>
+      </div>
     );
   }
   // #endregion
@@ -215,7 +215,9 @@ class Login extends PureComponent<Props, State> {
     if (event) {
       event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ email: event.target.value.trim() });
+      // $FlowIgnore
+      const email = event.target.value.trim();
+      this.setState({ email });
     }
   };
 
@@ -223,7 +225,9 @@ class Login extends PureComponent<Props, State> {
     if (event) {
       event.preventDefault();
       // should add some validator before setState in real use cases
-      this.setState({ password: event.target.value.trim() });
+      // $FlowIgnore
+      const password = event.target.value.trim();
+      this.setState({ password });
     }
   };
   // #endregion
@@ -236,7 +240,7 @@ class Login extends PureComponent<Props, State> {
 
     const {
       logUserIfNeeded,
-      url: { query },
+      router: { query },
     } = this.props;
 
     const { email, password } = this.state;
@@ -256,7 +260,7 @@ class Login extends PureComponent<Props, State> {
       auth.setUserInfo(user);
 
       // test if we were redirected to login from a private page, redirect back to where we were:
-      if (query.from) {
+      if (query && query.from) {
         return Router.push({ pathname: query.from }); // back to Home
       }
 
@@ -307,4 +311,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
+  withRouter,
 )(Login);

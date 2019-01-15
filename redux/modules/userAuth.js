@@ -1,11 +1,14 @@
 // @flow
+/* eslint-disable flowtype/space-after-type-colon */
 
 // #region imports
 import { format } from 'date-fns';
 import AppConfig from '../../config/appConfig';
+import { type Dispatch, type GetState } from '../../types/redux/redux-thunk';
 import userInfosMockData from '../../mock/userInfosMock.json';
 import { getLocationOrigin } from '../../services/fetchTools';
 import auth from '../../services/auth';
+import { type State } from '../../types/redux/modules/userAuth';
 // #endregion
 
 // #region CONSTANTS
@@ -22,8 +25,25 @@ const CHECK_IF_USER_IS_AUTHENTICATED = 'CHECK_IF_USER_IS_AUTHENTICATED';
 const DISCONNECT_USER = 'DISCONNECT_USER';
 // #endregion
 
-// #region REDUCER
+// #region flow types
+type Action = {
+  type:
+    | 'REQUEST_USER_INFOS_DATA'
+    | 'RECEIVED_USER_INFOS_DATA'
+    | 'ERROR_USER_INFOS_DATA'
+    | 'REQUEST_LOG_USER'
+    | 'RECEIVED_LOG_USER'
+    | 'ERROR_LOG_USER'
+    | 'CHECK_IF_USER_IS_AUTHENTICATED'
+    | 'DISCONNECT_USER',
 
+  payload?: {
+    data?: any,
+  },
+};
+// #endregion
+
+// #region REDUCER
 const initialState = {
   // actions details
   isFetching: false,
@@ -40,7 +60,7 @@ const initialState = {
   isAuthenticated: false, // authentication status (token based auth)
 };
 
-export default function(state = initialState, action) {
+export default function(state: State = initialState, action: Action) {
   const now = new Date();
   const currentTime = format(now);
 
@@ -190,7 +210,7 @@ export function checkUserIsConnected() {
  * @returns {Promise<any>} promised action
  */
 function logUser(login: string, password: string) {
-  return async dispatch => {
+  return async (dispatch: Dispatch<Action>) => {
     const FETCH_TYPE = AppConfig.DEV_MODE ? 'FETCH_MOCK' : 'FETCH';
     const __SOME_LOGIN_API__ = 'login';
 
@@ -232,7 +252,7 @@ export function logUserIfNeeded(
   email: string,
   password: string,
 ): (...any) => Promise<any> {
-  return (dispatch: any => any, getState: () => boolean): any => {
+  return (dispatch: Dispatch<Action>, getState: GetState<State>): any => {
     if (shouldLogUser(getState())) {
       return dispatch(logUser(email, password));
     }
@@ -255,14 +275,14 @@ function shouldLogUser(state: any): boolean {
  * @returns {Promise<any>} returns fetch promise
  */
 function fetchUserInfosData(id = '') {
-  return dispatch => {
+  return (dispatch: Dispatch<Action>) => {
     const token = auth.getToken();
     const FETCH_TYPE = AppConfig.DEV_MODE ? 'FETCH_MOCK' : 'FETCH';
 
     const mockResult = userInfosMockData; // will be fetch_mock data returned (in case FETCH_TYPE = 'FETCH_MOCK', otherwise cata come from server)
     const url = `${getLocationOrigin()}/${AppConfig.API.users}/${id}`;
     const method = 'get';
-    const headers = { authorization: `Bearer ${token}` };
+    const headers = { authorization: `Bearer ${token || ''}` };
     const options = { credentials: 'same-origin' }; // put options here (see axios options)
 
     return dispatch({
@@ -288,7 +308,7 @@ function fetchUserInfosData(id = '') {
 }
 
 export function fetchUserInfoDataIfNeeded(id: string = '') {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch<Action>, getState: GetState<State>) => {
     if (shouldFetchUserInfoData(getState())) {
       return dispatch(fetchUserInfosData(id));
     }

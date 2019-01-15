@@ -309,6 +309,45 @@ export const auth = {
   // /////////////////////////////////////////////////////////////
   // COMMON
   // /////////////////////////////////////////////////////////////
+  /**
+   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
+   * @return {boolean} browser supports localStorage flag
+   */
+  supportsLocalStorage(): boolean {
+    if (!window) {
+      throw new Error(
+        'supportsLocalStorage should be launched on browser (not on server)',
+      );
+    }
+
+    try {
+      const localStorageSupported =
+        'localStorage' in window && window.localStorage !== null;
+      return localStorageSupported;
+    } catch (error) {
+      return false;
+    }
+  },
+
+  /**
+   * tells if current browser supports localStorage (as an example: iOS Safari with cookies disabled would not!)
+   * @return {boolean} browser supports localStorage flag
+   */
+  supportsSessionStorage(): boolean {
+    if (!window) {
+      throw new Error(
+        'supportsSessionStorage should be launched on browser side (not on server side)',
+      );
+    }
+
+    try {
+      const sessionStorageSupported =
+        'sessionStorage' in window && window.sessionStorage !== null;
+      return sessionStorageSupported;
+    } catch (error) {
+      return false;
+    }
+  },
 
   /**
    * forget me method: clear all

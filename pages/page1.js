@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Layout from '../components/layout/Layout';
 import Header from '../components/header/Header';
 import Button from 'react-bootstrap/lib/Button';
 import Router from 'next/router';
@@ -27,13 +26,13 @@ class Page1 extends PureComponent<Props, State> {
   // #region component lifecycle methods
   render() {
     return (
-      <Layout>
+      <div>
         <Header />
         <h2>Page1 here</h2>
         <Button bsStyle="primary" onClick={this.goBackHome}>
           go back home
         </Button>
-      </Layout>
+      </div>
     );
   }
   // #endregion
