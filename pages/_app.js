@@ -7,12 +7,26 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import compose from 'recompose/compose';
 import withRedux from 'next-redux-wrapper';
+import smoothScrollPolyfill from 'smoothscroll-polyfill';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import configureStore from '../redux/store/configureStore';
 import Layout from '../components/layout';
 // #endregion
 
 // #region flow types
 type Props = any;
+// #endregion
+
+// #region globals (styles, polyfill ...)
+
+if (typeof window !== 'undefined') {
+  // #region smoothscroll polyfill
+  smoothScrollPolyfill.polyfill();
+  // forces polyfill (even if browser partially implements it)
+  window.__forceSmoothScrollPolyfill__ = true;
+  // #endregion
+}
+
 // #endregion
 
 export class MyApp extends App<Props> {

@@ -1,22 +1,33 @@
-### Version
+# ISSUES TEMPLATE
+
+## Version
+
 1.2.0
 
-### Node JS
+## Node JS
+
 v7.x | v8.X
 
-### Browser
+## Browser
+
 Chrome 64.x | Safari 11.x
 
-### OS version
+## OS version
+
 macOS | windows 10 | linux Ubuntu...
 
-### Steps to reproduce
-1.  
-2.  
-3.  
+## Steps to reproduce
 
-### Expected behavior
+1. explantion 1...
+
+2. explantion 2...
+
+3. explantion 3...
+
+## Expected behavior
+
 What should happen
 
-### Actual behavior
+## Actual behavior
+
 What is happening
