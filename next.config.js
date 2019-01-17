@@ -11,6 +11,9 @@ const nextConfig = {
   exportPathMap: function() {
     return {
       '/': { page: '/' },
+      '/login': { page: '/login' },
+      '/page1': { page: '/page1' },
+      '/private1': { page: '/private1' },
     };
   },
 };
