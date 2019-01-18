@@ -1,8 +1,8 @@
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter)
-
 # PWA: Next JS + Redux + Redux persist + redux-devtools-extension + Bootstrap starter
 
 > A progressive web app starter with NextJS, redux and bootstrap
+
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter)
 
 <a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-nfxmkkccof.now.sh'>
 ![preview](./preview.png)
@@ -22,10 +22,10 @@
 
 **Front:**
 
-- Next js (4.x+ [github :link:](https://github.com/zeit/next.js))
-- React JS (16.x+ - [github :link:](https://github.com/facebook/react))
+- Next js (7.x+ [github :link:](https://github.com/zeit/next.js))
+- React JS (16.7.x+ - [github :link:](https://github.com/facebook/react))
 - redux (_as your application grows managing state will be a serious concern, save pain with Redux_)
-- redux-persist (_simplifies your NextJS state share between pages_ [github :link:](https://github.com/rt2zz/redux-persist))
+- redux-persist 4.x (_simplifies your NextJS state share between pages_ [github :link:](https://github.com/rt2zz/redux-persist))
 - localForage
 - react-redux (_Redux is not specific to ReactJS, you could easily use it with Angular2 for instance_)
 - redux-thunk (_simple and does the job_)
@@ -36,7 +36,8 @@
 
 **Tool chain:**
 
-- Next js (4.x+ [github :link:](https://github.com/zeit/next.js))
+- Next js (7.x+ [github :link:](https://github.com/zeit/next.js))
+- Babel 7+ (*custom babel*)
 - Flow JS types
 
 **fav icon:**
