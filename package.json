@@ -75,7 +75,7 @@
     "reactstrap": "^7.0.2",
     "recompose": "^0.30.0",
     "redux": "^3.7.2",
-    "redux-persist": "^4.10.1",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.2.0",
     "smoothscroll-polyfill": "^0.4.3"
   },

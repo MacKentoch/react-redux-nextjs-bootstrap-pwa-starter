@@ -3,9 +3,9 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import localForage from 'localforage';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import reducer from '../modules/reducers';
 import fetchMiddleware from '../middleware/fetchMiddleware';
 
@@ -19,25 +19,25 @@ const loggerMiddleware = createLogger({
 // #region createStore : enhancer
 const enhancer = composeWithDevTools(
   applyMiddleware(thunkMiddleware, fetchMiddleware, loggerMiddleware),
-  autoRehydrate(),
 );
+// #endregion
+
+// #region persisted reducer
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducer);
 // #endregion
 
 // #region store initialization
 export default function configureStore(initialState) {
-  const store = createStore(reducer, initialState, enhancer);
+  const store = createStore(persistedReducer, initialState, enhancer);
 
-  // begin periodically persisting the store
-  persistStore(store, { storage: localForage });
-
-  // OPTIONAL: you can blacklist reducers to avoid them to persist, so call
-  // persistStore(
-  //   store,
-  //   {blacklist: ['someTransientReducer']},
-  //   () => {
-  //   console.log('rehydration complete')
-  //   }
-  // );
+  // we won't need PersistGate since server rendered with nextJS:
+  // const persistor = persistStore(store);
+  // return { store, persistor };
 
   return store;
 }
