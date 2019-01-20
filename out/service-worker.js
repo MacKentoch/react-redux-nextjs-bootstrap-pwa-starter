@@ -1,30 +1,30 @@
 self.__precacheManifest = [
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/index.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/index.js"
   },
   {
-    "url": "/_next/static/chunks/commons.ee76a301c302ffeef8cb.js"
+    "url": "/_next/static/chunks/commons.b192840d4295db06bd92.js"
   },
   {
-    "url": "/_next/static/runtime/main-5134dadb34ed2ee08a7b.js"
+    "url": "/_next/static/runtime/main-4888d1fc3b6b523c2e7d.js"
   },
   {
     "url": "/_next/static/runtime/webpack-42652fa8b82c329c0559.js"
   },
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/private1.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/private1.js"
   },
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/page1.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/page1.js"
   },
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/login.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/login.js"
   },
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/_error.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/_error.js"
   },
   {
-    "url": "/_next/static/TU6aMfFGA_xPXiSZdzYCa/pages/_app.js"
+    "url": "/_next/static/Q0JVIO_wUTVKoda1tiL4i/pages/_app.js"
   }
 ];
 

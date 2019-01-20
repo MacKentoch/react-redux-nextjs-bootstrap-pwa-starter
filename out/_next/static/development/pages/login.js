@@ -15873,201 +15873,6 @@ module.exports = (__webpack_require__(/*! dll-reference dll_831a3634f66cb1dada0c
 
 /***/ }),
 
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
 /***/ "./node_modules/prop-types-extra/lib/elementType.js":
 /*!**********************************************************!*\
   !*** ./node_modules/prop-types-extra/lib/elementType.js ***!
@@ -20403,709 +20208,6 @@ function warning(message) {
 
 /***/ }),
 
-/***/ "./node_modules/string-hash/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/string-hash/index.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function hash(str) {
-  var hash = 5381,
-      i    = str.length;
-
-  while(i) {
-    hash = (hash * 33) ^ str.charCodeAt(--i);
-  }
-
-  /* JavaScript does bitwise operations (like XOR, above) on 32-bit signed
-   * integers. Since we want the results to be always positive, convert the
-   * signed int to an unsigned by doing an unsigned bitshift. */
-  return hash >>> 0;
-}
-
-module.exports = hash;
-
-
-/***/ }),
-
-/***/ "./node_modules/styled-jsx/dist/lib/stylesheet.js":
-/*!********************************************************!*\
-  !*** ./node_modules/styled-jsx/dist/lib/stylesheet.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
-Based on Glamor's sheet
-https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92ca2879/src/sheet.js
-*/
-
-var isProd = process.env && "development" === 'production';
-var isString = function isString(o) {
-  return Object.prototype.toString.call(o) === '[object String]';
-};
-
-var StyleSheet = function () {
-  function StyleSheet() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$name = _ref.name,
-        name = _ref$name === undefined ? 'stylesheet' : _ref$name,
-        _ref$optimizeForSpeed = _ref.optimizeForSpeed,
-        optimizeForSpeed = _ref$optimizeForSpeed === undefined ? isProd : _ref$optimizeForSpeed,
-        _ref$isBrowser = _ref.isBrowser,
-        isBrowser = _ref$isBrowser === undefined ? typeof window !== 'undefined' : _ref$isBrowser;
-
-    _classCallCheck(this, StyleSheet);
-
-    invariant(isString(name), '`name` must be a string');
-    this._name = name;
-    this._deletedRulePlaceholder = '#' + name + '-deleted-rule____{}';
-
-    invariant(typeof optimizeForSpeed === 'boolean', '`optimizeForSpeed` must be a boolean');
-    this._optimizeForSpeed = optimizeForSpeed;
-    this._isBrowser = isBrowser;
-
-    this._serverSheet = undefined;
-    this._tags = [];
-    this._injected = false;
-    this._rulesCount = 0;
-
-    var node = this._isBrowser && document.querySelector('meta[property="csp-nonce"]');
-    this._nonce = node ? node.getAttribute('content') : null;
-  }
-
-  _createClass(StyleSheet, [{
-    key: 'setOptimizeForSpeed',
-    value: function setOptimizeForSpeed(bool) {
-      invariant(typeof bool === 'boolean', '`setOptimizeForSpeed` accepts a boolean');
-
-      invariant(this._rulesCount === 0, 'optimizeForSpeed cannot be when rules have already been inserted');
-      this.flush();
-      this._optimizeForSpeed = bool;
-      this.inject();
-    }
-  }, {
-    key: 'isOptimizeForSpeed',
-    value: function isOptimizeForSpeed() {
-      return this._optimizeForSpeed;
-    }
-  }, {
-    key: 'inject',
-    value: function inject() {
-      var _this = this;
-
-      invariant(!this._injected, 'sheet already injected');
-      this._injected = true;
-      if (this._isBrowser && this._optimizeForSpeed) {
-        this._tags[0] = this.makeStyleTag(this._name);
-        this._optimizeForSpeed = 'insertRule' in this.getSheet();
-        if (!this._optimizeForSpeed) {
-          if (!isProd) {
-            console.warn('StyleSheet: optimizeForSpeed mode not supported falling back to standard mode.'); // eslint-disable-line no-console
-          }
-          this.flush();
-          this._injected = true;
-        }
-        return;
-      }
-
-      this._serverSheet = {
-        cssRules: [],
-        insertRule: function insertRule(rule, index) {
-          if (typeof index === 'number') {
-            _this._serverSheet.cssRules[index] = { cssText: rule };
-          } else {
-            _this._serverSheet.cssRules.push({ cssText: rule });
-          }
-          return index;
-        },
-        deleteRule: function deleteRule(index) {
-          _this._serverSheet.cssRules[index] = null;
-        }
-      };
-    }
-  }, {
-    key: 'getSheetForTag',
-    value: function getSheetForTag(tag) {
-      if (tag.sheet) {
-        return tag.sheet;
-      }
-
-      // this weirdness brought to you by firefox
-      for (var i = 0; i < document.styleSheets.length; i++) {
-        if (document.styleSheets[i].ownerNode === tag) {
-          return document.styleSheets[i];
-        }
-      }
-    }
-  }, {
-    key: 'getSheet',
-    value: function getSheet() {
-      return this.getSheetForTag(this._tags[this._tags.length - 1]);
-    }
-  }, {
-    key: 'insertRule',
-    value: function insertRule(rule, index) {
-      invariant(isString(rule), '`insertRule` accepts only strings');
-
-      if (!this._isBrowser) {
-        if (typeof index !== 'number') {
-          index = this._serverSheet.cssRules.length;
-        }
-        this._serverSheet.insertRule(rule, index);
-        return this._rulesCount++;
-      }
-
-      if (this._optimizeForSpeed) {
-        var sheet = this.getSheet();
-        if (typeof index !== 'number') {
-          index = sheet.cssRules.length;
-        }
-        // this weirdness for perf, and chrome's weird bug
-        // https://stackoverflow.com/questions/20007992/chrome-suddenly-stopped-accepting-insertrule
-        try {
-          sheet.insertRule(rule, index);
-        } catch (err) {
-          if (!isProd) {
-            console.warn('StyleSheet: illegal rule: \n\n' + rule + '\n\nSee https://stackoverflow.com/q/20007992 for more info'); // eslint-disable-line no-console
-          }
-          return -1;
-        }
-      } else {
-        var insertionPoint = this._tags[index];
-        this._tags.push(this.makeStyleTag(this._name, rule, insertionPoint));
-      }
-
-      return this._rulesCount++;
-    }
-  }, {
-    key: 'replaceRule',
-    value: function replaceRule(index, rule) {
-      if (this._optimizeForSpeed || !this._isBrowser) {
-        var sheet = this._isBrowser ? this.getSheet() : this._serverSheet;
-        if (!rule.trim()) {
-          rule = this._deletedRulePlaceholder;
-        }
-
-        if (!sheet.cssRules[index]) {
-          // @TBD Should we throw an error?
-          return index;
-        }
-
-        sheet.deleteRule(index);
-
-        try {
-          sheet.insertRule(rule, index);
-        } catch (err) {
-          if (!isProd) {
-            console.warn('StyleSheet: illegal rule: \n\n' + rule + '\n\nSee https://stackoverflow.com/q/20007992 for more info'); // eslint-disable-line no-console
-          }
-          // In order to preserve the indices we insert a deleteRulePlaceholder
-          sheet.insertRule(this._deletedRulePlaceholder, index);
-        }
-      } else {
-        var tag = this._tags[index];
-        invariant(tag, 'old rule at index `' + index + '` not found');
-        tag.textContent = rule;
-      }
-      return index;
-    }
-  }, {
-    key: 'deleteRule',
-    value: function deleteRule(index) {
-      if (!this._isBrowser) {
-        this._serverSheet.deleteRule(index);
-        return;
-      }
-
-      if (this._optimizeForSpeed) {
-        this.replaceRule(index, '');
-      } else {
-        var tag = this._tags[index];
-        invariant(tag, 'rule at index `' + index + '` not found');
-        tag.parentNode.removeChild(tag);
-        this._tags[index] = null;
-      }
-    }
-  }, {
-    key: 'flush',
-    value: function flush() {
-      this._injected = false;
-      this._rulesCount = 0;
-      if (this._isBrowser) {
-        this._tags.forEach(function (tag) {
-          return tag && tag.parentNode.removeChild(tag);
-        });
-        this._tags = [];
-      } else {
-        // simpler on server
-        this._serverSheet.cssRules = [];
-      }
-    }
-  }, {
-    key: 'cssRules',
-    value: function cssRules() {
-      var _this2 = this;
-
-      if (!this._isBrowser) {
-        return this._serverSheet.cssRules;
-      }
-      return this._tags.reduce(function (rules, tag) {
-        if (tag) {
-          rules = rules.concat(_this2.getSheetForTag(tag).cssRules.map(function (rule) {
-            return rule.cssText === _this2._deletedRulePlaceholder ? null : rule;
-          }));
-        } else {
-          rules.push(null);
-        }
-        return rules;
-      }, []);
-    }
-  }, {
-    key: 'makeStyleTag',
-    value: function makeStyleTag(name, cssString, relativeToTag) {
-      if (cssString) {
-        invariant(isString(cssString), 'makeStyleTag acceps only strings as second parameter');
-      }
-      var tag = document.createElement('style');
-      if (this._nonce) tag.setAttribute('nonce', this._nonce);
-      tag.type = 'text/css';
-      tag.setAttribute('data-' + name, '');
-      if (cssString) {
-        tag.appendChild(document.createTextNode(cssString));
-      }
-      var head = document.head || document.getElementsByTagName('head')[0];
-      if (relativeToTag) {
-        head.insertBefore(tag, relativeToTag);
-      } else {
-        head.appendChild(tag);
-      }
-      return tag;
-    }
-  }, {
-    key: 'length',
-    get: function get() {
-      return this._rulesCount;
-    }
-  }]);
-
-  return StyleSheet;
-}();
-
-exports.default = StyleSheet;
-
-
-function invariant(condition, message) {
-  if (!condition) {
-    throw new Error('StyleSheet: ' + message + '.');
-  }
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../process/browser.js */ "./node_modules/process/browser.js")))
-
-/***/ }),
-
-/***/ "./node_modules/styled-jsx/dist/style.js":
-/*!***********************************************!*\
-  !*** ./node_modules/styled-jsx/dist/style.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-exports.flush = flush;
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _stylesheetRegistry = __webpack_require__(/*! ./stylesheet-registry */ "./node_modules/styled-jsx/dist/stylesheet-registry.js");
-
-var _stylesheetRegistry2 = _interopRequireDefault(_stylesheetRegistry);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var styleSheetRegistry = new _stylesheetRegistry2.default();
-
-var JSXStyle = function (_Component) {
-  _inherits(JSXStyle, _Component);
-
-  function JSXStyle(props) {
-    _classCallCheck(this, JSXStyle);
-
-    var _this = _possibleConstructorReturn(this, (JSXStyle.__proto__ || Object.getPrototypeOf(JSXStyle)).call(this, props));
-
-    _this.prevProps = {};
-    return _this;
-  }
-
-  _createClass(JSXStyle, [{
-    key: 'shouldComponentUpdate',
-
-
-    // probably faster than PureComponent (shallowEqual)
-    value: function shouldComponentUpdate(otherProps) {
-      return this.props.styleId !== otherProps.styleId ||
-      // We do this check because `dynamic` is an array of strings or undefined.
-      // These are the computed values for dynamic styles.
-      String(this.props.dynamic) !== String(otherProps.dynamic);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      styleSheetRegistry.remove(this.props);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      // This is a workaround to make the side effect async safe in the "render" phase.
-      // See https://github.com/zeit/styled-jsx/pull/484
-      if (this.shouldComponentUpdate(this.prevProps)) {
-        // Updates
-        if (this.prevProps.styleId) {
-          styleSheetRegistry.remove(this.prevProps);
-        }
-        styleSheetRegistry.add(this.props);
-        this.prevProps = this.props;
-      }
-      return null;
-    }
-  }], [{
-    key: 'dynamic',
-    value: function dynamic(info) {
-      return info.map(function (tagInfo) {
-        var baseId = tagInfo[0];
-        var props = tagInfo[1];
-        return styleSheetRegistry.computeId(baseId, props);
-      }).join(' ');
-    }
-  }]);
-
-  return JSXStyle;
-}(_react.Component);
-
-exports.default = JSXStyle;
-function flush() {
-  var cssRules = styleSheetRegistry.cssRules();
-  styleSheetRegistry.flush();
-  return cssRules;
-}
-
-/***/ }),
-
-/***/ "./node_modules/styled-jsx/dist/stylesheet-registry.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/styled-jsx/dist/stylesheet-registry.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _stringHash = __webpack_require__(/*! string-hash */ "./node_modules/string-hash/index.js");
-
-var _stringHash2 = _interopRequireDefault(_stringHash);
-
-var _stylesheet = __webpack_require__(/*! ./lib/stylesheet */ "./node_modules/styled-jsx/dist/lib/stylesheet.js");
-
-var _stylesheet2 = _interopRequireDefault(_stylesheet);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var sanitize = function sanitize(rule) {
-  return rule.replace(/\/style/gi, '\\/style');
-};
-
-var StyleSheetRegistry = function () {
-  function StyleSheetRegistry() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$styleSheet = _ref.styleSheet,
-        styleSheet = _ref$styleSheet === undefined ? null : _ref$styleSheet,
-        _ref$optimizeForSpeed = _ref.optimizeForSpeed,
-        optimizeForSpeed = _ref$optimizeForSpeed === undefined ? false : _ref$optimizeForSpeed,
-        _ref$isBrowser = _ref.isBrowser,
-        isBrowser = _ref$isBrowser === undefined ? typeof window !== 'undefined' : _ref$isBrowser;
-
-    _classCallCheck(this, StyleSheetRegistry);
-
-    this._sheet = styleSheet || new _stylesheet2.default({
-      name: 'styled-jsx',
-      optimizeForSpeed: optimizeForSpeed
-    });
-
-    this._sheet.inject();
-    if (styleSheet && typeof optimizeForSpeed === 'boolean') {
-      this._sheet.setOptimizeForSpeed(optimizeForSpeed);
-      this._optimizeForSpeed = this._sheet.isOptimizeForSpeed();
-    }
-
-    this._isBrowser = isBrowser;
-
-    this._fromServer = undefined;
-    this._indices = {};
-    this._instancesCounts = {};
-
-    this.computeId = this.createComputeId();
-    this.computeSelector = this.createComputeSelector();
-  }
-
-  _createClass(StyleSheetRegistry, [{
-    key: 'add',
-    value: function add(props) {
-      var _this = this;
-
-      if (undefined === this._optimizeForSpeed) {
-        this._optimizeForSpeed = Array.isArray(props.css);
-        this._sheet.setOptimizeForSpeed(this._optimizeForSpeed);
-        this._optimizeForSpeed = this._sheet.isOptimizeForSpeed();
-      }
-
-      if (this._isBrowser && !this._fromServer) {
-        this._fromServer = this.selectFromServer();
-        this._instancesCounts = Object.keys(this._fromServer).reduce(function (acc, tagName) {
-          acc[tagName] = 0;
-          return acc;
-        }, {});
-      }
-
-      var _getIdAndRules = this.getIdAndRules(props),
-          styleId = _getIdAndRules.styleId,
-          rules = _getIdAndRules.rules;
-
-      // Deduping: just increase the instances count.
-
-
-      if (styleId in this._instancesCounts) {
-        this._instancesCounts[styleId] += 1;
-        return;
-      }
-
-      var indices = rules.map(function (rule) {
-        return _this._sheet.insertRule(rule);
-      })
-      // Filter out invalid rules
-      .filter(function (index) {
-        return index !== -1;
-      });
-
-      this._indices[styleId] = indices;
-      this._instancesCounts[styleId] = 1;
-    }
-  }, {
-    key: 'remove',
-    value: function remove(props) {
-      var _this2 = this;
-
-      var _getIdAndRules2 = this.getIdAndRules(props),
-          styleId = _getIdAndRules2.styleId;
-
-      invariant(styleId in this._instancesCounts, 'styleId: `' + styleId + '` not found');
-      this._instancesCounts[styleId] -= 1;
-
-      if (this._instancesCounts[styleId] < 1) {
-        var tagFromServer = this._fromServer && this._fromServer[styleId];
-        if (tagFromServer) {
-          tagFromServer.parentNode.removeChild(tagFromServer);
-          delete this._fromServer[styleId];
-        } else {
-          this._indices[styleId].forEach(function (index) {
-            return _this2._sheet.deleteRule(index);
-          });
-          delete this._indices[styleId];
-        }
-        delete this._instancesCounts[styleId];
-      }
-    }
-  }, {
-    key: 'update',
-    value: function update(props, nextProps) {
-      this.add(nextProps);
-      this.remove(props);
-    }
-  }, {
-    key: 'flush',
-    value: function flush() {
-      this._sheet.flush();
-      this._sheet.inject();
-      this._fromServer = undefined;
-      this._indices = {};
-      this._instancesCounts = {};
-
-      this.computeId = this.createComputeId();
-      this.computeSelector = this.createComputeSelector();
-    }
-  }, {
-    key: 'cssRules',
-    value: function cssRules() {
-      var _this3 = this;
-
-      var fromServer = this._fromServer ? Object.keys(this._fromServer).map(function (styleId) {
-        return [styleId, _this3._fromServer[styleId]];
-      }) : [];
-      var cssRules = this._sheet.cssRules();
-
-      return fromServer.concat(Object.keys(this._indices).map(function (styleId) {
-        return [styleId, _this3._indices[styleId].map(function (index) {
-          return cssRules[index].cssText;
-        }).join('\n')];
-      })
-      // filter out empty rules
-      .filter(function (rule) {
-        return Boolean(rule[1]);
-      }));
-    }
-
-    /**
-     * createComputeId
-     *
-     * Creates a function to compute and memoize a jsx id from a basedId and optionally props.
-     */
-
-  }, {
-    key: 'createComputeId',
-    value: function createComputeId() {
-      var cache = {};
-      return function (baseId, props) {
-        if (!props) {
-          return 'jsx-' + baseId;
-        }
-        var propsToString = String(props);
-        var key = baseId + propsToString;
-        // return `jsx-${hashString(`${baseId}-${propsToString}`)}`
-        if (!cache[key]) {
-          cache[key] = 'jsx-' + (0, _stringHash2.default)(baseId + '-' + propsToString);
-        }
-        return cache[key];
-      };
-    }
-
-    /**
-     * createComputeSelector
-     *
-     * Creates a function to compute and memoize dynamic selectors.
-     */
-
-  }, {
-    key: 'createComputeSelector',
-    value: function createComputeSelector() {
-      var selectoPlaceholderRegexp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : /__jsx-style-dynamic-selector/g;
-
-      var cache = {};
-      return function (id, css) {
-        // Sanitize SSR-ed CSS.
-        // Client side code doesn't need to be sanitized since we use
-        // document.createTextNode (dev) and the CSSOM api sheet.insertRule (prod).
-        if (!this._isBrowser) {
-          css = sanitize(css);
-        }
-        var idcss = id + css;
-        if (!cache[idcss]) {
-          cache[idcss] = css.replace(selectoPlaceholderRegexp, id);
-        }
-        return cache[idcss];
-      };
-    }
-  }, {
-    key: 'getIdAndRules',
-    value: function getIdAndRules(props) {
-      var _this4 = this;
-
-      if (props.dynamic) {
-        var styleId = this.computeId(props.styleId, props.dynamic);
-        return {
-          styleId: styleId,
-          rules: Array.isArray(props.css) ? props.css.map(function (rule) {
-            return _this4.computeSelector(styleId, rule);
-          }) : [this.computeSelector(styleId, props.css)]
-        };
-      }
-
-      return {
-        styleId: this.computeId(props.styleId),
-        rules: Array.isArray(props.css) ? props.css : [props.css]
-      };
-    }
-
-    /**
-     * selectFromServer
-     *
-     * Collects style tags from the document with id __jsx-XXX
-     */
-
-  }, {
-    key: 'selectFromServer',
-    value: function selectFromServer() {
-      var elements = Array.prototype.slice.call(document.querySelectorAll('[id^="__jsx-"]'));
-
-      return elements.reduce(function (acc, element) {
-        var id = element.id.slice(2);
-        acc[id] = element;
-        return acc;
-      }, {});
-    }
-  }]);
-
-  return StyleSheetRegistry;
-}();
-
-exports.default = StyleSheetRegistry;
-
-
-function invariant(condition, message) {
-  if (!condition) {
-    throw new Error('StyleSheetRegistry: ' + message + '.');
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/styled-jsx/style.js":
-/*!******************************************!*\
-  !*** ./node_modules/styled-jsx/style.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! ./dist/style */ "./node_modules/styled-jsx/dist/style.js")
-
-
-/***/ }),
-
 /***/ "./node_modules/symbol-observable/es/index.js":
 /*!****************************************************!*\
   !*** ./node_modules/symbol-observable/es/index.js ***!
@@ -22031,29 +21133,26 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/next/node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
-/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-/* harmony import */ var recompose_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
-/* harmony import */ var recompose_compose__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(recompose_compose__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _redux_modules_userAuth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../redux/modules/userAuth */ "./redux/modules/userAuth.js");
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! next/router */ "./node_modules/next/router.js");
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap/lib/Button */ "./node_modules/react-bootstrap/lib/Button.js");
-/* harmony import */ var react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap/lib/Row */ "./node_modules/react-bootstrap/lib/Row.js");
-/* harmony import */ var react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-bootstrap/lib/Col */ "./node_modules/react-bootstrap/lib/Col.js");
-/* harmony import */ var react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-bootstrap/lib/Alert */ "./node_modules/react-bootstrap/lib/Alert.js");
-/* harmony import */ var react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../services/auth */ "./services/auth/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+/* harmony import */ var recompose_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
+/* harmony import */ var recompose_compose__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(recompose_compose__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _redux_modules_userAuth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../redux/modules/userAuth */ "./redux/modules/userAuth.js");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! next/router */ "./node_modules/next/router.js");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap/lib/Button */ "./node_modules/react-bootstrap/lib/Button.js");
+/* harmony import */ var react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap/lib/Row */ "./node_modules/react-bootstrap/lib/Row.js");
+/* harmony import */ var react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap/lib/Col */ "./node_modules/react-bootstrap/lib/Col.js");
+/* harmony import */ var react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-bootstrap/lib/Alert */ "./node_modules/react-bootstrap/lib/Alert.js");
+/* harmony import */ var react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../services/auth */ "./services/auth/index.js");
 
 var _jsxFileName = "/Users/mackentoch/GitProjects/react-redux-nextjs-bootstrap-pwa-starter/pages/login.js";
-
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -22132,7 +21231,7 @@ function (_PureComponent) {
         event.preventDefault();
       }
 
-      next_router__WEBPACK_IMPORTED_MODULE_7___default.a.replace('/');
+      next_router__WEBPACK_IMPORTED_MODULE_6___default.a.replace('/');
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handlesOnEmailChange", function (event) {
@@ -22190,21 +21289,21 @@ function (_PureComponent) {
               case 7:
                 response = _context.sent;
                 _response$payload$dat = response.payload.data, token = _response$payload$dat.token, _user = _response$payload$dat.user;
-                _services_auth__WEBPACK_IMPORTED_MODULE_12__["default"].setToken(token);
-                _services_auth__WEBPACK_IMPORTED_MODULE_12__["default"].setUserInfo(_user); // test if we were redirected to login from a private page, redirect back to where we were:
+                _services_auth__WEBPACK_IMPORTED_MODULE_11__["default"].setToken(token);
+                _services_auth__WEBPACK_IMPORTED_MODULE_11__["default"].setUserInfo(_user); // test if we were redirected to login from a private page, redirect back to where we were:
 
                 if (!(query && query.from)) {
                   _context.next = 13;
                   break;
                 }
 
-                return _context.abrupt("return", next_router__WEBPACK_IMPORTED_MODULE_7___default.a.push({
+                return _context.abrupt("return", next_router__WEBPACK_IMPORTED_MODULE_6___default.a.push({
                   pathname: query.from
                 }));
 
               case 13:
                 // redirect to home otherwise:
-                next_router__WEBPACK_IMPORTED_MODULE_7___default.a.push({
+                next_router__WEBPACK_IMPORTED_MODULE_6___default.a.push({
                   pathname: '/'
                 }); // back to Home
 
@@ -22237,7 +21336,7 @@ function (_PureComponent) {
         event.preventDefault();
       }
 
-      next_router__WEBPACK_IMPORTED_MODULE_7___default.a.push({
+      next_router__WEBPACK_IMPORTED_MODULE_6___default.a.push({
         pathname: '/'
       });
     });
@@ -22251,7 +21350,7 @@ function (_PureComponent) {
     // #region component lifecycle methods
     value: function componentDidMount() {
       var disconnectUser = this.props.disconnectUser;
-      var browserStorageSupported = _services_auth__WEBPACK_IMPORTED_MODULE_12__["default"].supportsLocalStorage() && _services_auth__WEBPACK_IMPORTED_MODULE_12__["default"].supportsSessionStorage();
+      var browserStorageSupported = _services_auth__WEBPACK_IMPORTED_MODULE_11__["default"].supportsLocalStorage() && _services_auth__WEBPACK_IMPORTED_MODULE_11__["default"].supportsSessionStorage();
       this.setBrowserStorageSupportedState(browserStorageSupported);
 
       if (browserStorageSupported) {
@@ -22266,27 +21365,26 @@ function (_PureComponent) {
           password = _this$state2.password,
           browserStorageSupported = _this$state2.browserStorageSupported;
       var isLogging = this.props.isLogging;
-      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591",
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 79
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "content",
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "content",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 80
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_8___default.a, {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 81
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9___default.a, {
         md: 4,
         mdOffset: 4,
         xs: 10,
@@ -22296,106 +21394,104 @@ function (_PureComponent) {
           lineNumber: 82
         },
         __self: this
-      }, browserStorageSupported ? react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("form", {
+      }, browserStorageSupported ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        className: "form-horizontal",
         noValidate: true,
-        className: "jsx-1265836591" + " " + "form-horizontal",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 84
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("fieldset", {
-        className: "jsx-1265836591",
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 85
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("legend", {
-        className: "jsx-1265836591",
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("legend", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 86
         },
         __self: this
-      }, "Login"), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "form-group",
+      }, "Login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 88
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "inputEmail",
-        className: "jsx-1265836591" + " " + "col-lg-2 control-label",
+        className: "col-lg-2 control-label",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 89
         },
         __self: this
-      }, "Email"), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "col-lg-10",
+      }, "Email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-lg-10",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 95
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
+        className: "form-control",
         id: "inputEmail",
         placeholder: "Email",
         value: email,
         onChange: this.handlesOnEmailChange // onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
         ,
-        className: "jsx-1265836591" + " " + "form-control",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 96
         },
         __self: this
-      }))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "form-group",
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 108
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "inputPassword",
-        className: "jsx-1265836591" + " " + "col-lg-2 control-label",
+        className: "col-lg-2 control-label",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 109
         },
         __self: this
-      }, "Password"), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "col-lg-10",
+      }, "Password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-lg-10",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 115
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "password",
+        className: "form-control",
         id: "inputPassword",
         placeholder: "Password",
         value: password,
         onChange: this.handlesOnPasswordChange // onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
         ,
-        className: "jsx-1265836591" + " " + "form-control",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 116
         },
         __self: this
-      }))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "form-group",
+      }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 127
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9___default.a, {
         lg: 10,
         lgOffset: 2,
         __source: {
@@ -22403,7 +21499,7 @@ function (_PureComponent) {
           lineNumber: 128
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7___default.a, {
         className: "login-button btn-block",
         bsStyle: "primary",
         disabled: isLogging,
@@ -22413,28 +21509,26 @@ function (_PureComponent) {
           lineNumber: 129
         },
         __self: this
-      }, isLogging ? react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
-        className: "jsx-1265836591",
+      }, isLogging ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 136
         },
         __self: this
-      }, "login in... \xA0", react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
-        className: "jsx-1265836591" + " " + "fa fa-spinner fa-pulse fa-fw",
+      }, "login in... \xA0", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-spinner fa-pulse fa-fw",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 138
         },
         __self: this
-      })) : react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
-        className: "jsx-1265836591",
+      })) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 141
         },
         __self: this
-      }, "Login")))))) : react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_11___default.a, {
+      }, "Login")))))) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Alert__WEBPACK_IMPORTED_MODULE_10___default.a, {
         bsStyle: "danger",
         onDismiss: this.handleAlertDismiss,
         __source: {
@@ -22442,57 +21536,51 @@ function (_PureComponent) {
           lineNumber: 149
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("h4", {
-        className: "jsx-1265836591",
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 150
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-exclamation-triangle",
         "aria-hidden": "true",
-        className: "jsx-1265836591" + " " + "fa fa-exclamation-triangle",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 151
         },
         __self: this
-      }), ' ', "\xA0 Cookies are disabled on your browser!"), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("br", {
-        className: "jsx-1265836591",
+      }), ' ', "\xA0 Cookies are disabled on your browser!"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 157
         },
         __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", {
-        className: "jsx-1265836591",
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 158
         },
         __self: this
-      }, "Cookies are necessary to ensure application delivers the best experience and security."), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", {
-        className: "jsx-1265836591",
+      }, "Cookies are necessary to ensure application delivers the best experience and security."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 162
         },
         __self: this
-      }, "You can't signin or signout this application until you enable cookie in your navigator."), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("br", {
-        className: "jsx-1265836591",
+      }, "You can't signin or signout this application until you enable cookie in your navigator."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 165
         },
         __self: this
-      }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", {
-        className: "jsx-1265836591",
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 166
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7___default.a, {
         bsStyle: "primary",
         onClick: this.handleAlertDismiss,
         __source: {
@@ -22500,13 +21588,13 @@ function (_PureComponent) {
           lineNumber: 167
         },
         __self: this
-      }, "Back to Home"))))), browserStorageSupported && react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }, "Back to Home"))))), browserStorageSupported && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Row__WEBPACK_IMPORTED_MODULE_8___default.a, {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 176
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Col__WEBPACK_IMPORTED_MODULE_9___default.a, {
         md: 4,
         mdOffset: 4,
         xs: 10,
@@ -22516,14 +21604,14 @@ function (_PureComponent) {
           lineNumber: 177
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "jsx-1265836591" + " " + "pull-right",
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "pull-right",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 178
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap_lib_Button__WEBPACK_IMPORTED_MODULE_7___default.a, {
         bsStyle: "warning",
         onClick: this.goHome,
         __source: {
@@ -22531,9 +21619,11 @@ function (_PureComponent) {
           lineNumber: 179
         },
         __self: this
-      }, "back to home"))))), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        styleId: "1265836591",
-        css: ".content.jsx-1265836591{margin-top:70px;padding-top:40px;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tYWNrZW50b2NoL0dpdFByb2plY3RzL3JlYWN0LXJlZHV4LW5leHRqcy1ib290c3RyYXAtcHdhLXN0YXJ0ZXIvcGFnZXMvbG9naW4uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBMkxXLEFBRytCLGdCQUNDLGlCQUNuQiIsImZpbGUiOiIvVXNlcnMvbWFja2VudG9jaC9HaXRQcm9qZWN0cy9yZWFjdC1yZWR1eC1uZXh0anMtYm9vdHN0cmFwLXB3YS1zdGFydGVyL3BhZ2VzL2xvZ2luLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gQGZsb3dcbi8qIGVzbGludC1kaXNhYmxlIHF1b3RlcyAqL1xuXG4vLyAjcmVnaW9uIGltcG9ydHNcbmltcG9ydCBSZWFjdCwgeyBQdXJlQ29tcG9uZW50IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgY29ubmVjdCB9IGZyb20gJ3JlYWN0LXJlZHV4JztcbmltcG9ydCB7IGJpbmRBY3Rpb25DcmVhdG9ycyB9IGZyb20gJ3JlZHV4JztcbmltcG9ydCBjb21wb3NlIGZyb20gJ3JlY29tcG9zZS9jb21wb3NlJztcbmltcG9ydCAqIGFzIHVzZXJBdXRoQWN0aW9ucyBmcm9tICcuLi9yZWR1eC9tb2R1bGVzL3VzZXJBdXRoJztcbmltcG9ydCBSb3V0ZXIsIHsgd2l0aFJvdXRlciB9IGZyb20gJ25leHQvcm91dGVyJztcbmltcG9ydCBCdXR0b24gZnJvbSAncmVhY3QtYm9vdHN0cmFwL2xpYi9CdXR0b24nO1xuaW1wb3J0IFJvdyBmcm9tICdyZWFjdC1ib290c3RyYXAvbGliL1Jvdyc7XG5pbXBvcnQgQ29sIGZyb20gJ3JlYWN0LWJvb3RzdHJhcC9saWIvQ29sJztcbmltcG9ydCBBbGVydCBmcm9tICdyZWFjdC1ib290c3RyYXAvbGliL0FsZXJ0JztcbmltcG9ydCBhdXRoIGZyb20gJy4uL3NlcnZpY2VzL2F1dGgnO1xuLy8gI2VuZHJlZ2lvblxuXG4vLyAjcmVnaW9uIGZsb3cgdHlwZXNcbnR5cGUgUHJvcHMgPSB7XG4gIC8vIHdpdGhSb3V0ZXIgSE9DOlxuICByb3V0ZXI6IHtcbiAgICAvLyBxdWVyeS5mcm9tIHNlbnQgYnkgUHJpdmF0ZSBjb21wb25lbnQgd2hlbiB1c2VyIGF1dGggZmFpbGVkXG4gICAgcXVlcnk/OiB7XG4gICAgICBmcm9tPzogc3RyaW5nLFxuICAgIH0sXG4gIH0sXG5cbiAgLy8gdXNlckF1dGg6XG4gIGlzQXV0aGVudGljYXRlZDogYm9vbGVhbixcbiAgaXNGZXRjaGluZzogYm9vbGVhbixcbiAgaXNMb2dnaW5nOiBib29sZWFuLFxuICBkaXNjb25uZWN0VXNlcjogKCkgPT4gc3RyaW5nLFxuICBsb2dVc2VySWZOZWVkZWQ6ICh1c2VyOiBzdHJpbmcpID0+IGFueSxcblxuICAuLi5hbnksXG59O1xuXG50eXBlIFN0YXRlID0ge1xuICBlbWFpbDogc3RyaW5nLFxuICBwYXNzd29yZDogc3RyaW5nLFxuICBicm93c2VyU3RvcmFnZVN1cHBvcnRlZD86IGJvb2xlYW4sXG59O1xuLy8gI2VuZHJlZ2lvblxuXG5jbGFzcyBMb2dpbiBleHRlbmRzIFB1cmVDb21wb25lbnQ8UHJvcHMsIFN0YXRlPiB7XG4gIC8vICNyZWdpb24gZGVmYXVsdCBQcm9wVHlwZXNcbiAgc3RhdGljIGRlZmF1bHRQcm9wcyA9IHtcbiAgICBpc0ZldGNoaW5nOiBmYWxzZSxcbiAgICBpc0xvZ2dpbmc6IGZhbHNlLFxuICB9O1xuICAvLyAjZW5kcmVnaW9uXG5cbiAgLy8gI3JlZ2lvbiBzdGF0ZSBpbml0aWFsaXphdGlvblxuICBzdGF0ZSA9IHtcbiAgICBlbWFpbDogJycsXG4gICAgcGFzc3dvcmQ6ICcnLFxuICAgIGJyb3dzZXJTdG9yYWdlU3VwcG9ydGVkOiBmYWxzZSxcbiAgfTtcbiAgLy8gI2VuZHJlZ2lvblxuXG4gIC8vICNyZWdpb24gY29tcG9uZW50IGxpZmVjeWNsZSBtZXRob2RzXG4gIGNvbXBvbmVudERpZE1vdW50KCkge1xuICAgIGNvbnN0IHsgZGlzY29ubmVjdFVzZXIgfSA9IHRoaXMucHJvcHM7XG4gICAgY29uc3QgYnJvd3NlclN0b3JhZ2VTdXBwb3J0ZWQgPVxuICAgICAgYXV0aC5zdXBwb3J0c0xvY2FsU3RvcmFnZSgpICYmIGF1dGguc3VwcG9ydHNTZXNzaW9uU3RvcmFnZSgpO1xuXG4gICAgdGhpcy5zZXRCcm93c2VyU3RvcmFnZVN1cHBvcnRlZFN0YXRlKGJyb3dzZXJTdG9yYWdlU3VwcG9ydGVkKTtcblxuICAgIGlmIChicm93c2VyU3RvcmFnZVN1cHBvcnRlZCkge1xuICAgICAgZGlzY29ubmVjdFVzZXIoKTsgLy8gZGljb25uZWN0IHVzZXI6IHJlbW92ZSB0b2tlbiBhbmQgdXNlciBpbmZvXG4gICAgfVxuICB9XG5cbiAgcmVuZGVyKCkge1xuICAgIGNvbnN0IHsgZW1haWwsIHBhc3N3b3JkLCBicm93c2VyU3RvcmFnZVN1cHBvcnRlZCB9ID0gdGhpcy5zdGF0ZTtcbiAgICBjb25zdCB7IGlzTG9nZ2luZyB9ID0gdGhpcy5wcm9wcztcblxuICAgIHJldHVybiAoXG4gICAgICA8ZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImNvbnRlbnRcIj5cbiAgICAgICAgICA8Um93PlxuICAgICAgICAgICAgPENvbCBtZD17NH0gbWRPZmZzZXQ9ezR9IHhzPXsxMH0geHNPZmZzZXQ9ezF9PlxuICAgICAgICAgICAgICB7YnJvd3NlclN0b3JhZ2VTdXBwb3J0ZWQgPyAoXG4gICAgICAgICAgICAgICAgPGZvcm0gY2xhc3NOYW1lPVwiZm9ybS1ob3Jpem9udGFsXCIgbm9WYWxpZGF0ZT5cbiAgICAgICAgICAgICAgICAgIDxmaWVsZHNldD5cbiAgICAgICAgICAgICAgICAgICAgPGxlZ2VuZD5Mb2dpbjwvbGVnZW5kPlxuXG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9ybS1ncm91cFwiPlxuICAgICAgICAgICAgICAgICAgICAgIDxsYWJlbFxuICAgICAgICAgICAgICAgICAgICAgICAgaHRtbEZvcj1cImlucHV0RW1haWxcIlxuICAgICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiY29sLWxnLTIgY29udHJvbC1sYWJlbFwiXG4gICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAgRW1haWxcbiAgICAgICAgICAgICAgICAgICAgICA8L2xhYmVsPlxuICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29sLWxnLTEwXCI+XG4gICAgICAgICAgICAgICAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgICAgICAgICAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJmb3JtLWNvbnRyb2xcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBpZD1cImlucHV0RW1haWxcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIkVtYWlsXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgdmFsdWU9e2VtYWlsfVxuICAgICAgICAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17dGhpcy5oYW5kbGVzT25FbWFpbENoYW5nZX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgLy8gb25JbnB1dD17dGhpcy5oYW5kbGVzT25FbWFpbENoYW5nZX0gLy8gYnJvd3NlciBhdXRvZmlsbCB3b3VsZCBub3QgZmlyZSBvbkNoYW5nZVxuICAgICAgICAgICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb3JtLWdyb3VwXCI+XG4gICAgICAgICAgICAgICAgICAgICAgPGxhYmVsXG4gICAgICAgICAgICAgICAgICAgICAgICBodG1sRm9yPVwiaW5wdXRQYXNzd29yZFwiXG4gICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJjb2wtbGctMiBjb250cm9sLWxhYmVsXCJcbiAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICBQYXNzd29yZFxuICAgICAgICAgICAgICAgICAgICAgIDwvbGFiZWw+XG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJjb2wtbGctMTBcIj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgICAgICAgICAgICAgICB0eXBlPVwicGFzc3dvcmRcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJmb3JtLWNvbnRyb2xcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBpZD1cImlucHV0UGFzc3dvcmRcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIlBhc3N3b3JkXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgdmFsdWU9e3Bhc3N3b3JkfVxuICAgICAgICAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17dGhpcy5oYW5kbGVzT25QYXNzd29yZENoYW5nZX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgLy8gb25JbnB1dD17dGhpcy5oYW5kbGVzT25QYXNzd29yZENoYW5nZX0gLy8gYnJvd3NlciBhdXRvZmlsbCB3b3VsZCBub3QgZmlyZSBvbkNoYW5nZVxuICAgICAgICAgICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9ybS1ncm91cFwiPlxuICAgICAgICAgICAgICAgICAgICAgIDxDb2wgbGc9ezEwfSBsZ09mZnNldD17Mn0+XG4gICAgICAgICAgICAgICAgICAgICAgICA8QnV0dG9uXG4gICAgICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImxvZ2luLWJ1dHRvbiBidG4tYmxvY2tcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICBic1N0eWxlPVwicHJpbWFyeVwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgIGRpc2FibGVkPXtpc0xvZ2dpbmd9XG4gICAgICAgICAgICAgICAgICAgICAgICAgIG9uQ2xpY2s9e3RoaXMuaGFuZGxlc09uTG9naW59XG4gICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgIHtpc0xvZ2dpbmcgPyAoXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2dpbiBpbi4uLiAmbmJzcDtcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpIGNsYXNzTmFtZT1cImZhIGZhLXNwaW5uZXIgZmEtcHVsc2UgZmEtZndcIiAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgKSA6IChcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3Bhbj5Mb2dpbjwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvQnV0dG9uPlxuICAgICAgICAgICAgICAgICAgICAgIDwvQ29sPlxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgIDwvZmllbGRzZXQ+XG4gICAgICAgICAgICAgICAgPC9mb3JtPlxuICAgICAgICAgICAgICApIDogKFxuICAgICAgICAgICAgICAgIDxBbGVydCBic1N0eWxlPVwiZGFuZ2VyXCIgb25EaXNtaXNzPXt0aGlzLmhhbmRsZUFsZXJ0RGlzbWlzc30+XG4gICAgICAgICAgICAgICAgICA8aDQ+XG4gICAgICAgICAgICAgICAgICAgIDxpXG4gICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiZmEgZmEtZXhjbGFtYXRpb24tdHJpYW5nbGVcIlxuICAgICAgICAgICAgICAgICAgICAgIGFyaWEtaGlkZGVuPVwidHJ1ZVwiXG4gICAgICAgICAgICAgICAgICAgIC8+eycgJ31cbiAgICAgICAgICAgICAgICAgICAgJm5ic3A7IENvb2tpZXMgYXJlIGRpc2FibGVkIG9uIHlvdXIgYnJvd3NlciFcbiAgICAgICAgICAgICAgICAgIDwvaDQ+XG4gICAgICAgICAgICAgICAgICA8YnIgLz5cbiAgICAgICAgICAgICAgICAgIDxwPlxuICAgICAgICAgICAgICAgICAgICBDb29raWVzIGFyZSBuZWNlc3NhcnkgdG8gZW5zdXJlIGFwcGxpY2F0aW9uIGRlbGl2ZXJzIHRoZVxuICAgICAgICAgICAgICAgICAgICBiZXN0IGV4cGVyaWVuY2UgYW5kIHNlY3VyaXR5LlxuICAgICAgICAgICAgICAgICAgPC9wPlxuICAgICAgICAgICAgICAgICAgPHA+XG4gICAgICAgICAgICAgICAgICAgIHtgWW91IGNhbid0IHNpZ25pbiBvciBzaWdub3V0IHRoaXMgYXBwbGljYXRpb24gdW50aWwgeW91IGVuYWJsZSBjb29raWUgaW4geW91ciBuYXZpZ2F0b3IuYH1cbiAgICAgICAgICAgICAgICAgIDwvcD5cbiAgICAgICAgICAgICAgICAgIDxiciAvPlxuICAgICAgICAgICAgICAgICAgPHA+XG4gICAgICAgICAgICAgICAgICAgIDxCdXR0b24gYnNTdHlsZT1cInByaW1hcnlcIiBvbkNsaWNrPXt0aGlzLmhhbmRsZUFsZXJ0RGlzbWlzc30+XG4gICAgICAgICAgICAgICAgICAgICAgQmFjayB0byBIb21lXG4gICAgICAgICAgICAgICAgICAgIDwvQnV0dG9uPlxuICAgICAgICAgICAgICAgICAgPC9wPlxuICAgICAgICAgICAgICAgIDwvQWxlcnQ+XG4gICAgICAgICAgICAgICl9XG4gICAgICAgICAgICA8L0NvbD5cbiAgICAgICAgICA8L1Jvdz5cbiAgICAgICAgICB7YnJvd3NlclN0b3JhZ2VTdXBwb3J0ZWQgJiYgKFxuICAgICAgICAgICAgPFJvdz5cbiAgICAgICAgICAgICAgPENvbCBtZD17NH0gbWRPZmZzZXQ9ezR9IHhzPXsxMH0geHNPZmZzZXQ9ezF9PlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicHVsbC1yaWdodFwiPlxuICAgICAgICAgICAgICAgICAgPEJ1dHRvbiBic1N0eWxlPVwid2FybmluZ1wiIG9uQ2xpY2s9e3RoaXMuZ29Ib21lfT5cbiAgICAgICAgICAgICAgICAgICAgYmFjayB0byBob21lXG4gICAgICAgICAgICAgICAgICA8L0J1dHRvbj5cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgPC9Db2w+XG4gICAgICAgICAgICA8L1Jvdz5cbiAgICAgICAgICApfVxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPHN0eWxlIGpzeD5cbiAgICAgICAgICB7YFxuICAgICAgICAgICAgLmNvbnRlbnQge1xuICAgICAgICAgICAgICBtYXJnaW4tdG9wOiA3MHB4O1xuICAgICAgICAgICAgICBwYWRkaW5nLXRvcDogNDBweDtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICBgfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgPC9kaXY+XG4gICAgKTtcbiAgfVxuICAvLyAjZW5kcmVnaW9uXG5cbiAgLy8gI3JlZ2lvbiBzdG9yYWdlIG5vdCBzdXBwb3J0ZWQgbWV0aG9kc1xuICBzZXRCcm93c2VyU3RvcmFnZVN1cHBvcnRlZFN0YXRlID0gYnJvd3NlclN0b3JhZ2VTdXBwb3J0ZWQgPT5cbiAgICB0aGlzLnNldFN0YXRlKHsgYnJvd3NlclN0b3JhZ2VTdXBwb3J0ZWQgfSk7XG5cbiAgaGFuZGxlQWxlcnREaXNtaXNzID0gKGV2ZW50OiBTeW50aGV0aWNFdmVudDw+KSA9PiB7XG4gICAgaWYgKGV2ZW50KSB7XG4gICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xuICAgIH1cblxuICAgIFJvdXRlci5yZXBsYWNlKCcvJyk7XG4gIH07XG4gIC8vICNlbmRyZWdpb25cblxuICAvLyAjcmVnaW9uIGlucHV0IGNoYW5nZSBtZXRob2RzXG4gIGhhbmRsZXNPbkVtYWlsQ2hhbmdlID0gKGV2ZW50OiBTeW50aGV0aWNFdmVudDw+KSA9PiB7XG4gICAgaWYgKGV2ZW50KSB7XG4gICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xuICAgICAgLy8gc2hvdWxkIGFkZCBzb21lIHZhbGlkYXRvciBiZWZvcmUgc2V0U3RhdGUgaW4gcmVhbCB1c2UgY2FzZXNcbiAgICAgIC8vICRGbG93SWdub3JlXG4gICAgICBjb25zdCBlbWFpbCA9IGV2ZW50LnRhcmdldC52YWx1ZS50cmltKCk7XG4gICAgICB0aGlzLnNldFN0YXRlKHsgZW1haWwgfSk7XG4gICAgfVxuICB9O1xuXG4gIGhhbmRsZXNPblBhc3N3b3JkQ2hhbmdlID0gKGV2ZW50OiBTeW50aGV0aWNFdmVudDw+KSA9PiB7XG4gICAgaWYgKGV2ZW50KSB7XG4gICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xuICAgICAgLy8gc2hvdWxkIGFkZCBzb21lIHZhbGlkYXRvciBiZWZvcmUgc2V0U3RhdGUgaW4gcmVhbCB1c2UgY2FzZXNcbiAgICAgIC8vICRGbG93SWdub3JlXG4gICAgICBjb25zdCBwYXNzd29yZCA9IGV2ZW50LnRhcmdldC52YWx1ZS50cmltKCk7XG4gICAgICB0aGlzLnNldFN0YXRlKHsgcGFzc3dvcmQgfSk7XG4gICAgfVxuICB9O1xuICAvLyAjZW5kcmVnaW9uXG5cbiAgLy8gI3JlZ2lvbiBvbiBsb2dpbiBjbGlja1xuICBoYW5kbGVzT25Mb2dpbiA9IGFzeW5jIChldmVudDogU3ludGhldGljRXZlbnQ8PikgPT4ge1xuICAgIGlmIChldmVudCkge1xuICAgICAgZXZlbnQucHJldmVudERlZmF1bHQoKTtcbiAgICB9XG5cbiAgICBjb25zdCB7XG4gICAgICBsb2dVc2VySWZOZWVkZWQsXG4gICAgICByb3V0ZXI6IHsgcXVlcnkgfSxcbiAgICB9ID0gdGhpcy5wcm9wcztcblxuICAgIGNvbnN0IHsgZW1haWwsIHBhc3N3b3JkIH0gPSB0aGlzLnN0YXRlO1xuXG4gICAgY29uc3QgdXNlckxvZ2luID0ge1xuICAgICAgbG9naW46IGVtYWlsLFxuICAgICAgcGFzc3dvcmQ6IHBhc3N3b3JkLFxuICAgIH07XG5cbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBsb2dVc2VySWZOZWVkZWQodXNlckxvZ2luKTtcbiAgICAgIGNvbnN0IHtcbiAgICAgICAgZGF0YTogeyB0b2tlbiwgdXNlciB9LFxuICAgICAgfSA9IHJlc3BvbnNlLnBheWxvYWQ7XG5cbiAgICAgIGF1dGguc2V0VG9rZW4odG9rZW4pO1xuICAgICAgYXV0aC5zZXRVc2VySW5mbyh1c2VyKTtcblxuICAgICAgLy8gdGVzdCBpZiB3ZSB3ZXJlIHJlZGlyZWN0ZWQgdG8gbG9naW4gZnJvbSBhIHByaXZhdGUgcGFnZSwgcmVkaXJlY3QgYmFjayB0byB3aGVyZSB3ZSB3ZXJlOlxuICAgICAgaWYgKHF1ZXJ5ICYmIHF1ZXJ5LmZyb20pIHtcbiAgICAgICAgcmV0dXJuIFJvdXRlci5wdXNoKHsgcGF0aG5hbWU6IHF1ZXJ5LmZyb20gfSk7IC8vIGJhY2sgdG8gSG9tZVxuICAgICAgfVxuXG4gICAgICAvLyByZWRpcmVjdCB0byBob21lIG90aGVyd2lzZTpcbiAgICAgIFJvdXRlci5wdXNoKHsgcGF0aG5hbWU6ICcvJyB9KTsgLy8gYmFjayB0byBIb21lXG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgIC8qIGVzbGludC1kaXNhYmxlIG5vLWNvbnNvbGUgKi9cbiAgICAgIGNvbnNvbGUuZXJyb3IoJ2xvZ2luIHdlbnQgd3JvbmcuLi4sIGVycm9yOiAnLCBlcnJvcik7XG4gICAgICAvKiBlc2xpbnQtZW5hYmxlIG5vLWNvbnNvbGUgKi9cbiAgICB9XG4gIH07XG4gIC8vICNlbmRyZWdpb25cblxuICAvLyAjcmVnaW9uIG9uIGdvIGJhY2sgaG9tZSBjbGlja1xuICBnb0hvbWUgPSAoZXZlbnQ6IFN5bnRoZXRpY0V2ZW50PD4pID0+IHtcbiAgICBpZiAoZXZlbnQpIHtcbiAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XG4gICAgfVxuXG4gICAgUm91dGVyLnB1c2goeyBwYXRobmFtZTogJy8nIH0pO1xuICB9O1xuICAvLyAjZW5kcmVnaW9uXG59XG5cbi8vICNyZWdpb24gcmVkdXggc3RhdGUgYW5kIGRpc3BhdGNoIG1hcCB0byBwcm9wc1xuY29uc3QgbWFwU3RhdGVUb1Byb3BzID0gKHN0YXRlOiBhbnkpID0+ICh7XG4gIC8vIHVzZXJBdXRoOlxuICBpc0F1dGhlbnRpY2F0ZWQ6IHN0YXRlLnVzZXJBdXRoLmlzQXV0aGVudGljYXRlZCxcbiAgaXNGZXRjaGluZzogc3RhdGUudXNlckF1dGguaXNGZXRjaGluZyxcbiAgaXNMb2dnaW5nOiBzdGF0ZS51c2VyQXV0aC5pc0xvZ2dpbmcsXG59KTtcblxuY29uc3QgbWFwRGlzcGF0Y2hUb1Byb3BzID0gKGRpc3BhdGNoOiAoLi4uYW55KSA9PiBhbnkpID0+IHtcbiAgcmV0dXJuIHtcbiAgICAuLi5iaW5kQWN0aW9uQ3JlYXRvcnMoXG4gICAgICB7XG4gICAgICAgIC8vIHVzZXJBdXRoOlxuICAgICAgICAuLi51c2VyQXV0aEFjdGlvbnMsXG4gICAgICB9LFxuICAgICAgZGlzcGF0Y2gsXG4gICAgKSxcbiAgfTtcbn07XG4vLyAjZW5kcmVnaW9uXG5cbmV4cG9ydCBkZWZhdWx0IGNvbXBvc2UoXG4gIGNvbm5lY3QoXG4gICAgbWFwU3RhdGVUb1Byb3BzLFxuICAgIG1hcERpc3BhdGNoVG9Qcm9wcyxcbiAgKSxcbiAgd2l0aFJvdXRlcixcbikoTG9naW4pO1xuIl19 */\n/*@ sourceURL=/Users/mackentoch/GitProjects/react-redux-nextjs-bootstrap-pwa-starter/pages/login.js */",
+      }, "back to home"))))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Styles, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 187
+        },
         __self: this
       }));
     } // #endregion
@@ -22543,13 +21633,26 @@ function (_PureComponent) {
   }]);
 
   return Login;
-}(react__WEBPACK_IMPORTED_MODULE_2__["PureComponent"]); // #region redux state and dispatch map to props
+}(react__WEBPACK_IMPORTED_MODULE_1__["PureComponent"]); // #region styles
 
 
 _defineProperty(Login, "defaultProps", {
   isFetching: false,
   isLogging: false
 });
+
+function Styles() {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("style", {
+    jsx: true,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 284
+    },
+    __self: this
+  }, "\n        .content {\n          margin-top: 70px;\n          padding-top: 40px;\n        }\n      ");
+} // #endregion
+// #region redux state and dispatch map to props
+
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -22561,11 +21664,11 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return _objectSpread({}, Object(redux__WEBPACK_IMPORTED_MODULE_4__["bindActionCreators"])(_objectSpread({}, _redux_modules_userAuth__WEBPACK_IMPORTED_MODULE_6__), dispatch));
+  return _objectSpread({}, Object(redux__WEBPACK_IMPORTED_MODULE_3__["bindActionCreators"])(_objectSpread({}, _redux_modules_userAuth__WEBPACK_IMPORTED_MODULE_5__), dispatch));
 }; // #endregion
 
 
-/* harmony default export */ __webpack_exports__["default"] = (recompose_compose__WEBPACK_IMPORTED_MODULE_5___default()(Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps), next_router__WEBPACK_IMPORTED_MODULE_7__["withRouter"])(Login));
+/* harmony default export */ __webpack_exports__["default"] = (recompose_compose__WEBPACK_IMPORTED_MODULE_4___default()(Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps), next_router__WEBPACK_IMPORTED_MODULE_6__["withRouter"])(Login));
     (function (Component, route) {
       if(!Component) return
       if (false) {}
@@ -23360,7 +22463,7 @@ function getLocationOrigin() {
 
 /***/ }),
 
-/***/ 4:
+/***/ 6:
 /*!******************************!*\
   !*** multi ./pages/login.js ***!
   \******************************/
@@ -23385,5 +22488,5 @@ module.exports = dll_831a3634f66cb1dada0c;
 
 /***/ })
 
-},[[4,"static/runtime/webpack.js"]]]));;
+},[[6,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=login.js.map
