@@ -25,7 +25,7 @@
 - Next js (7.x+ [github :link:](https://github.com/zeit/next.js))
 - React JS (16.7.x+ - [github :link:](https://github.com/facebook/react))
 - redux (_as your application grows managing state will be a serious concern, save pain with Redux_)
-- redux-persist 4.x (_simplifies your NextJS state share between pages_ [github :link:](https://github.com/rt2zz/redux-persist))
+- redux-persist 5.x (_simplifies your NextJS state share between pages_ [github :link:](https://github.com/rt2zz/redux-persist))
 - localForage
 - react-redux (_Redux is not specific to ReactJS, you could easily use it with Angular2 for instance_)
 - redux-thunk (_simple and does the job_)
@@ -59,7 +59,7 @@
 ### Install
 
 ```bash
-npm install
+yarn install
 ```
 
 ### Scripts
@@ -70,7 +70,7 @@ npm install
 Clone this repository, then install dependencies:
 
 ```bash
-npm run start
+yarn run start
 ```
 
 </details>
@@ -79,7 +79,7 @@ npm run start
   <summary>build dev bundle</summary>
 
 ```bash
-npm run build
+yarn run build
 ```
 
 </details>
@@ -90,7 +90,7 @@ npm run build
 _NOTE: ensure you built first before starting_
 
 ```bash
-npm run start
+yarn run start
 ```
 
 </details>
