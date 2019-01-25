@@ -39,8 +39,9 @@ class Layout extends PureComponent<Props, State> {
 
           <link
             rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.2.1/cosmo/bootstrap.min.css"
           />
+
           <link
             rel="stylesheet"
             type="text/css"
