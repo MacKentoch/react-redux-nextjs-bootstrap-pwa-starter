@@ -9,8 +9,9 @@ import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Router, { withRouter } from 'next/router';
 import Button from 'react-bootstrap/lib/Button';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
+import Alert from 'reactstrap/lib/Alert';
 import Alert from 'react-bootstrap/lib/Alert';
 import auth from '../services/auth';
 // #endregion
@@ -79,7 +80,7 @@ class Login extends PureComponent<Props, State> {
       <div>
         <div className="content">
           <Row>
-            <Col md={4} mdOffset={4} xs={10} xsOffset={1}>
+            <Col md={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }}>
               {browserStorageSupported ? (
                 <form className="form-horizontal" noValidate>
                   <fieldset>
@@ -146,7 +147,7 @@ class Login extends PureComponent<Props, State> {
                   </fieldset>
                 </form>
               ) : (
-                <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
+                <Alert color="danger" toggle={this.handleAlertDismiss}>
                   <h4>
                     <i
                       className="fa fa-exclamation-triangle"
