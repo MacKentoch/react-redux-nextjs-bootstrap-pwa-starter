@@ -8,7 +8,7 @@ import compose from 'recompose/compose';
 import Router, { withRouter } from 'next/router';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header/Header';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'reactstrap/lib/Button';
 import Private from '../components/privateRoute/PrivateRoute';
 // #endregion
 
@@ -42,7 +42,7 @@ export class Private1 extends PureComponent<Props, State> {
         <div>
           <Header />
           <h2>Private1 here</h2>
-          <Button bsStyle="primary" onClick={this.goBackHome}>
+          <Button color="primary" onClick={this.goBackHome}>
             go back home
           </Button>
         </div>

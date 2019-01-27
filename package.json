@@ -69,7 +69,6 @@
     "normalize.css": "^7.0.0",
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
-    "react-bootstrap": "^0.31.3",
     "react-dom": "^16.7.0",
     "react-redux": "^5.0.6",
     "reactstrap": "^7.0.2",

@@ -8,8 +8,8 @@ import compose from 'recompose/compose';
 import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header/Header';
-import Jumbotron from 'react-bootstrap/lib/Jumbotron';
-import Button from 'react-bootstrap/lib/Button';
+import Jumbotron from 'reactstrap/lib/Jumbotron';
+import Button from 'reactstrap/lib/Button';
 import Router from 'next/router';
 // #endregion
 
@@ -69,7 +69,7 @@ class Index extends PureComponent<Props, State> {
         <div className="container-fluid">
           <Jumbotron>
             <h1>PWA: Next JS + Redux + Bootstrap STARTER</h1>
-            <Button bsStyle="primary" onClick={this.goLogin}>
+            <Button color="primary" onClick={this.goLogin}>
               login
             </Button>
           </Jumbotron>

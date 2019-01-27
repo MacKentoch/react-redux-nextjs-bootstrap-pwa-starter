@@ -2,7 +2,7 @@
 
 // #region imports
 import React, { PureComponent } from 'react';
-import Jumbotron from 'react-bootstrap/lib/Jumbotron';
+import Jumbotron from 'reactstrap/lib/Jumbotron';
 // #endregion
 
 // #region flow types

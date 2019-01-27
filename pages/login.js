@@ -8,11 +8,10 @@ import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Router, { withRouter } from 'next/router';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'reactstrap/lib/Button';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Alert from 'reactstrap/lib/Alert';
-import Alert from 'react-bootstrap/lib/Alert';
 import auth from '../services/auth';
 // #endregion
 
@@ -129,7 +128,7 @@ class Login extends PureComponent<Props, State> {
                       <Col lg={10} lgOffset={2}>
                         <Button
                           className="login-button btn-block"
-                          bsStyle="primary"
+                          color="primary"
                           disabled={isLogging}
                           onClick={this.handlesOnLogin}
                         >

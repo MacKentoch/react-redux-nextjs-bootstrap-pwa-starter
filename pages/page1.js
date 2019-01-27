@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header/Header';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'reactstrap/lib/Button';
 import Router from 'next/router';
 // #endregion
 
@@ -29,7 +29,7 @@ class Page1 extends PureComponent<Props, State> {
       <div>
         <Header />
         <h2>Page1 here</h2>
-        <Button bsStyle="primary" onClick={this.goBackHome}>
+        <Button color="primary" onClick={this.goBackHome}>
           go back home
         </Button>
       </div>
