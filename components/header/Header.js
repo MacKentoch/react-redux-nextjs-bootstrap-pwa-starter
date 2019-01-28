@@ -49,10 +49,8 @@ class Header extends PureComponent<Props, State> {
     const { isOpen } = this.state;
 
     return (
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">
-          <a href="#">react-redux-next-bootstrap starter</a>
-        </NavbarBrand>
+      <Navbar color="light" expand="md">
+        <NavbarBrand href="/">react-redux-next-bootstrap starter</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>

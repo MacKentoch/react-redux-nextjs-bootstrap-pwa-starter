@@ -125,7 +125,7 @@ class Login extends PureComponent<Props, State> {
                       </div>
                     </div>
                     <div className="form-group">
-                      <Col lg={10} lgOffset={2}>
+                      <Col lg={{ size: 10, offset: 2 }}>
                         <Button
                           className="login-button btn-block"
                           color="primary"
@@ -164,7 +164,7 @@ class Login extends PureComponent<Props, State> {
                   </p>
                   <br />
                   <p>
-                    <Button bsStyle="primary" onClick={this.handleAlertDismiss}>
+                    <Button color="primary" onClick={this.handleAlertDismiss}>
                       Back to Home
                     </Button>
                   </p>
@@ -174,9 +174,9 @@ class Login extends PureComponent<Props, State> {
           </Row>
           {browserStorageSupported && (
             <Row>
-              <Col md={4} mdOffset={4} xs={10} xsOffset={1}>
+              <Col md={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }}>
                 <div className="pull-right">
-                  <Button bsStyle="warning" onClick={this.goHome}>
+                  <Button color="warning" onClick={this.goHome}>
                     back to home
                   </Button>
                 </div>
@@ -281,14 +281,16 @@ class Login extends PureComponent<Props, State> {
 // #region styles
 function Styles() {
   return (
-    <style jsx>
-      {`
-        .content {
-          margin-top: 70px;
-          padding-top: 40px;
-        }
-      `}
-    </style>
+    <div>
+      <style jsx={true}>
+        {`
+          .content {
+            margin-top: 70px;
+            padding-top: 40px;
+          }
+        `}
+      </style>
+    </div>
   );
 }
 // #endregion
