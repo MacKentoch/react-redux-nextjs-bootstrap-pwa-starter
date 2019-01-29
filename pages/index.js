@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
+import Container from 'reactstrap/lib/Container';
 import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header/Header';
@@ -66,14 +67,14 @@ class Index extends PureComponent<Props, State> {
     return (
       <div>
         <Header />
-        <div className="container-fluid">
+        <Container fluid>
           <Jumbotron>
             <h1>PWA: Next JS + Redux + Bootstrap STARTER</h1>
             <Button color="primary" onClick={this.goLogin}>
               login
             </Button>
           </Jumbotron>
-        </div>
+        </Container>
       </div>
     );
   }

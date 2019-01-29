@@ -49,7 +49,7 @@ class Header extends PureComponent<Props, State> {
     const { isOpen } = this.state;
 
     return (
-      <Navbar color="light" expand="md">
+      <Navbar color="light" light expand="md">
         <NavbarBrand href="/">react-redux-next-bootstrap starter</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={isOpen} navbar>
