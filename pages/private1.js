@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import Router, { withRouter } from 'next/router';
+import Container from 'reactstrap/lib/Container';
+import Button from 'reactstrap/lib/Button';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header/Header';
-import Button from 'reactstrap/lib/Button';
 import Private from '../components/privateRoute/PrivateRoute';
 // #endregion
 
@@ -41,10 +42,12 @@ export class Private1 extends PureComponent<Props, State> {
       <Private fromPath={pathname}>
         <div>
           <Header />
-          <h2>Private1 here</h2>
-          <Button color="primary" onClick={this.goBackHome}>
-            go back home
-          </Button>
+          <Container>
+            <h2>Private1 here</h2>
+            <Button color="primary" onClick={this.goBackHome}>
+              go back home
+            </Button>
+          </Container>
         </div>
       </Private>
     );

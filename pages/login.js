@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Router, { withRouter } from 'next/router';
+import Container from 'reactstrap/lib/Container';
 import Button from 'reactstrap/lib/Button';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
@@ -77,7 +78,7 @@ class Login extends PureComponent<Props, State> {
 
     return (
       <div>
-        <div className="content">
+        <Container fluid>
           <Row>
             <Col md={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }}>
               {browserStorageSupported ? (
@@ -92,7 +93,7 @@ class Login extends PureComponent<Props, State> {
                       >
                         Email
                       </label>
-                      <div className="col-lg-10">
+                      <Col lg={{ size: 10, offset: 0 }}>
                         <input
                           type="text"
                           className="form-control"
@@ -102,7 +103,7 @@ class Login extends PureComponent<Props, State> {
                           onChange={this.handlesOnEmailChange}
                           // onInput={this.handlesOnEmailChange} // browser autofill would not fire onChange
                         />
-                      </div>
+                      </Col>
                     </div>
 
                     <div className="form-group">
@@ -112,7 +113,7 @@ class Login extends PureComponent<Props, State> {
                       >
                         Password
                       </label>
-                      <div className="col-lg-10">
+                      <Col lg={{ size: 10, offset: 0 }}>
                         <input
                           type="password"
                           className="form-control"
@@ -122,10 +123,11 @@ class Login extends PureComponent<Props, State> {
                           onChange={this.handlesOnPasswordChange}
                           // onInput={this.handlesOnPasswordChange} // browser autofill would not fire onChange
                         />
-                      </div>
+                      </Col>
                     </div>
+
                     <div className="form-group">
-                      <Col lg={{ size: 10, offset: 2 }}>
+                      <Col lg={{ size: 10, offset: 0 }}>
                         <Button
                           className="login-button btn-block"
                           color="primary"
@@ -143,6 +145,18 @@ class Login extends PureComponent<Props, State> {
                         </Button>
                       </Col>
                     </div>
+
+                    {browserStorageSupported && (
+                      <div className="form-group">
+                        <Col lg={{ size: 10, offset: 0 }}>
+                          <div className="pull-right">
+                            <Button color="warning" onClick={this.goHome}>
+                              back to home
+                            </Button>
+                          </div>
+                        </Col>
+                      </div>
+                    )}
                   </fieldset>
                 </form>
               ) : (
@@ -172,18 +186,7 @@ class Login extends PureComponent<Props, State> {
               )}
             </Col>
           </Row>
-          {browserStorageSupported && (
-            <Row>
-              <Col md={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }}>
-                <div className="pull-right">
-                  <Button color="warning" onClick={this.goHome}>
-                    back to home
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-          )}
-        </div>
+        </Container>
         <Styles />
       </div>
     );
