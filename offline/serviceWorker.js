@@ -1,3 +1,5 @@
+/* global self */
+/* global caches */
 const CACHE_NAME = 'simple-cache-v1'; // just change CACHE_NAME to trigger a new service worker activation (a single change in this file will trigger new worker install - will replace then previous one when client closes /opens the website)
 const urlsToCache = [
   '/',

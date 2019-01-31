@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import compose from 'recompose/compose';
 import withRedux from 'next-redux-wrapper';
 import smoothScrollPolyfill from 'smoothscroll-polyfill';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import configureStore from '../redux/store/configureStore';
 import Layout from '../components/layout';
 // #endregion

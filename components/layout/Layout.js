@@ -27,6 +27,10 @@ const { accent } = theme;
 
 class Layout extends PureComponent<Props, State> {
   // #region component lifecycle methods
+  componentDidMount() {
+    this.registerBeforeinstallprompt();
+  }
+
   render() {
     const { children } = this.props;
 

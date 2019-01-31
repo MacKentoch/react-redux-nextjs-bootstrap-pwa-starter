@@ -14,9 +14,6 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-// import Navbar from 'react-bootstrap/lib/Navbar';
-// import Nav from 'react-bootstrap/lib/Nav';
-// import NavItem from 'react-bootstrap/lib/NavItem';
 import * as userAuthActions from '../../redux/modules/userAuth';
 import { PureComponent } from 'react';
 // #endregion
@@ -135,7 +132,6 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
-        // userAuth:
         ...userAuthActions,
       },
       dispatch,
