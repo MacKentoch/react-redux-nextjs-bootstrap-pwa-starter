@@ -31,7 +31,7 @@
 - redux-thunk (_simple and does the job_)
 - next-redux-wrapper
 - redux-devtools-extension ([github :link:](https://github.com/zalmoxisus/redux-devtools-extension#redux-devtools-extension))
-- react-bootstrap ([github :link:](https://github.com/react-bootstrap/react-bootstrap))
+- reactstrap ([github :link:](https://github.com/reactstrap/reactstrap))
 - axios ([github :link:](https://github.com/mzabriskie/axios) _Why: simple, complete, isomorphic ..._)
 
 **Tool chain:**
