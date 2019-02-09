@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,7 +15,6 @@ import {
   NavLink,
 } from 'reactstrap';
 import * as userAuthActions from '../../redux/modules/userAuth';
-import { PureComponent } from 'react';
 // #endregion
 
 // #region flow types
@@ -23,55 +22,48 @@ type Props = {
   // userAuth:
   isAuthenticated: boolean,
   disconnectUser: (...any) => any,
-
   ...any,
 };
-
-type State = any;
 // #endregion
 
-class Header extends PureComponent<Props, State> {
-  // #region default props
-  static defaultProps = {
-    isAuthenticated: false,
+function Header({ isAuthenticated, disconnectUser }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+  const navigateTo = (to: string = '/') => () => Router.push(to);
+  const handlesDisconnectUser = (event?: SyntheticEvent<>) => {
+    event && event.preventDefault();
+    disconnectUser();
+    Router.replace('/login');
   };
 
-  state = {
-    isOpen: false,
-  };
-
-  // #region component lifecycle methods
-  render() {
-    const { isAuthenticated } = this.props;
-    const { isOpen } = this.state;
-
-    return (
+  return (
+    <>
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">react-redux-next-bootstrap starter</NavbarBrand>
-        <NavbarToggler onClick={this.toggle} />
+        <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="#" onClick={this.navigateTo('/page1')}>
+              <NavLink href="#" onClick={navigateTo('/page1')}>
                 Page1
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink href="#" onClick={this.navigateTo('/private1')}>
+              <NavLink href="#" onClick={navigateTo('/private1')}>
                 Private1
               </NavLink>
             </NavItem>
 
             {isAuthenticated ? (
               <NavItem>
-                <NavLink href="#" onClick={this.HandlesDisconnectUser}>
+                <NavLink href="#" onClick={handlesDisconnectUser}>
                   <i className="fa fa-sign-out" aria-hidden="true" />
                 </NavLink>
               </NavItem>
             ) : (
               <NavItem>
-                <NavLink href="#" onClick={this.navigateTo('/login')}>
+                <NavLink href="#" onClick={navigateTo('/login')}>
                   <i className="fa fa-sign-in" aria-hidden="true" />
                 </NavLink>
               </NavItem>
@@ -79,48 +71,16 @@ class Header extends PureComponent<Props, State> {
           </Nav>
         </Collapse>
       </Navbar>
-    );
-  }
-  // #endregion
-
-  // #region navigation bar toggle
-  toggle = (evt: SyntheticEvent<>) => {
-    if (evt) {
-      evt.preventDefault();
-    }
-    this.setState(({ isOpen: prevIsOpened }) => ({ isOpen: !prevIsOpened }));
-  };
-  // #endregion
-
-  // #region handlesNavItemClick event
-  handlesNavItemClick = (link: string = '/') => (evt: SyntheticEvent<>) => {
-    if (evt) {
-      evt.preventDefault();
-    }
-    const { history } = this.props;
-    history.push(link);
-  };
-  // #endregion
-
-  // #region navigate
-  navigateTo = (to: string = '/') => () => {
-    Router.push(to);
-  };
-  // #endregion
-
-  // #region on disconnect click
-  HandlesDisconnectUser = (event: SyntheticEvent<>) => {
-    if (event) {
-      event.preventDefault();
-    }
-
-    const { disconnectUser } = this.props;
-
-    disconnectUser();
-    Router.replace('/login');
-  };
-  // #endregion
+    </>
+  );
 }
+
+Header.defaultProps = {
+  isAuthenticated: false,
+  disconnectUser: () => {},
+};
+
+Header.displayName = 'Header';
 
 // #region redux state and dispatch map to props
 const mapStateToProps = (state: any) => ({
