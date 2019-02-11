@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect } from 'react';
 import Router from 'next/router';
 import auth from '../../services/auth';
 // #endregion
@@ -11,67 +11,53 @@ type Props = {
   fromPath: string,
   children: any,
 };
-
-type State = any;
 // #endregion
 
-class Private extends PureComponent<Props, State> {
-  // #region
-  static defaultProps = {
-    fromPath: '/',
-  };
+// #region constants
+function checkIsAuthenticated(): boolean {
+  // $FlowIgnore
+  const checkUserHasId = user => user && user.id;
+  const user = auth.getUserInfo() ? auth.getUserInfo() : null;
+  const isAuthenticated =
+    auth.getToken() && checkUserHasId(user) ? true : false;
+  return isAuthenticated;
+}
 
-  // #region component lifecycle methods
-  componentDidMount() {
-    const { fromPath } = this.props;
+function checkIsExpired(): boolean {
+  /* eslint-disable no-console */
+  // comment me:
+  console.log('token expires: ', auth.getTokenExpirationDate(auth.getToken()));
+  /* eslint-enable no-console */
+  return auth.isExpiredToken(auth.getToken());
+}
 
-    const userIsAuthenticated = this.isAuthenticated();
-    const userTokenExpired = this.isExpired();
+// #endregiobn
 
+function Private({ fromPath, children }: Props) {
+  useEffect(() => {
+    const userIsAuthenticated = checkIsAuthenticated();
+    const userTokenExpired = checkIsExpired();
     const RoutePayload = {
       pathname: '/login',
       query: { from: fromPath },
     };
 
     if (!userIsAuthenticated) {
-      return Router.replace(RoutePayload);
+      Router.replace(RoutePayload);
     }
 
     if (userTokenExpired) {
-      return Router.replace(RoutePayload);
+      Router.replace(RoutePayload);
     }
+  });
 
-    return true;
-  }
-
-  render() {
-    const { children } = this.props;
-
-    return <div>{children}</div>;
-  }
-  // #endregion
-
-  // #region authentication check methods
-  isAuthenticated(): boolean {
-    // $FlowIgnore
-    const checkUserHasId = user => user && user.id;
-    const user = auth.getUserInfo() ? auth.getUserInfo() : null;
-    const isAuthenticated =
-      auth.getToken() && checkUserHasId(user) ? true : false;
-    return isAuthenticated;
-  }
-
-  isExpired(): boolean {
-    /* eslint-disable no-console */
-    // comment me:
-    console.log(
-      'token expires: ',
-      auth.getTokenExpirationDate(auth.getToken()),
-    );
-    /* eslint-enable no-console */
-    return auth.isExpiredToken(auth.getToken());
-  }
-  // #endregion
+  return <div>{children}</div>;
 }
+
+Private.defaultProps = {
+  fromPath: '/',
+};
+
+Private.displayName = 'Private';
 
 export default Private;
