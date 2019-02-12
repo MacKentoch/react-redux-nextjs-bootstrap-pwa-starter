@@ -1,7 +1,7 @@
 // @flow
 
 // #region imports
-import React, { PureComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Router from 'next/router';
 import auth from '../../services/auth';
 // #endregion
