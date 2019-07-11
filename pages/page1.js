@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { bindActionCreators, compose } from 'redux';
 import Container from 'reactstrap/lib/Container';
 import Button from 'reactstrap/lib/Button';
-import Header from '../components/header/Header';
+import Header from '../components/header';
 import * as userAuthActions from '../redux/modules/userAuth';
 
 // #region types
@@ -17,7 +17,7 @@ type Props = {
 };
 // #endregion
 
-function Page1({  }: Props) {
+export function Page1({  }: Props) {
   const { push } = useRouter();
 
   // #region callbacks
@@ -45,18 +45,13 @@ Page1.displayName = 'Page1';
 // #endregion
 
 // #region redux
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.userAuth.isAuthenticated,
 });
 
-const mapDispatchToProps = (dispatch: (...any) => any) => {
+const mapDispatchToProps = dispatch => {
   return {
-    ...bindActionCreators(
-      {
-        ...userAuthActions,
-      },
-      dispatch,
-    ),
+    ...bindActionCreators({ ...userAuthActions }, dispatch),
   };
 };
 // #endregion

@@ -9,7 +9,7 @@ import Jumbotron from 'reactstrap/lib/Jumbotron';
 import Button from 'reactstrap/lib/Button';
 import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Header from '../components/header/Header';
+import Header from '../components/header';
 import { type GetInitialPropsParams } from '../types/nextjs';
 
 // #region types
@@ -24,7 +24,7 @@ type Props = {
 };
 // #endregion
 
-function IndexPage({ isFetching }: Props) {
+export function IndexPage({ isFetching }: Props) {
   const { push } = useRouter();
 
   // # region callbacks
@@ -74,15 +74,13 @@ IndexPage.displayName = 'IndexPage';
 // #endregion
 
 // #region redux
-const mapStateToProps = (state: any) => ({
-  // fakeModuleWithFetch:
+const mapStateToProps = state => ({
   isFetching: state.fakeModuleWithFetch.isFetching,
   fakeData: state.fakeModuleWithFetch.data,
-  // userAuth:
   isAuthenticated: state.userAuth.isAuthenticated,
 });
 
-const mapDispatchToProps = (dispatch: (...any) => any) => {
+const mapDispatchToProps = dispatch => {
   return {
     ...bindActionCreators(
       {

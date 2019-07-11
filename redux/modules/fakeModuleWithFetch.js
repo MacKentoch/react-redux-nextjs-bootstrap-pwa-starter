@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { type Dispatch } from 'redux';
 import fakeData from '../../mock/fakeAPI.json';
 import appConfig from '../../config/appConfig';
-import { getLocationOrigin } from '../../services/fetchTools';
+import { getLocationOrigin } from '../../utils/fetchTools';
 import { type State } from '../../types/redux/modules/fakeModuleWithFetch';
 // #endregion
 

@@ -19,7 +19,7 @@ type NextInitialProps = {
 };
 // #endregion
 
-function Error({ errorCode = null }: Props) {
+export function Error({ errorCode = null }: Props) {
   return (
     <Jumbotron>
       <h1>Sorry but this time... It threw an error...</h1>

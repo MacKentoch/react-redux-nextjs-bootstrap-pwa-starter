@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import App, { Container } from 'next/app';
 import { register, unregister } from 'next-offline/runtime';
 import { Provider } from 'react-redux';
@@ -11,6 +11,7 @@ import smoothScrollPolyfill from 'smoothscroll-polyfill';
 import configureStore from '../redux/store/configureStore';
 import Layout from '../components/layout';
 import { theme } from '../config/theme';
+import GlobalStyle from '../style/globalStyle';
 
 // #region types
 type Props = any;
@@ -28,7 +29,7 @@ if (typeof window !== 'undefined') {
 }
 // #endregion
 
-class MyApp extends App<Props, any> {
+export class MyApp extends App<Props, any> {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
@@ -54,9 +55,12 @@ class MyApp extends App<Props, any> {
       <Container>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <Fragment>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <GlobalStyle />
+            </Fragment>
           </Provider>
         </ThemeProvider>
       </Container>
@@ -64,6 +68,8 @@ class MyApp extends App<Props, any> {
   }
 }
 
+// #region statics
 MyApp.displayName = 'MyApp';
+// #endregion
 
 export default compose(withRedux(configureStore))(MyApp);

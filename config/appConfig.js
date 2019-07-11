@@ -1,6 +1,6 @@
 // @flow
 
-const appConfig = Object.freeze({
+export const appConfig = Object.freeze({
   // flag: set fetch mock or real fetch
   DEV_MODE: true,
 

@@ -11,7 +11,7 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Alert from 'reactstrap/lib/Alert';
 import * as userAuthActions from '../redux/modules/userAuth';
-import auth from '../services/auth';
+import auth from '../utils/auth';
 
 // #region flow types
 type Props = {
@@ -39,7 +39,7 @@ const storageSupported =
   false;
 // #endregion
 
-function LoginPage({
+export function LoginPage({
   isFetching = false,
   isLogging = false,
   disconnectUser,
@@ -242,20 +242,15 @@ LoginPage.displayName = 'LoginPage';
 // #nedregion
 
 // #region redux
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.userAuth.isAuthenticated,
   isFetching: state.userAuth.isFetching,
   isLogging: state.userAuth.isLogging,
 });
 
-const mapDispatchToProps = (dispatch: (...any) => any) => {
+const mapDispatchToProps = dispatch => {
   return {
-    ...bindActionCreators(
-      {
-        ...userAuthActions,
-      },
-      dispatch,
-    ),
+    ...bindActionCreators({ ...userAuthActions }, dispatch),
   };
 };
 // #endregion

@@ -1,15 +1,13 @@
 // @flow
 /* eslint-disable flowtype/space-after-type-colon */
 
-// #region imports
 import { format } from 'date-fns';
 import AppConfig from '../../config/appConfig';
 import { type Dispatch, type GetState } from '../../types/redux/redux-thunk';
 import userInfosMockData from '../../mock/userInfosMock.json';
-import { getLocationOrigin } from '../../services/fetchTools';
-import auth from '../../services/auth';
+import { getLocationOrigin } from '../../utils/fetchTools';
+import auth from '../../utils/auth';
 import { type State } from '../../types/redux/modules/userAuth';
-// #endregion
 
 // #region CONSTANTS
 const REQUEST_USER_INFOS_DATA: string = 'REQUEST_USER_INFOS_DATA';
@@ -60,12 +58,12 @@ const initialState = {
   isAuthenticated: false, // authentication status (token based auth)
 };
 
-export default function(state: State = initialState, action: Action) {
+export default function(state: State = initialState, action: $Shape<Action>) {
   const now = new Date();
   const currentTime = format(now);
 
   switch (action.type) {
-    case CHECK_IF_USER_IS_AUTHENTICATED:
+    case CHECK_IF_USER_IS_AUTHENTICATED: {
       return {
         ...state,
         actionTime: currentTime,
@@ -85,8 +83,9 @@ export default function(state: State = initialState, action: Action) {
             ? action.user.lastname
             : initialState.firstname,
       };
+    }
 
-    case DISCONNECT_USER:
+    case DISCONNECT_USER: {
       return {
         ...state,
         actionTime: currentTime,
@@ -97,16 +96,18 @@ export default function(state: State = initialState, action: Action) {
         firstname: initialState.firstname,
         lastname: initialState.lastname,
       };
+    }
 
     // user login (get token and userInfo)
-    case REQUEST_LOG_USER:
+    case REQUEST_LOG_USER: {
       return {
         ...state,
         actionTime: currentTime,
         isLogging: true,
       };
+    }
 
-    case RECEIVED_LOG_USER:
+    case RECEIVED_LOG_USER: {
       const userLogged = action.payload.data;
 
       return {
@@ -120,24 +121,27 @@ export default function(state: State = initialState, action: Action) {
         lastname: userLogged.lastname,
         isLogging: false,
       };
+    }
 
-    case ERROR_LOG_USER:
+    case ERROR_LOG_USER: {
       return {
         ...state,
         actionTime: currentTime,
         isAuthenticated: false,
         isLogging: false,
       };
+    }
 
     // not used right now:
-    case REQUEST_USER_INFOS_DATA:
+    case REQUEST_USER_INFOS_DATA: {
       return {
         ...state,
         actionTime: currentTime,
         isFetching: true,
       };
+    }
 
-    case RECEIVED_USER_INFOS_DATA:
+    case RECEIVED_USER_INFOS_DATA: {
       const userInfos = action.payload.data;
 
       return {
@@ -149,13 +153,15 @@ export default function(state: State = initialState, action: Action) {
         firstname: userInfos.firstname,
         lastname: userInfos.lastname,
       };
+    }
 
-    case ERROR_USER_INFOS_DATA:
+    case ERROR_USER_INFOS_DATA: {
       return {
         ...state,
         actionTime: currentTime,
         isFetching: false,
       };
+    }
 
     default:
       return state;

@@ -2,8 +2,8 @@
 
 // #region imports
 import React, { useEffect } from 'react';
-import Router from 'next/router';
-import auth from '../../services/auth';
+import { useRouter } from 'next/router';
+import auth from '../../utils/auth';
 // #endregion
 
 // #region flow types
@@ -24,16 +24,14 @@ function checkIsAuthenticated(): boolean {
 }
 
 function checkIsExpired(): boolean {
-  /* eslint-disable no-console */
-  // comment me:
-  console.log('token expires: ', auth.getTokenExpirationDate(auth.getToken()));
-  /* eslint-enable no-console */
   return auth.isExpiredToken(auth.getToken());
 }
 
 // #endregiobn
 
-function Private({ fromPath, children }: Props) {
+function Private({ fromPath = '/', children }: Props) {
+  const { replace } = useRouter();
+
   useEffect(() => {
     const userIsAuthenticated = checkIsAuthenticated();
     const userTokenExpired = checkIsExpired();
@@ -43,21 +41,19 @@ function Private({ fromPath, children }: Props) {
     };
 
     if (!userIsAuthenticated) {
-      Router.replace(RoutePayload);
+      replace(RoutePayload);
     }
 
     if (userTokenExpired) {
-      Router.replace(RoutePayload);
+      replace(RoutePayload);
     }
-  });
+  }, []);
 
   return <div>{children}</div>;
 }
 
-Private.defaultProps = {
-  fromPath: '/',
-};
-
+// #region statics
 Private.displayName = 'Private';
+// #endregion
 
 export default Private;

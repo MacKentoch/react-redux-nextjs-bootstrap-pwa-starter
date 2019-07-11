@@ -1,13 +1,11 @@
 // @flow
 /* eslint-disable quotes */
 
-// #region imports
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import theme from '../../config/theme';
-// #endregion
 
-// #region flow types
+// #region types
 type Props = {
   children: any,
 };
@@ -54,7 +52,7 @@ const registerBeforeinstallprompt = () => {
 // #endregion
 
 function Layout({ children }: Props) {
-  useEffect(() => registerBeforeinstallprompt());
+  useEffect(() => registerBeforeinstallprompt(), []);
 
   return (
     <div>
@@ -117,7 +115,7 @@ function Layout({ children }: Props) {
         {/* <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> */}
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       </Head>
-      <Styles />
+
       <noscript>
         <div className="alert  alert-warning">
           <h4>Warning!</h4>
@@ -134,23 +132,8 @@ function Layout({ children }: Props) {
   );
 }
 
+// #region statics
 Layout.displayName = 'Layout';
-
-// #region styles
-function Styles() {
-  return (
-    <style jsx global>
-      {`
-        body {
-        }
-
-        .navbar {
-          border-radius: 0;
-        }
-      `}
-    </style>
-  );
-}
 // #endregion
 
 export default Layout;

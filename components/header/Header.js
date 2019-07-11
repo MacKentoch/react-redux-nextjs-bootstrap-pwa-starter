@@ -1,8 +1,7 @@
 // @flow
 
-// #region imports
-import React, { useState } from 'react';
-import Router from 'next/router';
+import React, { useState, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -15,26 +14,30 @@ import {
   NavLink,
 } from 'reactstrap';
 import * as userAuthActions from '../../redux/modules/userAuth';
-// #endregion
 
-// #region flow types
+// #region types
 type Props = {
   // userAuth:
   isAuthenticated: boolean,
   disconnectUser: (...any) => any,
-  ...any,
 };
 // #endregion
 
 function Header({ isAuthenticated, disconnectUser }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-  const navigateTo = (to: string = '/') => () => Router.push(to);
-  const handlesDisconnectUser = (event?: SyntheticEvent<>) => {
+  const { push, replace } = useRouter();
+
+  // #region callbacks
+  const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+
+  const navigateTo = useCallback((to: string = '/') => () => push(to), []);
+
+  const handlesDisconnectUser = useCallback((event?: SyntheticEvent<>) => {
     event && event.preventDefault();
     disconnectUser();
-    Router.replace('/login');
-  };
+    replace('/login');
+  }, []);
+  // #endregion
 
   return (
     <>
@@ -75,27 +78,23 @@ function Header({ isAuthenticated, disconnectUser }: Props) {
   );
 }
 
+// #region statics
 Header.defaultProps = {
   isAuthenticated: false,
   disconnectUser: () => {},
 };
 
 Header.displayName = 'Header';
+// #endregion
 
-// #region redux state and dispatch map to props
-const mapStateToProps = (state: any) => ({
-  // userAuth:
+// #region redux
+const mapStateToProps = state => ({
   isAuthenticated: state.userAuth.isAuthenticated,
 });
 
-const mapDispatchToProps = (dispatch: (...any) => any) => {
+const mapDispatchToProps = dispatch => {
   return {
-    ...bindActionCreators(
-      {
-        ...userAuthActions,
-      },
-      dispatch,
-    ),
+    ...bindActionCreators({ ...userAuthActions }, dispatch),
   };
 };
 // #endregion
