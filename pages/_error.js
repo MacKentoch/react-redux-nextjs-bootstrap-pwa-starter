@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
+import { type GetInitialPropsParams } from '../types/nextjs';
 
 // #region types
 type Props = {
@@ -27,7 +28,10 @@ function Error({ errorCode = null }: Props) {
   );
 }
 
-Error.getInitialProps = async function({ res, xhr }: NextInitialProps) {
+Error.getInitialProps = async function({
+  res,
+  xhr,
+}: GetInitialPropsParams & NextInitialProps) {
   const errorCode = res ? res.statusCode : xhr.status;
   return { errorCode };
 };

@@ -1,6 +1,6 @@
 // @flow
 
-const AppConfig = {
+const appConfig = Object.freeze({
   // flag: set fetch mock or real fetch
   DEV_MODE: true,
 
@@ -8,6 +8,6 @@ const AppConfig = {
   api: {
     fakeEndPoint: 'api/somewhere',
   },
-};
+});
 
-export default AppConfig;
+export default appConfig;

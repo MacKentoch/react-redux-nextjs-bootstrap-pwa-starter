@@ -1,14 +1,13 @@
 // @flow
 
-// #region imports
-import {
-  type Storage,
-  type TokenKey,
-  type UserInfoKey,
-  type STORES_TYPES,
-} from './types';
 import decode from 'jwt-decode';
 import isAfter from 'date-fns/is_after';
+
+// #region types
+export type STORES_TYPES = 'localStorage' | 'sessionStorage';
+export type Storage = STORES_TYPES;
+export type TokenKey = string;
+export type UserInfoKey = string;
 // #endregion
 
 // #region constants
