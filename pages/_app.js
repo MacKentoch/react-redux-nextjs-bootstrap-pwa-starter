@@ -1,7 +1,6 @@
 // @flow
 
-// #region imports
-import React, { useEffect } from 'react';
+import React from 'react';
 import App, { Container } from 'next/app';
 import { register, unregister } from 'next-offline/runtime';
 import { Provider } from 'react-redux';
@@ -12,13 +11,13 @@ import smoothScrollPolyfill from 'smoothscroll-polyfill';
 import configureStore from '../redux/store/configureStore';
 import Layout from '../components/layout';
 import { theme } from '../config/theme';
-// #endregion
 
-// #region flow types
+// #region types
 type Props = any;
 // #endregion
 
-// #region globals (styles, polyfill ...)
+// #region constants
+const store = configureStore();
 
 if (typeof window !== 'undefined') {
   // #region smoothscroll polyfill
@@ -27,30 +26,42 @@ if (typeof window !== 'undefined') {
   window.__forceSmoothScrollPolyfill__ = true;
   // #endregion
 }
-
 // #endregion
 
-function MyApp({ Component, pageProps, store }: Props) {
-  // #region on mount and unmount
-  useEffect(() => {
+class MyApp extends App<Props, any> {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps };
+  }
+
+  componentDidMount() {
     register();
+  }
 
-    return () => {
-      unregister();
-    };
-  }, []);
+  componentWillUnmount() {
+    unregister();
+  }
 
-  return (
-    <Container>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Provider>
-      </ThemeProvider>
-    </Container>
-  );
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <Container>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
+        </ThemeProvider>
+      </Container>
+    );
+  }
 }
 
 MyApp.displayName = 'MyApp';

@@ -1,10 +1,8 @@
 // @flow
 
-// #region imports
 import React, { Fragment } from 'react';
 import Document from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-// #endregion
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {

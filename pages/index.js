@@ -1,20 +1,17 @@
 // @flow
 
-// #region imports
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import compose from 'recompose/compose';
+import { bindActionCreators, compose } from 'redux';
 import Container from 'reactstrap/lib/Container';
-import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
-import * as userAuthActions from '../redux/modules/userAuth';
-import Header from '../components/header/Header';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
 import Button from 'reactstrap/lib/Button';
 import Router from 'next/router';
-// #endregion
+import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
+import * as userAuthActions from '../redux/modules/userAuth';
+import Header from '../components/header/Header';
 
-// #region flow types
+// #region types
 type Props = {
   // fakeModuleWithFetch:
   isFetching: boolean,
@@ -25,8 +22,6 @@ type Props = {
   disconnectUser: () => any,
   ...any,
 };
-
-type State = any;
 
 type InitialProps = {
   req: any,
@@ -40,7 +35,7 @@ type InitialProps = {
 };
 // #endregion
 
-class Index extends PureComponent<Props, State> {
+class Index extends PureComponent<Props, any> {
   // #region props initialization
   static async getInitialProps({ isServer, store }: InitialProps) {
     const SIDE = isServer ? 'SERVER SIDE' : 'FRONT SIDE';
