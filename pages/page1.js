@@ -1,54 +1,50 @@
 // @flow
 
-// #region imports
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import compose from 'recompose/compose';
-import Button from 'reactstrap/lib/Button';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
+import { bindActionCreators, compose } from 'redux';
 import Container from 'reactstrap/lib/Container';
-import * as userAuthActions from '../redux/modules/userAuth';
+import Button from 'reactstrap/lib/Button';
 import Header from '../components/header/Header';
-// #endregion
+import * as userAuthActions from '../redux/modules/userAuth';
 
-// #region flow types
+// #region types
 type Props = {
   // userAuth:
   isAuthenticated: boolean,
   disconnectUser: () => any,
-  ...any,
 };
-
-type State = any;
 // #endregion
 
-class Page1 extends PureComponent<Props, State> {
-  // #region component lifecycle methods
-  render() {
-    return (
-      <div>
-        <Header />
-        <Container>
-          <h2>Page1 here</h2>
-          <Button color="primary" onClick={this.goBackHome}>
-            go back home
-          </Button>
-        </Container>
-      </div>
-    );
-  }
-  // #endregion
+function Page1({  }: Props) {
+  const { push } = useRouter();
 
-  // html elements events
-  goBackHome = (event: SyntheticEvent<>): void => {
+  // #region callbacks
+  const goBackHome = (event: SyntheticEvent<>): void => {
     event && event.preventDefault();
-    Router.push('/');
+    push('/');
   };
   // #endregion
+
+  return (
+    <div>
+      <Header />
+      <Container>
+        <h2>Page1 here</h2>
+        <Button color="primary" onClick={goBackHome}>
+          go back home
+        </Button>
+      </Container>
+    </div>
+  );
 }
 
-// #region redux state and dispatch map to props
+// #region statics
+Page1.displayName = 'Page1';
+// #endregion
+
+// #region redux
 const mapStateToProps = (state: any) => ({
   isAuthenticated: state.userAuth.isAuthenticated,
 });

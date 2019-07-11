@@ -33,7 +33,10 @@ const Page = styled.div`
 
 // #region contants
 const storageSupported =
-  auth.supportsLocalStorage() && auth.supportsSessionStorage();
+  (typeof window !== 'undefined' &&
+    auth.supportsLocalStorage() &&
+    auth.supportsSessionStorage()) ||
+  false;
 // #endregion
 
 function LoginPage({

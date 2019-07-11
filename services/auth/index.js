@@ -313,7 +313,7 @@ export const auth = {
    * @return {boolean} browser supports localStorage flag
    */
   supportsLocalStorage(): boolean {
-    if (!window) {
+    if (typeof window === 'undefined') {
       throw new Error(
         'supportsLocalStorage should be launched on browser (not on server)',
       );
@@ -333,7 +333,7 @@ export const auth = {
    * @return {boolean} browser supports localStorage flag
    */
   supportsSessionStorage(): boolean {
-    if (!window) {
+    if (typeof window === 'undefined') {
       throw new Error(
         'supportsSessionStorage should be launched on browser side (not on server side)',
       );
