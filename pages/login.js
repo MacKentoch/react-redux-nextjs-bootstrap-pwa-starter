@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import compose from 'recompose/compose';
 import * as userAuthActions from '../redux/modules/userAuth';
-import Router, { withRouter } from 'next/router';
+import Router from 'next/router';
 import Container from 'reactstrap/lib/Container';
 import Button from 'reactstrap/lib/Button';
 import Row from 'reactstrap/lib/Row';
@@ -44,6 +44,10 @@ type State = {
 // #endregion
 
 class Login extends PureComponent<Props, State> {
+  static async getInitialProps({ pathname, query }) {
+    return { pathname, query };
+  }
+
   // #region default PropTypes
   static defaultProps = {
     isFetching: false,
@@ -198,10 +202,7 @@ class Login extends PureComponent<Props, State> {
     this.setState({ browserStorageSupported });
 
   handleAlertDismiss = (event: SyntheticEvent<>) => {
-    if (event) {
-      event.preventDefault();
-    }
-
+    event && event.preventDefault();
     Router.replace('/');
   };
   // #endregion
@@ -230,15 +231,9 @@ class Login extends PureComponent<Props, State> {
 
   // #region on login click
   handlesOnLogin = async (event: SyntheticEvent<>) => {
-    if (event) {
-      event.preventDefault();
-    }
+    event && event.preventDefault();
 
-    const {
-      logUserIfNeeded,
-      router: { query },
-    } = this.props;
-
+    const { logUserIfNeeded, query } = this.props;
     const { email, password } = this.state;
 
     const userLogin = {
@@ -272,10 +267,7 @@ class Login extends PureComponent<Props, State> {
 
   // #region on go back home click
   goHome = (event: SyntheticEvent<>) => {
-    if (event) {
-      event.preventDefault();
-    }
-
+    event && event.preventDefault();
     Router.push({ pathname: '/' });
   };
   // #endregion
@@ -300,7 +292,6 @@ function Styles() {
 
 // #region redux state and dispatch map to props
 const mapStateToProps = (state: any) => ({
-  // userAuth:
   isAuthenticated: state.userAuth.isAuthenticated,
   isFetching: state.userAuth.isFetching,
   isLogging: state.userAuth.isLogging,
@@ -310,7 +301,6 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
-        // userAuth:
         ...userAuthActions,
       },
       dispatch,
@@ -324,5 +314,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
-  withRouter,
 )(Login);

@@ -82,10 +82,8 @@ class Index extends PureComponent<Props, State> {
 
   // # region go login click
   goLogin = (event: SyntheticEvent<>) => {
-    if (event) {
-      event.preventDefault();
-      Router.push('/login');
-    }
+    event && event.preventDefault();
+    Router.push('/login');
   };
   // #endregion
 }
@@ -103,9 +101,7 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
-        // fakeModuleWithFetch:
         ...fakeFetchActions,
-        // userAuth:
         ...userAuthActions,
       },
       dispatch,

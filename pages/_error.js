@@ -1,16 +1,12 @@
 // @flow
 
-// #region imports
-import React, { PureComponent } from 'react';
+import React from 'react';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
-// #endregion
 
-// #region flow types
+// #region types
 type Props = {
   errorCode?: number,
 };
-
-type State = any;
 
 type NextInitialProps = {
   res?: {
@@ -22,32 +18,20 @@ type NextInitialProps = {
 };
 // #endregion
 
-class Error extends PureComponent<Props, State> {
-  // #region props initialization
-  static getInitialProps({ res, xhr }: NextInitialProps) {
-    const errorCode = res ? res.statusCode : xhr.status;
-    return { errorCode };
-  }
-  // #endregion
-
-  // #region component default props
-  static defaultProps = {
-    errorCode: null,
-  };
-  // #endregion
-
-  // #region component lifecycle methods
-  render() {
-    const { errorCode } = this.props;
-
-    return (
-      <Jumbotron>
-        <h1>Sorry but this time... It threw an error...</h1>
-        <code>Error code: {errorCode ? errorCode : '--'}</code>
-      </Jumbotron>
-    );
-  }
-  // #endregion
+function Error({ errorCode = null }: Props) {
+  return (
+    <Jumbotron>
+      <h1>Sorry but this time... It threw an error...</h1>
+      <code>Error code: {errorCode ? errorCode : '--'}</code>
+    </Jumbotron>
+  );
 }
+
+Error.getInitialProps = async function({ res, xhr }: NextInitialProps) {
+  const errorCode = res ? res.statusCode : xhr.status;
+  return { errorCode };
+};
+
+Error.displayName = 'Error';
 
 export default Error;

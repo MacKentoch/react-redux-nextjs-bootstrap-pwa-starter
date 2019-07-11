@@ -42,10 +42,7 @@ class Page1 extends PureComponent<Props, State> {
 
   // html elements events
   goBackHome = (event: SyntheticEvent<>): void => {
-    if (event) {
-      event.preventDefault();
-    }
-
+    event && event.preventDefault();
     Router.push('/');
   };
   // #endregion
@@ -53,7 +50,6 @@ class Page1 extends PureComponent<Props, State> {
 
 // #region redux state and dispatch map to props
 const mapStateToProps = (state: any) => ({
-  // userAuth:
   isAuthenticated: state.userAuth.isAuthenticated,
 });
 
@@ -61,7 +57,6 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
-        // userAuth:
         ...userAuthActions,
       },
       dispatch,

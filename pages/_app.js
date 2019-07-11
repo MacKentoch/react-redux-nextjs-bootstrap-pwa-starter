@@ -1,15 +1,17 @@
 // @flow
 
 // #region imports
+import React, { useEffect } from 'react';
 import App, { Container } from 'next/app';
 import { register, unregister } from 'next-offline/runtime';
-import React from 'react';
 import { Provider } from 'react-redux';
-import compose from 'recompose/compose';
+import { compose } from 'redux';
+import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
 import smoothScrollPolyfill from 'smoothscroll-polyfill';
 import configureStore from '../redux/store/configureStore';
 import Layout from '../components/layout';
+import { theme } from '../config/theme';
 // #endregion
 
 // #region flow types
@@ -28,39 +30,29 @@ if (typeof window !== 'undefined') {
 
 // #endregion
 
-export class MyApp extends App<Props> {
-  static async getInitialProps({ Component, ctx }: any) {
-    return {
-      pageProps: {
-        // Call page-level getInitialProps
-        ...(Component.getInitialProps
-          ? await Component.getInitialProps(ctx)
-          : {}),
-      },
-    };
-  }
-
-  componentDidMount() {
+function MyApp({ Component, pageProps, store }: Props) {
+  // #region on mount and unmount
+  useEffect(() => {
     register();
-  }
 
-  componentWillUnmount() {
-    unregister();
-  }
+    return () => {
+      unregister();
+    };
+  }, []);
 
-  render() {
-    const { Component, pageProps, store } = this.props;
-
-    return (
-      <Container>
+  return (
+    <Container>
+      <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Layout>
             <Component {...pageProps} />
           </Layout>
         </Provider>
-      </Container>
-    );
-  }
+      </ThemeProvider>
+    </Container>
+  );
 }
+
+MyApp.displayName = 'MyApp';
 
 export default compose(withRedux(configureStore))(MyApp);

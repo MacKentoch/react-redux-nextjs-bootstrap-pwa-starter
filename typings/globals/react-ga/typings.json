@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/724ceafbde3450d4afb3797c6c73141e862e75e0/react-ga/react-ga.d.ts",
+    "raw": "registry:dt/react-ga#1.4.1+20160930194758",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/724ceafbde3450d4afb3797c6c73141e862e75e0/react-ga/react-ga.d.ts"
+  }
+}

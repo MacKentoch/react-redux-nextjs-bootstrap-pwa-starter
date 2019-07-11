@@ -7,8 +7,10 @@
     "localforage": "registry:dt/localforage#0.0.0+20161102134758",
     "modernizr": "registry:dt/modernizr#3.3.0+20170302103631",
     "popper.js": "registry:dt/popper.js#0.4.0+20161005184000",
+    "react-ga": "registry:dt/react-ga#1.4.1+20160930194758",
     "recompose": "registry:dt/recompose#0.22.0+20170306203754",
     "redux": "registry:dt/redux#3.5.2+20160703092728",
-    "redux-thunk": "registry:dt/redux-thunk#2.1.0+20160703120921"
+    "redux-thunk": "registry:dt/redux-thunk#2.1.0+20160703120921",
+    "reselect": "registry:dt/reselect#2.0.2+20160510002910"
   }
 }

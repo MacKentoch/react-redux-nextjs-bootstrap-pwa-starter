@@ -3,9 +3,8 @@
 // #region imports
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import compose from 'recompose/compose';
-import Router, { withRouter } from 'next/router';
+import { bindActionCreators, compose } from 'redux';
+import Router from 'next/router';
 import Container from 'reactstrap/lib/Container';
 import Button from 'reactstrap/lib/Button';
 import * as userAuthActions from '../redux/modules/userAuth';
@@ -31,12 +30,14 @@ type Props = {
 type State = any;
 // #endregion
 
-export class Private1 extends PureComponent<Props, State> {
+class Private1 extends PureComponent<Props, State> {
+  static async getInitialProps({ pathname, query }) {
+    return { pathname, query };
+  }
+
   // #region component lifecycle methods
   render() {
-    const {
-      router: { pathname },
-    } = this.props;
+    const { pathname } = this.props;
 
     return (
       <Private fromPath={pathname}>
@@ -56,10 +57,7 @@ export class Private1 extends PureComponent<Props, State> {
 
   // #region html elements events
   goBackHome = (event: SyntheticEvent<>): void => {
-    if (event) {
-      event.preventDefault();
-    }
-
+    event && event.preventDefault();
     Router.push('/');
   };
   // #endregion
@@ -75,7 +73,6 @@ const mapDispatchToProps = (dispatch: (...any) => any) => {
   return {
     ...bindActionCreators(
       {
-        // userAuth:
         ...userAuthActions,
       },
       dispatch,
@@ -89,5 +86,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
-  withRouter,
 )(Private1);
