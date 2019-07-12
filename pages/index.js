@@ -84,9 +84,12 @@ IndexPage.getInitialProps = async function({
     // NOTE: you will see this log in your server console (where you `npm run dev`):
     /* eslint-disable no-console */
     console.log(`getInitialProps - ${SIDE} - fake fetch result: `, data);
+
+    return { data };
   } catch (error) {
     console.error(`getInitialProps - ${SIDE} - fake fetch failed: `, error);
     /* eslint-enable no-console */
+    return { data: null };
   }
 };
 
