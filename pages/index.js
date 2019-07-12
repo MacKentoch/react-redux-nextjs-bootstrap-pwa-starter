@@ -4,6 +4,8 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import Head from 'next/head';
 import Container from 'reactstrap/lib/Container';
 import Jumbotron from 'reactstrap/lib/Jumbotron';
 import Button from 'reactstrap/lib/Button';
@@ -11,6 +13,7 @@ import * as fakeFetchActions from '../redux/modules/fakeModuleWithFetch';
 import * as userAuthActions from '../redux/modules/userAuth';
 import Header from '../components/header';
 import { type GetInitialPropsParams } from '../types/nextjs';
+import appConfig from '../config/appConfig';
 
 // #region types
 type Props = {
@@ -24,6 +27,17 @@ type Props = {
 };
 // #endregion
 
+// #region constants
+const {
+  og: { description: ogDescription, locale: ogLang },
+  seo: { description: seoDescription },
+} = appConfig.metas;
+// #endregion
+
+// #region styled components
+const Page = styled.div``;
+// #endregion
+
 export function IndexPage({ isFetching }: Props) {
   const { push } = useRouter();
 
@@ -35,7 +49,13 @@ export function IndexPage({ isFetching }: Props) {
   // #endregion
 
   return (
-    <div>
+    <Page>
+      <Head>
+        <title>Index page</title>
+        <meta name="description" content={seoDescription} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:locale" content={ogLang} />
+      </Head>
       <Header />
       <Container fluid>
         <Jumbotron>
@@ -45,7 +65,7 @@ export function IndexPage({ isFetching }: Props) {
           </Button>
         </Jumbotron>
       </Container>
-    </div>
+    </Page>
   );
 }
 
