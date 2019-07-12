@@ -1,13 +1,11 @@
 // @flow
 
-// #region imports
 import { format } from 'date-fns';
 import { type Dispatch } from 'redux';
 import fakeData from '../../mock/fakeAPI.json';
 import appConfig from '../../config/appConfig';
 import { getLocationOrigin } from '../../utils/fetchTools';
 import { type State } from '../../types/redux/modules/fakeModuleWithFetch';
-// #endregion
 
 // #region CONSTANTS
 const REQUEST_FAKE_FETCH = 'REQUEST_FAKE_FETCH';
@@ -15,7 +13,8 @@ const RECEIVED_FAKE_FETCH = 'RECEIVED_FAKE_FETCH';
 const ERROR_FAKE_FETCH = 'ERROR_FAKE_FETCH';
 // #endregion
 
-// #region flow types
+// #region  types
+type PartialState = $Shape<State>;
 type ActionType =
   | 'REQUEST_FAKE_FETCH'
   | 'RECEIVED_FAKE_FETCH'
@@ -29,7 +28,7 @@ type Action = {
   data?: { ...any } | Array<any>,
   payload?: any,
   error: { ...any },
-};
+} & PartialState;
 // #endregion
 
 // #region REDUCER
@@ -91,7 +90,7 @@ export default function(state: State = initialState, action: Action): State {
 
 // #region fetch example
 function fakeFetch() {
-  return (dispatch: Dispatch<State>): Promise<any> => {
+  return (dispatch: Dispatch<Action>) => {
     const shouldFetchMock = appConfig.DEV_MODE;
     const fetchType = shouldFetchMock ? 'FETCH_MOCK' : 'FETCH';
     const mockResult = fakeData;
@@ -129,9 +128,9 @@ function fakeFetch() {
 
 export function fakeFetchIfNeeded() {
   return (
-    dispatch: Dispatch<State>,
-    getState: () => { fakeModuleWithFetch: State, ...any },
-  ): Promise<any> => {
+    dispatch: Dispatch<Action>,
+    getState: () => { fakeModuleWithFetch: State },
+  ) => {
     if (shouldFakeFetch(getState())) {
       return dispatch(fakeFetch());
     }
@@ -139,16 +138,9 @@ export function fakeFetchIfNeeded() {
   };
 }
 
-function shouldFakeFetch(state: {
-  fakeModuleWithFetch: State,
-  ...any,
-}): boolean {
+function shouldFakeFetch(state: { fakeModuleWithFetch: State }): boolean {
   const { isFetching } = state.fakeModuleWithFetch;
-
-  if (isFetching) {
-    return false;
-  }
-  return true;
+  return !isFetching;
 }
 // #endregion
 

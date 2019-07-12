@@ -1,8 +1,8 @@
 {
   "name": "react-redux-nextjs-bootstrap-pwa-starter",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "a progressive web app starter with next js redux + redux-persist + bootstrap",
-  "author": "Erwan DATIN (http://www.erwan-datin.com)",
+  "author": "Erwan DATIN (MacKentoch)",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "ES2015",
     "ES2016",
     "ES2017",
+    "ES2018",
     "bootstrap",
     "starter",
     "persist",
@@ -136,7 +137,7 @@
     "eslint-plugin-flowtype": "^3.2.1",
     "eslint-plugin-react": "^7.12.3",
     "fetch-mock": "^7.3.0",
-    "flow-bin": "^0.90.0",
+    "flow-bin": "^0.102.0",
     "nodemon": "^1.19.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
