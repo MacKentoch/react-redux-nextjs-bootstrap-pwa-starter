@@ -4,9 +4,7 @@
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/MacKentoch/react-redux-nextjs-bootstrap-pwa-starter)
 
-<a target='_blank' href='https://react-redux-nextjs-bootstrap-pwa-starter-nfxmkkccof.now.sh'>
 ![preview](./preview.png)
-</a>
 
 ## Lighthouse tests
 
@@ -94,6 +92,13 @@ yarn run start
 ```
 
 </details>
+
+## Donate
+
+Do you use & ❤️ `react-redux-nextjs-bootstrap-pwa-starter` but you don’t find a way to show some love?
+If yes, please consider donating to support this project. Otherwise, no worries, regardless of whether there is support or not, I will keep maintaining this project. Still, if you buy me a cup of coffee I would be more than happy though 😄
+
+[![Support via PayPal](./assets/Paypal-button.png)](https://www.paypal.me/ErwanDatin/)
 
 ## LICENSE
 
