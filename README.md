@@ -22,8 +22,8 @@
 
 **Front:**
 
-- Next js (7.x+ [github :link:](https://github.com/zeit/next.js))
-- React JS (16.7.x+ - [github :link:](https://github.com/facebook/react))
+- Next js (9.x+ [github :link:](https://github.com/zeit/next.js))
+- React JS (16.8.x+ - [github :link:](https://github.com/facebook/react))
 - redux (_as your application grows managing state will be a serious concern, save pain with Redux_)
 - redux-persist 5.x (_simplifies your NextJS state share between pages_ [github :link:](https://github.com/rt2zz/redux-persist))
 - localForage
@@ -36,7 +36,7 @@
 
 **Tool chain:**
 
-- Next js (7.x+ [github :link:](https://github.com/zeit/next.js))
+- Next js (9.x+ [github :link:](https://github.com/zeit/next.js))
 - Babel 7+ (*custom babel*)
 - Flow JS types
 
