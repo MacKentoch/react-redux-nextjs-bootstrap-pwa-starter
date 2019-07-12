@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
+import Head from 'next/head';
 import { bindActionCreators, compose } from 'redux';
 import styled from 'styled-components';
 import Container from 'reactstrap/lib/Container';
@@ -12,6 +13,7 @@ import Col from 'reactstrap/lib/Col';
 import Alert from 'reactstrap/lib/Alert';
 import * as userAuthActions from '../redux/modules/userAuth';
 import auth from '../utils/auth';
+import appConfig from '../config/appConfig';
 
 // #region flow types
 type Props = {
@@ -24,19 +26,24 @@ type Props = {
 };
 // #endregion
 
-// #region styled components
-const Page = styled.div`
-  margin-top: 70px;
-  padding-top: 40px;
-`;
-// #endregion
-
 // #region contants
 const storageSupported =
   (typeof window !== 'undefined' &&
     auth.supportsLocalStorage() &&
     auth.supportsSessionStorage()) ||
   false;
+
+const {
+  og: { description: ogDescription, locale: ogLang },
+  seo: { description: seoDescription },
+} = appConfig.metas;
+// #endregion
+
+// #region styled components
+const Page = styled.div`
+  margin-top: 70px;
+  padding-top: 40px;
+`;
 // #endregion
 
 export function LoginPage({
@@ -124,6 +131,12 @@ export function LoginPage({
 
   return (
     <Page>
+      <Head>
+        <title>Login page</title>
+        <meta name="description" content={seoDescription} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:locale" content={ogLang} />
+      </Head>
       <Container fluid>
         <Row>
           <Col md={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }}>

@@ -3,11 +3,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { bindActionCreators, compose } from 'redux';
+import styled from 'styled-components';
 import Container from 'reactstrap/lib/Container';
 import Button from 'reactstrap/lib/Button';
 import Header from '../components/header';
 import * as userAuthActions from '../redux/modules/userAuth';
+import appConfig from '../config/appConfig';
 
 // #region types
 type Props = {
@@ -15,6 +18,17 @@ type Props = {
   isAuthenticated: boolean,
   disconnectUser: () => any,
 };
+// #endregion
+
+// #region constants
+const {
+  og: { description: ogDescription, locale: ogLang },
+  seo: { description: seoDescription },
+} = appConfig.metas;
+// #endregion
+
+// #region styled components
+const Page = styled.div``;
 // #endregion
 
 export function Page1({  }: Props) {
@@ -28,7 +42,13 @@ export function Page1({  }: Props) {
   // #endregion
 
   return (
-    <div>
+    <Page>
+      <Head>
+        <title>Page 1</title>
+        <meta name="description" content={seoDescription} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:locale" content={ogLang} />
+      </Head>
       <Header />
       <Container>
         <h2>Page1 here</h2>
@@ -36,7 +56,7 @@ export function Page1({  }: Props) {
           go back home
         </Button>
       </Container>
-    </div>
+    </Page>
   );
 }
 
