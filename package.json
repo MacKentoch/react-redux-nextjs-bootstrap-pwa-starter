@@ -45,10 +45,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./server",
+    "dev": "cross-env NODE_ENV=development node ./server/index.js",
     "build": "next build",
     "export": "npm run build && next export",
-    "start": "cross-env NODE_ENV=production node ./server",
+    "start": "npm run build && cross-env NODE_ENV=production node ./server.index.js",
+    "start:static": "npm run export && cross-env NODE_ENV=production node ./server/static",
     "deploy": "now --public"
   },
   "dependencies": {

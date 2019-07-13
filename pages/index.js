@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import styled from 'styled-components';
 import Head from 'next/head';
 import Container from 'reactstrap/lib/Container';
@@ -48,6 +49,8 @@ export function IndexPage({ isFetching }: Props) {
   }, []);
   // #endregion
 
+  const counter = 2;
+
   return (
     <Page>
       <Head>
@@ -63,6 +66,10 @@ export function IndexPage({ isFetching }: Props) {
           <Button color="primary" onClick={goLogin}>
             login
           </Button>
+          &nbsp;
+          <Link href="/dynamicPage/[counter]" as={`/dynamicPage/${counter}`}>
+            <Button color="primary">Dynamic page</Button>
+          </Link>
         </Jumbotron>
       </Container>
     </Page>
