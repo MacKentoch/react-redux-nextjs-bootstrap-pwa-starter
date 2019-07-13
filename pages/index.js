@@ -68,7 +68,7 @@ export function IndexPage({ isFetching }: Props) {
           </Button>
           &nbsp;
           <Link href="/dynamicPage/[counter]" as={`/dynamicPage/${counter}`}>
-            <Button color="primary">Dynamic page</Button>
+            <Button>Dynamic page</Button>
           </Link>
         </Jumbotron>
       </Container>

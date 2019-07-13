@@ -59,7 +59,7 @@ export function LoginPage({
 
   // #region on mount
   useEffect(() => {
-    if (!browserStorageSupported) {
+    if (typeof window !== 'undefined') {
       disconnectUser();
     }
   }, []);
